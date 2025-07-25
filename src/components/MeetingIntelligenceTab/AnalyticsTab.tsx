@@ -79,17 +79,17 @@ const AnalyticsTab: React.FC = () => {
   const talkListenEval = getTalkListenEvaluation(talkListenRatio);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 space-y-4">
       {/* Level 1 - Meeting Outcome, Reason For Win/Loss, and Sales Process Adherence */}
-      <div className="grid grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="grid grid-cols-1 gap-4">
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center space-x-3 mb-4">
             <Target className="w-6 h-6 text-[#605BFF]" />
-            <h3 className="text-lg font-semibold text-gray-900">Meeting Outcome</h3>
+            <h3 className="text-base font-semibold text-gray-900">Meeting Outcome</h3>
           </div>
           <div className="flex items-center space-x-3 mb-4">
             <TrendingUp className="h-8 text-green-600" style={{ width: 'auto' }} />
-            <p className="text-2xl font-bold text-green-600 mb-0 leading-8">Won</p>
+            <p className="text-xl font-bold text-green-600 mb-0 leading-6">Won</p>
           </div>
           <div className="space-y-3">
             <div className="flex items-center space-x-3">
@@ -123,10 +123,10 @@ const AnalyticsTab: React.FC = () => {
           </div>
         </div>
         
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center space-x-3 mb-4">
             <ListTodo className="w-6 h-6 text-[#605BFF]" />
-            <h3 className="text-lg font-semibold text-gray-900">Reason For Win/Loss</h3>
+            <h3 className="text-base font-semibold text-gray-900">Reason For Win/Loss</h3>
           </div>
           <div className="space-y-2">
             <div className="space-y-3">
@@ -163,10 +163,10 @@ const AnalyticsTab: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center space-x-3 mb-4">
             <Shield className="w-6 h-6 text-[#605BFF]" />
-            <h3 className="text-lg font-semibold text-gray-900">Sales Process Adherence</h3>
+            <h3 className="text-base font-semibold text-gray-900">Sales Process Adherence</h3>
           </div>
           
           {/* Overall Adherence at top */}
@@ -225,116 +225,105 @@ const AnalyticsTab: React.FC = () => {
       </div>
 
       {/* Level 2 - Meeting Metrics Cards */}
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex items-center space-x-2 mb-3">
-            <Clock className="w-5 h-5 text-[#605BFF]" />
-            <h4 className="font-semibold text-gray-900">Meeting Time</h4>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-white rounded-lg border border-gray-200 p-3">
+          <div className="flex items-center space-x-2 mb-2">
+            <Clock className="w-4 h-4 text-[#605BFF]" />
+            <h4 className="text-sm font-semibold text-gray-900">Meeting Time</h4>
           </div>
-          <div className="text-2xl font-bold text-[#605BFF] mb-1">45m</div>
-          <div className="text-sm text-gray-600">Standard duration</div>
+          <div className="text-lg font-bold text-[#605BFF] mb-1">45m</div>
+          <div className="text-xs text-gray-600">Standard duration</div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex items-center space-x-2 mb-3">
-            <User className="w-5 h-5 text-[#605BFF]" />
-            <h4 className="font-semibold text-gray-900">Buyer Talk Time</h4>
+        <div className="bg-white rounded-lg border border-gray-200 p-3">
+          <div className="flex items-center space-x-2 mb-2">
+            <User className="w-4 h-4 text-[#605BFF]" />
+            <h4 className="text-sm font-semibold text-gray-900">Buyer Talk Time</h4>
           </div>
-          <div className="text-2xl font-bold text-[#605BFF] mb-1">28m</div>
-          <div className="text-sm text-gray-600">62% of meeting</div>
+          <div className="text-lg font-bold text-[#605BFF] mb-1">28m</div>
+          <div className="text-xs text-gray-600">62% of meeting</div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex items-center space-x-2 mb-3">
-            <Mic className="w-5 h-5 text-[#605BFF]" />
-            <h4 className="font-semibold text-gray-900">Seller Talk Time</h4>
+        <div className="bg-white rounded-lg border border-gray-200 p-3">
+          <div className="flex items-center space-x-2 mb-2">
+            <Mic className="w-4 h-4 text-[#605BFF]" />
+            <h4 className="text-sm font-semibold text-gray-900">Seller Talk Time</h4>
           </div>
-          <div className="text-2xl font-bold text-[#605BFF] mb-1">17m</div>
-          <div className="text-sm text-gray-600">38% of meeting</div>
+          <div className="text-lg font-bold text-[#605BFF] mb-1">17m</div>
+          <div className="text-xs text-gray-600">38% of meeting</div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex items-center space-x-2 mb-3">
-            <BarChart3 className="w-5 h-5 text-[#605BFF]" />
-            <h4 className="font-semibold text-gray-900">Talk vs Listen Ratio</h4>
+        <div className="bg-white rounded-lg border border-gray-200 p-3">
+          <div className="flex items-center space-x-2 mb-2">
+            <BarChart3 className="w-4 h-4 text-[#605BFF]" />
+            <h4 className="text-sm font-semibold text-gray-900">Talk vs Listen</h4>
           </div>
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-[#605BFF]">{talkListenRatio}</div>
-            <div className="space-y-2">
-              <div className={`text-sm ${talkListenEval.color}`}>{talkListenEval.evaluation}</div>
-              <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${talkListenEval.badgeColor}`}>
-                <CircleCheckBig className="h-3 w-3 mr-1" />
-                {talkListenEval.badge}
-              </div>
-            </div>
-          </div>
+          <div className="text-lg font-bold text-[#605BFF] mb-1">{talkListenRatio}</div>
+          <div className="text-xs text-gray-600">Talk to listen balance</div>
         </div>
       </div>
 
       {/* Level 3 - Conversation Analytics */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <div className="flex items-center space-x-3 mb-4">
-          <Brain className="w-6 h-6 text-[#605BFF]" />
-          <h3 className="text-lg font-semibold text-gray-900">Conversation Analytics</h3>
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <div className="flex items-center space-x-3 mb-3">
+          <Brain className="w-5 h-5 text-[#605BFF]" />
+          <h3 className="text-base font-semibold text-gray-900">Conversation Analytics</h3>
         </div>
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <Activity className="w-5 h-5 text-[#605BFF]" />
+        <div className="grid grid-cols-1 gap-4">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+              <div className="flex items-center space-x-2">
+                <Activity className="w-4 h-4 text-[#605BFF]" />
                 <div>
-                  <div className="font-medium text-gray-900">Pacing</div>
-                  <div className="text-sm text-gray-600">Speaking speed and rhythm</div>
+                  <div className="text-sm font-medium text-gray-900">Pacing</div>
+                  <div className="text-xs text-gray-600">Speaking speed and rhythm</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-bold text-[#605BFF]">142 WPM</div>
-                <div className="text-sm text-gray-500">Optimal pace</div>
+                <div className="text-lg font-bold text-[#605BFF]">142 WPM</div>
+                <div className="text-xs text-gray-500">Optimal pace</div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <MicOff className="w-5 h-5 text-yellow-600" />
+            <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+              <div className="flex items-center space-x-2">
+                <MicOff className="w-4 h-4 text-yellow-600" />
                 <div>
-                  <div className="font-medium text-gray-900">Filler Words</div>
-                  <div className="text-sm text-gray-600">Um, uh, like frequency</div>
+                  <div className="text-sm font-medium text-gray-900">Filler Words</div>
+                  <div className="text-xs text-gray-600">Um, uh, like frequency</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-bold text-yellow-600">12</div>
-                <div className="text-sm text-gray-500">Low usage</div>
+                <div className="text-lg font-bold text-yellow-600">12</div>
+                <div className="text-xs text-gray-500">Low usage</div>
               </div>
             </div>
 
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <Users className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+              <div className="flex items-center space-x-2">
+                <Users className="w-4 h-4 text-blue-600" />
                 <div>
-                  <div className="font-medium text-gray-900">Interactivity Score</div>
-                  <div className="text-sm text-gray-600">Engagement level measurement</div>
+                  <div className="text-sm font-medium text-gray-900">Interactivity Score</div>
+                  <div className="text-xs text-gray-600">Engagement level measurement</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-bold text-blue-600">8.2/10</div>
-                <div className="text-sm text-gray-500">High interaction</div>
+                <div className="text-lg font-bold text-blue-600">8.2/10</div>
+                <div className="text-xs text-gray-500">High interaction</div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <Heart className="w-5 h-5 text-green-600" />
+            <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+              <div className="flex items-center space-x-2">
+                <Heart className="w-4 h-4 text-green-600" />
                 <div>
-                  <div className="font-medium text-gray-900">Sentiment</div>
-                  <div className="text-sm text-gray-600">Overall conversation tone</div>
+                  <div className="text-sm font-medium text-gray-900">Sentiment</div>
+                  <div className="text-xs text-gray-600">Overall conversation tone</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-bold text-green-600">Positive</div>
-                <div className="text-sm text-gray-500">Favorable tone</div>
+                <div className="text-lg font-bold text-green-600">Positive</div>
+                <div className="text-xs text-gray-500">Favorable tone</div>
               </div>
             </div>
           </div>
@@ -342,11 +331,11 @@ const AnalyticsTab: React.FC = () => {
       </div>
 
       {/* Level 4 - Seller Effectiveness & Buyer Engagement */}
-      <div className="grid grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <Zap className="w-6 h-6 text-[#605BFF]" />
-            <h3 className="text-lg font-semibold text-gray-900">Seller Effectiveness</h3>
+      <div className="grid grid-cols-1 gap-4">
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="flex items-center space-x-3 mb-3">
+            <Zap className="w-5 h-5 text-[#605BFF]" />
+            <h3 className="text-base font-semibold text-gray-900">Seller Effectiveness</h3>
           </div>
           <div className="space-y-4">
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -427,13 +416,13 @@ const AnalyticsTab: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-[#605BFF]">
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="flex items-center space-x-3 mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-[#605BFF]">
               <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path>
               <circle cx="12" cy="12" r="3"></circle>
             </svg>
-            <h3 className="text-lg font-semibold text-gray-900">Buyer Engagement</h3>
+            <h3 className="text-base font-semibold text-gray-900">Buyer Engagement</h3>
           </div>
           <div className="space-y-4">
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -517,12 +506,12 @@ const AnalyticsTab: React.FC = () => {
       </div>
 
       {/* Level 5 - Conversation Flow & Buyer Sentiment Journey */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-4">
         {/* Conversation Flow */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <MessageSquare className="w-6 h-6 text-[#605BFF]" />
-            <h3 className="text-lg font-semibold text-gray-900">Conversation Flow</h3>
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="flex items-center space-x-3 mb-3">
+            <MessageSquare className="w-5 h-5 text-[#605BFF]" />
+            <h3 className="text-base font-semibold text-gray-900">Conversation Flow</h3>
           </div>
           <div className="space-y-3">
             <div className="relative">
@@ -602,10 +591,10 @@ const AnalyticsTab: React.FC = () => {
         </div>
 
         {/* Buyer Sentiment Journey */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <Heart className="w-6 h-6 text-[#605BFF]" />
-            <h3 className="text-lg font-semibold text-gray-900">Buyer Sentiment Journey</h3>
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="flex items-center space-x-3 mb-3">
+            <Heart className="w-5 h-5 text-[#605BFF]" />
+            <h3 className="text-base font-semibold text-gray-900">Buyer Sentiment Journey</h3>
           </div>
           <div className="space-y-4">
             {/* Timeline */}
