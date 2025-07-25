@@ -18,20 +18,31 @@ function App() {
     }
   };
 
+  const getPageTitle = () => {
+    switch (activeView) {
+      case 'dashboard':
+        return 'Dashboard';
+      case 'meeting-intelligence':
+        return 'Meeting Intelligence';
+      default:
+        return 'Dashboard';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Mobile App Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-center shadow-sm">
-        <h1 className="text-lg font-semibold text-gray-900">Meeting Intelligence</h1>
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-center shadow-sm">
+        <h1 className="text-lg font-semibold text-gray-900">{getPageTitle()}</h1>
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 pb-20">
         {renderContent()}
       </div>
 
       {/* Bottom Navigation */}
-      <div className="bg-white border-t border-gray-200 px-4 py-2 safe-area-bottom">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 safe-area-bottom z-50">
         <div className="flex justify-around">
           <button
             onClick={() => setActiveView('dashboard')}
