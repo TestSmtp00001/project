@@ -267,200 +267,280 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 w-full">
+    <div className="h-full bg-gray-50 w-full flex flex-col">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8 space-y-4 lg:space-y-0">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-6 space-y-2 lg:space-y-0">
-              <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Dashboard</h1>
-              <div className="flex items-center space-x-2 text-gray-600 text-sm lg:text-base">
-                <Calendar className="w-4 h-4" />
-                <span className="text-xs lg:text-sm">{currentDateTime}</span>
-              </div>
-            </div>
-            
-            {/* Time Range Dropdown */}
-            <div className="relative w-full lg:w-auto">
-              <select
-                value={selectedTimeRange}
-                onChange={(e) => setSelectedTimeRange(e.target.value)}
-                className="w-full lg:w-auto bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md px-3 py-2"
-              >
-                {timeRanges.map((range) => (
-                  <option key={range.value} value={range.value}>
-                    {range.label} - {range.description}
-                  </option>
-                ))}
-              </select>
-            </div>
+      <header className="bg-white border-b border-gray-200 px-4 py-3 flex-shrink-0">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-2">
+            <Calendar className="w-4 h-4 text-gray-500" />
+            <span className="text-sm text-gray-600">{currentDateTime}</span>
           </div>
+        </div>
 
-          {/* Dropdowns */}
-          <div className="flex flex-col lg:flex-row lg:items-center space-y-2 lg:space-y-0 lg:space-x-4">
-            <div className="grid grid-cols-2 lg:flex lg:items-center gap-2 lg:gap-4">
-              <select
-                value={selectedTenant}
-                onChange={(e) => setSelectedTenant(e.target.value)}
-                className="bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md px-3 py-2"
-              >
-                <option value="">Select Team</option>
-                {tenants.map(tenant => (
-                  <option key={tenant} value={tenant}>{tenant}</option>
-                ))}
-              </select>
+        {/* Time Range Selector - Mobile Optimized */}
+        <div className="flex space-x-2 overflow-x-auto pb-1">
+          {timeRanges.map((range) => (
+            <button
+              key={range.value}
+              onClick={() => setSelectedTimeRange(range.value)}
+              className={`flex-shrink-0 px-3 py-2 rounded-full text-sm font-medium transition-colors ${
+                selectedTimeRange === range.value
+                  ? 'bg-[#605BFF] text-white'
+                  : 'bg-gray-100 text-gray-700'
+              }`}
+            >
+              {range.label}
+            </button>
+          ))}
+        </div>
 
-              <select
-                value={selectedUser}
-                onChange={(e) => setSelectedUser(e.target.value)}
-                className="bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md px-3 py-2"
-              >
-                <option value="">Select User</option>
-                {users.map(user => (
-                  <option key={user} value={user}>{user}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+        {/* Filter Dropdowns - Compact Mobile Version */}
+        <div className="flex space-x-2 mt-3">
+          <select
+            value={selectedTenant}
+            onChange={(e) => setSelectedTenant(e.target.value)}
+            className="flex-1 bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-lg px-3 py-2"
+          >
+            <option value="">All Teams</option>
+            {tenants.map(tenant => (
+              <option key={tenant} value={tenant}>{tenant}</option>
+            ))}
+          </select>
+
+          <select
+            value={selectedUser}
+            onChange={(e) => setSelectedUser(e.target.value)}
+            className="flex-1 bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-lg px-3 py-2"
+          >
+            <option value="">All Users</option>
+            {users.map(user => (
+              <option key={user} value={user}>{user}</option>
+            ))}
+          </select>
         </div>
       </header>
 
-      {/* Body */}
-      <main className="p-4 lg:p-6 space-y-4 lg:space-y-6">
-        {/* First Row - Deals Won, Meeting Status, Appointments Completed, Meetings Recorded */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Deals Won Card */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="p-4 pb-2 flex-grow">
-              {/* 标题和趋势 */}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-3">
-                  <TrendingUp className="w-6 h-6" style={{ color: '#34D399' }} />
-                  <p className="text-lg font-semibold text-gray-900">Deals Won</p>
-                </div>
+      {/* Body - Scrollable Content */}
+      <main className="flex-1 overflow-y-auto">
+        <div className="p-4 space-y-4">
+          {/* Metrics Grid - Mobile Optimized */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Deals Won Card */}
+            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <TrendingUp className="w-5 h-5 text-green-500" />
                 <div className="flex items-center space-x-1">
-                  <TrendingUp className="w-4 h-4 text-green-600" />
-                  <p className="text-sm font-semibold text-green-600">+12%</p>
+                  <TrendingUp className="w-3 h-3 text-green-600" />
+                  <span className="text-xs font-semibold text-green-600">+12%</span>
                 </div>
               </div>
-              
-              {/* 描述 */}
-              <div className="mb-3">
-                <p className="text-sm text-gray-500">Total deals won in last 4 weeks</p>
+              <div className="text-2xl font-bold text-gray-900 mb-1">
+                {dealsWonData.reduce((sum, item) => sum + item.value, 0)}
               </div>
-              
-              {/* 数字 */}
-              <div className="mb-2">
-                <h4 className="text-3xl font-semibold text-gray-900">{dealsWonData.reduce((sum, item) => sum + item.value, 0)}</h4>
-              </div>
-              
-              {/* 最高win次数的deal名字 */}
-              <div>
-                <p className="text-base text-gray-500">Top deal: Service Renewal</p>
+              <div className="text-xs text-gray-500 mb-2">Deals Won</div>
+              <div className="h-12">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={dealsWonData}>
+                    <Bar dataKey="value" fill="#34D399" radius={[2, 2, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
-            <div className="px-4 pt-2 pb-4">
-              <ResponsiveContainer width="100%" height={140}>
-              <BarChart data={dealsWonData}>
-                <Tooltip 
-                  formatter={(value, name) => [value, name]}
-                  labelFormatter={(label) => `${label}`}
-                  contentStyle={{
-                    backgroundColor: 'white',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fontSize: 11, fill: '#64748b' }}
-                />
-                <YAxis hide />
-                <Bar 
-                  dataKey="value" 
-                  fill="#34D399" 
-                  radius={[2, 2, 0, 0]}
-                  maxBarSize={40}
-                />
-              </BarChart>
-            </ResponsiveContainer>
+
+            {/* Win Rate Card */}
+            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <Activity className="w-5 h-5 text-blue-500" />
+                <div className="flex items-center space-x-1">
+                  <TrendingUp className="w-3 h-3 text-green-600" />
+                  <span className="text-xs font-semibold text-green-600">+8%</span>
+                </div>
+              </div>
+              <div className="text-2xl font-bold text-gray-900 mb-1">30%</div>
+              <div className="text-xs text-gray-500 mb-2">Win Rate</div>
+              <div className="h-12 flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={meetingsStatusData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={15}
+                      outerRadius={25}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {meetingsStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Meetings Completed Card */}
+            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <CheckCircle className="w-5 h-5 text-blue-500" />
+                <div className="flex items-center space-x-1">
+                  <TrendingUp className="w-3 h-3 text-green-600" />
+                  <span className="text-xs font-semibold text-green-600">+15%</span>
+                </div>
+              </div>
+              <div className="text-2xl font-bold text-gray-900 mb-1">
+                {appointmentsData.reduce((sum, item) => sum + item.value, 0)}
+              </div>
+              <div className="text-xs text-gray-500 mb-2">Meetings</div>
+              <div className="h-12">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={appointmentsData}>
+                    <Bar dataKey="value" fill="#60A5FA" radius={[2, 2, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Meetings Recorded Card */}
+            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <Mic className="w-5 h-5 text-yellow-500" />
+                <div className="flex items-center space-x-1">
+                  <TrendingUp className="w-3 h-3 text-green-600" />
+                  <span className="text-xs font-semibold text-green-600">+5%</span>
+                </div>
+              </div>
+              <div className="text-2xl font-bold text-gray-900 mb-1">
+                {meetingsRecordedData.reduce((sum, item) => sum + item.value, 0)}
+              </div>
+              <div className="text-xs text-gray-500 mb-2">Recorded</div>
+              <div className="h-12">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={meetingsRecordedData}>
+                    <Bar dataKey="value" fill="#FBBF24" radius={[2, 2, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
-          
-          {/* Meetings Status Pie Chart */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="p-4 pb-2">
-              {/* 标题和趋势 */}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-3">
-                  <Activity className="w-6 h-6 text-blue-500" />
-                  <p className="text-lg font-semibold text-gray-900">Win Rate</p>
+
+          {/* Additional Metrics Row */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-white rounded-xl border border-gray-200 p-3 shadow-sm">
+              <div className="flex items-center justify-between mb-1">
+                <CalendarCheck className="w-4 h-4 text-green-500" />
+                <TrendingUp className="w-3 h-3 text-green-600" />
+              </div>
+              <div className="text-lg font-bold text-gray-900">136</div>
+              <div className="text-xs text-gray-500">Booked</div>
+            </div>
+
+            <div className="bg-white rounded-xl border border-gray-200 p-3 shadow-sm">
+              <div className="flex items-center justify-between mb-1">
+                <CalendarX className="w-4 h-4 text-red-500" />
+                <TrendingUp className="w-3 h-3 text-red-600" />
+              </div>
+              <div className="text-lg font-bold text-gray-900">18</div>
+              <div className="text-xs text-gray-500">Cancelled</div>
+            </div>
+
+            <div className="bg-white rounded-xl border border-gray-200 p-3 shadow-sm">
+              <div className="flex items-center justify-between mb-1">
+                <CalendarDays className="w-4 h-4 text-orange-500" />
+                <TrendingDown className="w-3 h-3 text-orange-600" />
+              </div>
+              <div className="text-lg font-bold text-gray-900">8</div>
+              <div className="text-xs text-gray-500">No-Show</div>
+            </div>
+          </div>
+
+          {/* Recent Meetings - Mobile Optimized */}
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
+            <div className="flex items-center justify-between p-4 border-b border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900">Recent Meetings</h3>
+              <button className="p-2 text-gray-400 hover:text-gray-600">
+                <Filter className="w-4 h-4" />
+              </button>
+            </div>
+            
+            <div className="divide-y divide-gray-100">
+              {getMeetingsPaginatedData().slice(0, 5).map((meeting) => (
+                <div key={meeting.id} className="p-4 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-[#605BFF] rounded-full flex items-center justify-center">
+                          <span className="text-white text-xs font-medium">
+                            {meeting.name.split(' ').map(n => n[0]).join('')}
+                          </span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium text-gray-900 truncate">
+                            {meeting.name}
+                          </div>
+                          <div className="text-xs text-gray-500 truncate">
+                            {meeting.subject}
+                          </div>
+                          <div className="text-xs text-gray-400 mt-1">
+                            {meeting.date} • {meeting.duration}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button className="ml-3 p-2 text-gray-400 hover:text-[#605BFF]">
+                      <Eye className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-1">
-                  <TrendingUp className="w-4 h-4 text-green-600" />
-                  <p className="text-sm font-semibold text-green-600">+8%</p>
-                </div>
+              ))}
+            </div>
+            
+            <div className="p-4 border-t border-gray-100">
+              <button className="w-full text-center text-sm text-[#605BFF] font-medium">
+                View All Meetings
+              </button>
+            </div>
+          </div>
+
+          {/* Win/Loss Insights - Mobile Optimized */}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Win/Loss Insights</h3>
+              <div className="flex items-center space-x-1">
+                <TrendingUp className="w-3 h-3 text-green-600" />
+                <span className="text-xs font-semibold text-green-600">+5%</span>
               </div>
             </div>
             
-            {/* 左中右三列布局 - 相对定位容器 */}
-            <div className="flex-grow flex px-4 pb-4 relative">
-              {/* 左侧容器 - 30%数字 - 绝对定位 */}
-              <div className="absolute left-4 top-4 z-30 w-16">
-                <h4 className="text-3xl font-semibold text-gray-900">30%</h4>
-              </div>
-              
-              {/* 右侧容器 - 空白 - 绝对定位 */}
-              <div className="absolute right-4 top-6 z-10 w-16">
-                {/* 空白区域 */}
-              </div>
-              
-              {/* 中间容器 - 环状图 - 占满整个宽度 */}
-              <div className="w-full flex flex-col justify-center items-center relative z-20">
-              <ResponsiveContainer width="100%" height={180}>
-              <PieChart>
-                <Tooltip 
-                  formatter={(value, name) => [`${value}%`, name]}
-                  contentStyle={{
-                    backgroundColor: 'white',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-                <Pie
-                  data={meetingsStatusData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={50}
-                  outerRadius={85}
-                  paddingAngle={2}
-                  dataKey="value"
-                >
-                  {meetingsStatusData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-                <div className="flex justify-center space-x-1 mt-2 flex-wrap">
-                  {meetingsStatusData.map((item) => (
-                    <div key={item.name} className="flex items-center space-x-1">
-                      <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }}></div>
-                      <span className="text-xs text-gray-600 whitespace-nowrap">{item.name} {item.value}</span>
-                    </div>
-                  ))}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <div className="text-center mb-2">
+                  <div className="text-sm font-medium text-green-600 mb-1">Won</div>
                 </div>
+                <ResponsiveContainer width="100%" height={80}>
+                  <BarChart data={winReasons}>
+                    <Bar dataKey="value" fill="#34D399" radius={[2, 2, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              
+              <div>
+                <div className="text-center mb-2">
+                  <div className="text-sm font-medium text-red-600 mb-1">Lost</div>
+                </div>
+                <ResponsiveContainer width="100%" height={80}>
+                  <BarChart data={lossReasons}>
+                    <Bar dataKey="value" fill="#F87171" radius={[2, 2, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>
-          
-          <BarChartComponent data={appointmentsData} color="#60A5FA" title="Meetings Completed" percentage={Math.round((appointmentsData.reduce((sum, item) => sum + item.value, 0) / 136) * 100)}/>
-          <BarChartComponent data={meetingsRecordedData} color="#FBBF24" title="Meetings Recorded" percentage={Math.round((meetingsRecordedData.reduce((sum, item) => sum + item.value, 0) / appointmentsData.reduce((sum, item) => sum + item.value, 0)) * 100)} />
         </div>
+      </main>
+    </div>
+  );
+};
 
         {/* Second Row - Won/Loss Summary, Deals Lost, Empty1, Empty2 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

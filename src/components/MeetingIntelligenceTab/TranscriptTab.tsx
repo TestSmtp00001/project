@@ -151,115 +151,105 @@ const TranscriptTab: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col min-h-0">
+    <div className="h-full flex flex-col">
       {/* Header Controls */}
-      <div className="p-4 lg:p-6 border-b border-gray-200 bg-gray-50">
-        <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
-          {/* Search and Filter Group */}
-          <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 flex-1">
-            <div className="relative flex-1 sm:max-w-md">
-              <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search transcript..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
-              />
-            </div>
-            
-            {/* Speaker Filter */}
-            <select
-              value={selectedSpeaker}
-              onChange={(e) => setSelectedSpeaker(e.target.value)}
-              className="w-full sm:w-auto pl-3 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent appearance-none bg-white"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                backgroundPosition: 'right 0.75rem center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: '1rem 1rem'
-              }}
-            >
-              {speakers.map(speaker => (
-                <option key={speaker} value={speaker}>
-                  {speaker === 'all' ? 'All Speakers' : speaker}
-                </option>
-              ))}
-            </select>
-          </div>
+      <div className="p-4 border-b border-gray-200 bg-gray-50 flex-shrink-0">
+        {/* Search */}
+        <div className="relative mb-3">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search transcript..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent text-sm"
+          />
+        </div>
+        
+        {/* Speaker Filter */}
+        <div className="flex space-x-2">
+          <select
+            value={selectedSpeaker}
+            onChange={(e) => setSelectedSpeaker(e.target.value)}
+            className="flex-1 pl-3 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent appearance-none bg-white text-sm"
+          >
+            {speakers.map(speaker => (
+              <option key={speaker} value={speaker}>
+                {speaker === 'all' ? 'All Speakers' : speaker}
+              </option>
+            ))}
+          </select>
           
-          {/* Action Buttons */}
-          <div className="flex items-center justify-center space-x-3">
-            <button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors hover:bg-gray-100 rounded-lg">
+          <div className="flex space-x-1">
+            <button className="p-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">
               <Share2 className="w-4 h-4" />
-              <span>Share</span>
             </button>
-            <button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors hover:bg-gray-100 rounded-lg">
+            <button className="p-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">
               <Download className="w-4 h-4" />
-              <span>Export</span>
             </button>
-            <button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors hover:bg-gray-100 rounded-lg">
-              <Copy className="w-4 h-4" />
-              <span>Copy All</span>
-            </button>
-            {/*<button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">
-              <Settings className="w-4 h-4" />
-              <span>Settings</span>
-            </button>*/}
           </div>
         </div>
       </div>
       
       {/* Transcript Content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
+        <div className="p-4 space-y-4">
           {filteredTranscript.map((entry) => (
-            <div key={entry.id} className="group bg-white lg:bg-transparent">
-              <div className="flex items-start space-x-4">
-                {/* Timestamp */}
-                <div className="flex-shrink-0 w-12 lg:w-16 pt-1">
-                  <button className="flex items-center space-x-1 text-xs text-[#605BFF] hover:text-[#4B46CC] transition-colors cursor-pointer">
-                    <Clock className="w-3 h-3" />
-                    <span className="font-mono">{entry.timestamp}</span>
-                  </button>
-                </div>
-                
-                {/* Speaker Info */}
-                <div className="flex-shrink-0 w-24 lg:w-32">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                      <User className="w-4 h-4 text-gray-600" />
-                    </div>
-                    <div>
-                      <div className="text-xs lg:text-sm font-medium text-gray-900">{entry.speaker}</div>
-                      {entry.speakerRole && (
-                        <div className={`text-xs px-2 py-0.5 rounded-full ${getSpeakerColor(entry.speaker)} hidden lg:block`}>
-                          {entry.speakerRole}
-                        </div>
-                      )}
-                    </div>
+            <div key={entry.id} className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+              {/* Speaker Header */}
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-[#605BFF] rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs font-medium">
+                      {entry.speaker.split(' ').map(n => n[0]).join('')}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">{entry.speaker}</div>
+                    {entry.speakerRole && (
+                      <div className="text-xs text-gray-500">{entry.speakerRole}</div>
+                    )}
                   </div>
                 </div>
                 
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="bg-gray-50 lg:bg-white border border-gray-200 rounded-lg p-3 lg:p-4 group-hover:border-gray-300 transition-colors">
-                    <p className="text-sm lg:text-base text-gray-900 leading-relaxed">{entry.content}</p>
-                    
-                    {/* Action buttons (appear on hover) */}
-                    <div className="mt-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
-                      <div className="flex items-center space-x-3">
-                        <button className="text-xs text-gray-500 hover:text-[#605BFF] transition-colors px-2 py-1 hover:bg-gray-100 rounded">
-                          Copy
-                        </button>
-                        <button className="text-xs text-gray-500 hover:text-[#605BFF] transition-colors px-2 py-1 hover:bg-gray-100 rounded">
-                          Highlight
-                        </button>
-                        <button className="text-xs text-gray-500 hover:text-[#605BFF] transition-colors px-2 py-1 hover:bg-gray-100 rounded">
-                          Add Note
-                        </button>
-                      </div>
-                    </div>
+                <button className="flex items-center space-x-1 text-xs text-[#605BFF]">
+                  <Clock className="w-3 h-3" />
+                  <span className="font-mono">{entry.timestamp}</span>
+                </button>
+              </div>
+              
+              {/* Content */}
+              <div className="mb-3">
+                <p className="text-sm text-gray-900 leading-relaxed">{entry.content}</p>
+              </div>
+              
+              {/* Action buttons */}
+              <div className="flex items-center space-x-3 pt-2 border-t border-gray-100">
+                <button className="text-xs text-gray-500 hover:text-[#605BFF] transition-colors">
+                  Copy
+                </button>
+                <button className="text-xs text-gray-500 hover:text-[#605BFF] transition-colors">
+                  Highlight
+                </button>
+                <button className="text-xs text-gray-500 hover:text-[#605BFF] transition-colors">
+                  Add Note
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Footer Stats */}
+      <div className="p-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+        <div className="flex items-center justify-between text-sm text-gray-600">
+          <span>{filteredTranscript.length} entries</span>
+          <span>6:04 total</span>
+        </div>
+      </div>
+    </div>
+  );
+};
                   </div>
                 </div>
               </div>
