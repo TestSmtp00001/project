@@ -250,23 +250,5 @@ const TranscriptTab: React.FC = () => {
     </div>
   );
 };
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      {/* Footer Stats */}
-      <div className="p-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
-        <div className="flex items-center justify-between text-sm text-gray-600">
-          <span>{filteredTranscript.length} transcript entries</span>
-          <span>Total duration: 6:04</span>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default TranscriptTab;
