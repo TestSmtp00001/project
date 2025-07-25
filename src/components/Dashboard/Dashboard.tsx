@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
     { name: 'Week 1', value: 8 },
     { name: 'Week 2', value: 14 },
     { name: 'Week 3', value: 11 },
-    { name: 'Week 4', value:21 }
+    { name: 'Week 4', value: 21 }
   ];
 
   const dealsWonData = [
@@ -536,11 +536,6 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-      </main>
-    </div>
-  );
-};
 
         {/* Second Row - Won/Loss Summary, Deals Lost, Empty1, Empty2 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -844,6 +839,7 @@ const Dashboard: React.FC = () => {
             </div>
             </div>
           </div>
+        </div>
         </div>
       </main>
     </div>
