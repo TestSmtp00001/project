@@ -63,11 +63,3 @@ function App() {
 }
 
 export default App;
-          {renderContent()}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default App;
