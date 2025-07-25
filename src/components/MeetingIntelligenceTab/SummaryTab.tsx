@@ -12,9 +12,6 @@ const SummaryTab: React.FC = () => {
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
 
   const toggleSection = (sectionId: string) => {
-    // Don't allow toggling of actions section since it's always expanded in right panel
-    if (sectionId === 'actions') return;
-    
     const newExpanded = new Set(expandedSections);
     if (newExpanded.has(sectionId)) {
       newExpanded.delete(sectionId);
@@ -195,97 +192,74 @@ const SummaryTab: React.FC = () => {
     }
   ];
 
-  // Separate sections for left and right panels
-  const leftPanelSections = sections.filter(section => section.id !== 'actions');
-  const rightPanelSection = sections.find(section => section.id === 'actions');
+  // Reorder sections to put actions before questions
+  const reorderedSections = sections.map(section => {
+    if (section.id === 'actions') {
+      return { ...section, order: sections.length - 1 }; // Put actions second to last
+    } else if (section.id === 'questions') {
+      return { ...section, order: sections.length }; // Put questions last
+    } else {
+      return { ...section, order: sections.findIndex(s => s.id === section.id) };
+    }
+  }).sort((a, b) => a.order - b.order);
 
   return (
-    <div className="h-full flex">
-      {/* Left Panel */}
-      <div className="flex-1 overflow-y-auto border-r border-gray-200">
-        <div className="p-6">
-          <div className="space-y-4">
-            {leftPanelSections.map((section) => (
-              <div key={section.id} className="border border-gray-200 rounded-lg bg-white">
-                <button
-                  onClick={() => toggleSection(section.id)}
-                  className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors rounded-lg"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="flex items-center space-x-2">
-                      <h3 className={`text-lg font-medium ${
-                      section.id === 'issues' || section.id === 'money' || section.id === 'processes' || 
-                      section.id === 'access' || section.id === 'competition' || section.id === 'timing' || 
-                      section.id === 'consequences' 
-                        ? 'text-[#605BFF]' 
-                        : 'text-gray-900'
-                      }`}>{section.title}</h3>
-                      {(section.id === 'opportunities' || section.id === 'issues' || section.id === 'money' || 
-                        section.id === 'processes' || section.id === 'access' || section.id === 'competition' || 
-                        section.id === 'timing' || section.id === 'consequences' || section.id === 'questions') && (
-                        <Info className="w-4 h-4 text-gray-400" />
-                      )}
-                    </div>
-                  </div>
-                  <div className="text-gray-400">
-                    {expandedSections.has(section.id) ? (
-                      <ChevronDown className="w-5 h-5" />
-                    ) : (
-                      <ChevronRight className="w-5 h-5" />
-                    )}
-                  </div>
-                </button>
-                
-                {expandedSections.has(section.id) && (
-                  <div className="px-4 pb-4">
-                    <div className="border-t border-gray-100 pt-3">
-                      <ul className="space-y-2">
-                        {section.items.map((item, index) => (
-                          <li key={index} className="flex items-start space-x-3 group">
-                            <div className="w-1.5 h-1.5 bg-black rounded-full mt-2 flex-shrink-0"></div>
-                            <div className="flex items-center space-x-2 flex-1">
-                              <span className="text-gray-700 leading-relaxed">{item}</span>
-                              {(section.id === 'opportunities' || section.id === 'issues' || section.id === 'money' || 
-                                section.id === 'processes' || section.id === 'access' || section.id === 'competition' || 
-                                section.id === 'timing') && (
-                                <Volume2 className="w-4 h-4 text-[#605BFF] flex-shrink-0" />
-                              )}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Right Panel */}
-      <div className="w-96 overflow-y-auto bg-white">
-        <div className="p-6">
-          {rightPanelSection && (
-            <div className="border border-gray-200 rounded-lg bg-white">
-              <div className="px-4 py-3 border-b border-gray-100">
-                <h3 className="text-lg font-medium text-[#605BFF]">{rightPanelSection.title}</h3>
-              </div>
-              <div className="px-4 py-4">
-                <ul className="space-y-3">
-                  {rightPanelSection.items.map((item, index) => (
-                    <li key={index} className="flex items-start space-x-3 group">
-                      <div className="w-1.5 h-1.5 bg-black rounded-full mt-2 flex-shrink-0"></div>
-                      <div className="flex items-center space-x-2 flex-1">
-                        <span className="text-gray-700 leading-relaxed">{item}</span>
-                        <Volume2 className="w-4 h-4 text-[#605BFF] flex-shrink-0" />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+    <div className="h-full overflow-y-auto">
+      <div className="p-4">
+        <div className="space-y-3">
+          {reorderedSections.map((section) => (
+            <div key={section.id} className="border border-gray-200 rounded-lg bg-white">
+              <button
+                onClick={() => toggleSection(section.id)}
+                className="w-full px-3 py-2 flex items-center justify-between hover:bg-gray-50 transition-colors rounded-lg text-left"
+              >
+                <div className="flex items-center space-x-2">
+                  <h3 className={`text-xs font-medium ${
+                  section.id === 'issues' || section.id === 'money' || section.id === 'processes' || 
+                  section.id === 'access' || section.id === 'competition' || section.id === 'timing' || 
+                  section.id === 'consequences' || section.id === 'actions'
+                    ? 'text-[#605BFF]' 
+                    : 'text-gray-900'
+                  }`}>{section.title}</h3>
+                  {(section.id === 'opportunities' || section.id === 'issues' || section.id === 'money' || 
+                    section.id === 'processes' || section.id === 'access' || section.id === 'competition' || 
+                    section.id === 'timing' || section.id === 'consequences' || section.id === 'questions' || 
+                    section.id === 'actions') && (
+                    <Info className="w-2.5 h-2.5 text-gray-400" />
+                  )}
                 </div>
+                <div className="text-gray-400">
+                  {expandedSections.has(section.id) ? (
+                    <ChevronDown className="w-2.5 h-2.5" />
+                  ) : (
+                    <ChevronRight className="w-2.5 h-2.5" />
+                  )}
+                </div>
+              </button>
+              
+              {expandedSections.has(section.id) && (
+                <div className="px-3 pb-3">
+                  <div className="border-t border-gray-100 pt-2">
+                    <ul className="space-y-1">
+                      {section.items.map((item, index) => (
+                        <li key={index} className="flex items-start space-x-2 group">
+                          <div className="w-1 h-1 bg-black rounded-full mt-1.5 flex-shrink-0"></div>
+                          <div className="flex items-start space-x-2 flex-1 min-w-0">
+                            <span className="text-xs text-gray-700 leading-tight break-words">{item}</span>
+                            {(section.id === 'opportunities' || section.id === 'issues' || section.id === 'money' || 
+                              section.id === 'processes' || section.id === 'access' || section.id === 'competition' || 
+                              section.id === 'timing' || section.id === 'actions') && (
+                              <Volume2 className="w-2.5 h-2.5 text-[#605BFF] flex-shrink-0" />
+                            )}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          ))}
         </div>
       </div>
     </div>
