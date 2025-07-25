@@ -29,7 +29,7 @@ function App() {
           className="p-2 rounded-lg hover:bg-gray-100"
         >
           {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </div>
+        </button>
       </div>
 
       <div className="flex">
@@ -91,42 +91,6 @@ function App() {
         <div className="flex-1 lg:ml-0">
           {renderContent()}
         </div>
-      </div>
-    </div>
-  );
-}
-
-export default App;
-            <button
-              onClick={() => setActiveView('dashboard')}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${
-                activeView === 'dashboard'
-                  ? 'bg-[#605BFF] text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              <LayoutDashboard className="w-5 h-5" />
-              <span className="font-medium">Dashboard</span>
-            </button>
-            
-            <button
-              onClick={() => setActiveView('meeting-intelligence')}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${
-                activeView === 'meeting-intelligence'
-                  ? 'bg-[#605BFF] text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              <Brain className="w-5 h-5" />
-              <span className="font-medium">Meeting Intelligence</span>
-            </button>
-          </div>
-        </nav>
-      </div>
-      
-      {/* Right Content Area */}
-      <div className="flex-1">
-        {renderContent()}
       </div>
     </div>
   );
