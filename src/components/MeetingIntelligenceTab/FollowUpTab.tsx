@@ -165,22 +165,21 @@ David Miller`
 
   return (
     <div className="h-full flex flex-col bg-gray-50">
-      {/* Header Controls */}
-      <div className="bg-white border-b border-gray-200 p-6">
-        <div className="flex items-center justify-between">
-          {/* Left side - Template and Tone */}
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-3">
-              <label className="text-sm font-medium text-gray-700">Template:</label>
+      {/* Header Controls - Mobile Optimized */}
+      <div className="bg-white border-b border-gray-200 p-3 flex-shrink-0">
+        {/* Template and Tone Selection */}
+        <div className="space-y-3">
+          <div className="flex space-x-2">
+            <div className="flex-1">
               <select
                 value={selectedTemplate}
                 onChange={(e) => handleTemplateChange(e.target.value)}
-                className="pl-3 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent appearance-none bg-white"
+                className="w-full pl-2 pr-6 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent appearance-none bg-white text-xs"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                  backgroundPosition: 'right 0.75rem center',
+                  backgroundPosition: 'right 0.5rem center',
                   backgroundRepeat: 'no-repeat',
-                  backgroundSize: '1rem 1rem'
+                  backgroundSize: '0.75rem 0.75rem'
                 }}
               >
                 {templates.map(template => (
@@ -190,18 +189,16 @@ David Miller`
                 ))}
               </select>
             </div>
-
-            <div className="flex items-center space-x-3">
-              <label className="text-sm font-medium text-gray-700">Tone:</label>
+            <div className="flex-1">
               <select
                 value={tone}
                 onChange={(e) => setTone(e.target.value as 'professional' | 'friendly' | 'formal')}
-                className="pl-3 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent appearance-none bg-white"
+                className="w-full pl-2 pr-6 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent appearance-none bg-white text-xs"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                  backgroundPosition: 'right 0.75rem center',
+                  backgroundPosition: 'right 0.5rem center',
                   backgroundRepeat: 'no-repeat',
-                  backgroundSize: '1rem 1rem'
+                  backgroundSize: '0.75rem 0.75rem'
                 }}
               >
                 <option value="professional">Professional</option>
@@ -209,61 +206,57 @@ David Miller`
                 <option value="formal">Formal</option>
               </select>
             </div>
-
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="flex space-x-2">
             <button
               onClick={handleRegenerateContent}
-              className="flex items-center space-x-2 px-3 py-2 bg-[#605BFF] text-white rounded-lg hover:bg-[#4B46CC] transition-colors"
+              className="flex-1 flex items-center justify-center space-x-1 px-2 py-2 bg-[#605BFF] text-white rounded-lg hover:bg-[#4B46CC] transition-colors"
             >
-              <Sparkles className="w-4 h-4" />
-              <span className="text-sm">Regenerate</span>
+              <Sparkles className="w-2.5 h-2.5" />
+              <span className="text-xs">Regenerate</span>
             </button>
-          </div>
-
-          {/* Right side - Action buttons */}
-          <div className="flex items-center space-x-3">
             <button
               onClick={() => setShowPreview(!showPreview)}
-              className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+              className={`flex items-center justify-center p-2 rounded-lg transition-colors ${
                 showPreview 
                   ? 'bg-[#605BFF] text-white' 
-                  : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <Eye className="w-4 h-4" />
-              <span className="text-sm">Preview</span>
             </button>
-            <button className="flex items-center space-x-2 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+            <button className="flex items-center justify-center p-2 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
               <Save className="w-4 h-4" />
-              <span className="text-sm">Save Draft</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Email Composition Area */}
-      <div className="flex-1 p-6">
+      {/* Email Composition Area - Mobile Optimized */}
+      <div className="flex-1 p-3">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full flex flex-col">
           {/* Email Header */}
-          <div className="p-4 border-b border-gray-200">
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <label className="text-sm font-medium text-gray-700 w-16">Subject:</label>
-                <input
-                  type="text"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
-                />
-              </div>
+          <div className="p-3 border-b border-gray-200">
+            <div>
+              <label className="text-xs font-medium text-gray-700 block mb-1">Subject</label>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                className="w-full px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent text-xs"
+                placeholder="Email subject..."
+              />
             </div>
           </div>
 
           {/* Email Content */}
-          <div className="flex-1 p-4">
+          <div className="flex-1 p-3" style={{minHeight: '163px'}}>
             {showPreview ? (
-              <div className="h-full overflow-y-auto">
+              <div className="h-full overflow-y-auto" style={{minHeight: '130px'}}>
                 <div className="prose max-w-none">
-                  <div className="whitespace-pre-wrap text-gray-900 leading-relaxed">
+                  <div className="whitespace-pre-wrap text-gray-900 leading-relaxed text-xs">
                     {emailContent}
                   </div>
                 </div>
@@ -272,45 +265,27 @@ David Miller`
               <textarea
                 value={emailContent}
                 onChange={(e) => setEmailContent(e.target.value)}
-                className="w-full h-full resize-none border-none focus:ring-0 focus:outline-none text-gray-900 leading-relaxed"
+                className="w-full h-full resize-none border-none focus:ring-0 focus:outline-none text-gray-900 leading-relaxed text-xs"
                 placeholder="Your follow-up email content will appear here..."
+                style={{minHeight: '130px'}}
               />
             )}
           </div>
 
-          {/* Email Footer Actions */}
-          <div className="p-4 border-t border-gray-200 bg-gray-50">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4 text-sm text-gray-600">
-                <div className="flex items-center space-x-1">
-                  <Clock className="w-4 h-4" />
-                  <span>Auto-saved 2 minutes ago</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <FileText className="w-4 h-4" />
-                  <span>{emailContent.length} characters</span>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  <Share2 className="w-4 h-4" />
-                  <span>Share</span>
-                </button>
-                <button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  <Copy className="w-4 h-4" />
-                  <span>Copy</span>
-                </button>
-                <button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  <Download className="w-4 h-4" />
-                  <span>Export</span>
-                </button>
-                {/*<button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  <Settings className="w-4 h-4" />
-                  <span>Settings</span>
-                </button>*/}
-              </div>
-            </div>
+          {/* Email Footer Actions - Mobile Optimized */}
+          <div className="p-1.5 border-t border-gray-200 bg-gray-50">
+             {/* Action Buttons Row */}
+             <div className="flex justify-center space-x-2">
+               <button className="flex items-center justify-center p-1 text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100 transition-colors">
+                 <Share2 className="w-5 h-5" />
+               </button>
+               <button className="flex items-center justify-center p-1 text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100 transition-colors">
+                 <Copy className="w-5 h-5" />
+               </button>
+               <button className="flex items-center justify-center p-1 text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100 transition-colors">
+                 <Download className="w-5 h-5" />
+               </button>
+             </div>
           </div>
         </div>
       </div>
