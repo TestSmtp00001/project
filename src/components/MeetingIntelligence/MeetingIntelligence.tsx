@@ -134,8 +134,6 @@ const MeetingIntelligence: React.FC = () => {
           )}
         </div>
       </div>
-              </div>
-            </div>
 
       {/* Tab Navigation - Mobile Optimized */}
       <div className="bg-white border-b border-gray-200 flex-shrink-0">
@@ -161,16 +159,10 @@ const MeetingIntelligence: React.FC = () => {
           </nav>
         </div>
       </div>
-          </div>
 
       {/* Tab Content */}
       <div className="flex-1 overflow-hidden">
         {renderTabContent()}
-      </div>
-    </div>
-  );
-};
-        </div>
       </div>
     </div>
   );
