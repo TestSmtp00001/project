@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Info, 
   Edit, 
@@ -13,8 +13,16 @@ import {
   Play,
   Volume2,
   MoreHorizontal,
+  MoreVertical,
   Download,
-  Gauge
+  Gauge,
+  FileText as TranscriptIcon,
+  BookOpen,
+  Send,
+  BarChart3,
+  GraduationCap,
+  Bot,
+  ChevronUp
 } from 'lucide-react';
 import TranscriptTab from '../MeetingIntelligenceTab/TranscriptTab';
 import SummaryTab from '../MeetingIntelligenceTab/SummaryTab';
@@ -26,14 +34,28 @@ import AskSamTab from '../MeetingIntelligenceTab/AskSamTab';
 const MeetingIntelligence: React.FC = () => {
   const [activeTab, setActiveTab] = useState('transcript');
   const [showActionMenu, setShowActionMenu] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 200);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   
   const tabs = [
-    { id: 'transcript', label: 'Transcript' },
-    { id: 'summary', label: 'Meeting Summary' },
-    { id: 'followup', label: 'Follow-up Letter' },
-    { id: 'analytics', label: 'Analytics' },
-    { id: 'coaching', label: 'Coaching' },
-    { id: 'asksam', label: 'Ask SAM' }
+    { id: 'transcript', label: 'Transcript', icon: TranscriptIcon },
+    { id: 'summary', label: 'Meeting Summary', icon: BookOpen },
+    { id: 'followup', label: 'Follow-up Letter', icon: Send },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'coaching', label: 'Coaching', icon: GraduationCap },
+    { id: 'asksam', label: 'Ask SAM', icon: Bot }
   ];
 
   const renderTabContent = () => {
@@ -57,46 +79,39 @@ const MeetingIntelligence: React.FC = () => {
 
   return (
     <div className="h-full bg-white flex flex-col">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex-shrink-0">
-        {/* Meeting Info */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-2">
-            <span className="text-sm font-medium text-gray-900">Jul 18, 10:45</span>
-            <Edit className="w-4 h-4 text-[#605BFF]" />
+      {/* Compact Header */}
+      <div className="bg-white border-b border-gray-200 px-4 py-1.5 flex-shrink-0">
+        {/* Top Row: Meeting Info + Actions */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center">
+            <span className="text-xs font-medium text-gray-900 flex items-center">
+              <Edit className="w-4 h-4 text-[#605BFF] mr-2" />
+              Jul 18, 10:45 - in field sales fan 1.mp4
+            </span>
           </div>
-          <div className="flex items-center space-x-2">
-            <button className="p-2 text-[#605BFF] hover:bg-gray-100 rounded-lg">
+          <div className="flex items-center space-x-1">
+            <button className="p-1 bg-[#605BFF] text-white rounded" title="Add Transcript">
+              <Plus className="w-4 h-4" />
+            </button>
+            <button className="p-1 border border-[#605BFF] text-[#605BFF] rounded" title="Link">
+              <Link className="w-4 h-4" />
+            </button>
+            <button className="p-1 border border-[#605BFF] text-[#605BFF] rounded" title="File">
+              <FileText className="w-4 h-4" />
+            </button>
+            <button className="p-1 text-[#605BFF] hover:bg-gray-100 rounded">
               <Share2 className="w-4 h-4" />
             </button>
-            <button className="p-2 text-[#605BFF] hover:bg-gray-100 rounded-lg">
-              <MoreHorizontal className="w-4 h-4" />
+            <button className="p-1 text-[#605BFF] hover:bg-gray-100 rounded">
+              <MoreVertical className="w-4 h-4" />
             </button>
           </div>
         </div>
         
-        <div className="text-xs text-gray-500 mb-3">in field sales fan 1.mp4</div>
-        
-        {/* Action Buttons - Mobile Optimized */}
-        <div className="flex space-x-2 mb-3">
-          <button className="flex-1 flex items-center justify-center space-x-2 px-3 py-2 bg-[#605BFF] text-white rounded-lg text-sm">
-            <Plus className="w-4 h-4" />
-            <span>Add Transcript</span>
-          </button>
-          <button className="px-3 py-2 border border-[#605BFF] text-[#605BFF] rounded-lg">
-            <Link className="w-4 h-4" />
-          </button>
-          <button className="px-3 py-2 border border-[#605BFF] text-[#605BFF] rounded-lg">
-            <FileText className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Audio Player - Mobile Optimized */}
-      <div className="bg-gray-50 border-b border-gray-200 px-4 py-3 flex-shrink-0">
-        <div className="flex items-center space-x-3">
-          <button className="w-10 h-10 bg-[#605BFF] rounded-full flex items-center justify-center text-white">
-            <Play className="w-4 h-4 ml-0.5" fill="currentColor" />
+        {/* Bottom Row: Audio Player */}
+        <div className="flex items-center space-x-2">
+          <button className="w-6 h-6 bg-[#605BFF] rounded-full flex items-center justify-center text-white">
+            <Play className="w-2.5 h-2.5 ml-0.5" fill="currentColor" />
           </button>
           
           <div className="flex-1">
@@ -104,18 +119,18 @@ const MeetingIntelligence: React.FC = () => {
               <span className="text-xs text-gray-600 font-mono">1:22</span>
               <span className="text-xs text-gray-600 font-mono">6:04</span>
             </div>
-            <div className="w-full bg-gray-300 rounded-full h-2">
-              <div className="bg-[#605BFF] h-2 rounded-full" style={{ width: '22%' }}></div>
+            <div className="w-full bg-gray-300 rounded-full h-1.5">
+              <div className="bg-[#605BFF] h-1.5 rounded-full" style={{ width: '22%' }}></div>
             </div>
           </div>
           
-          <button className="p-2 text-gray-600">
+          <button className="flex items-center justify-center h-6 w-6 text-gray-600">
             <Volume2 className="w-4 h-4" />
           </button>
           
           <button 
             onClick={() => setShowActionMenu(!showActionMenu)}
-            className="p-2 text-gray-600"
+            className="p-1 text-gray-600 relative"
           >
             <MoreHorizontal className="w-4 h-4" />
           </button>
@@ -135,28 +150,30 @@ const MeetingIntelligence: React.FC = () => {
         </div>
       </div>
 
-      {/* Tab Navigation - Mobile Optimized */}
+      {/* Tab Navigation - Icon Only */}
       <div className="bg-white border-b border-gray-200 flex-shrink-0">
-        <div className="px-4 overflow-x-auto">
-          <nav className="flex space-x-1">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`py-3 px-3 border-b-2 font-medium text-xs transition-colors whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? tab.id === 'asksam' 
-                      ? 'border-[#fd7e14] text-[#fd7e14]'
-                      : 'border-[#605BFF] text-[#605BFF]'
-                    : tab.id === 'asksam'
-                      ? 'border-transparent text-[#fd7e14]'
-                      : 'border-transparent text-gray-500'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </nav>
+        <div className="px-4 py-2">
+          <div className="flex justify-between items-center">
+            {tabs.map((tab) => {
+              const IconComponent = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`p-2 rounded-lg transition-all duration-200 ${
+                    activeTab === tab.id
+                      ? tab.id === 'asksam'
+                        ? 'bg-[#fd7e14] text-white shadow-lg'
+                        : 'bg-[#605BFF] text-white shadow-lg'
+                      : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                  title={tab.label}
+                >
+                  <IconComponent className="w-5 h-5" />
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -164,6 +181,17 @@ const MeetingIntelligence: React.FC = () => {
       <div className="flex-1 overflow-hidden">
         {renderTabContent()}
       </div>
+      
+      {/* Back to Top Button */}
+      {showBackToTop && (
+         <button
+           onClick={scrollToTop}
+           className="fixed bottom-20 right-6 w-10 h-10 bg-black bg-opacity-20 text-[#605BFF] rounded-full shadow-lg hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center z-50"
+           title="返回顶部"
+         >
+           <ChevronUp className="w-4 h-4" />
+         </button>
+       )}
     </div>
   );
 };
