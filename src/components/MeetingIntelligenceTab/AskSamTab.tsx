@@ -26,7 +26,8 @@ import {
   Check,
   Settings,
   Globe,
-  Mic
+  Mic,
+  ChevronUp
 } from 'lucide-react';
 import SamAvatar from '../../assets/sam-avatar.svg';
 
@@ -95,7 +96,7 @@ const AskSamTab: React.FC = () => {
       originalMessageId: '1'
     }
   ]);
-  const [activeTab, setActiveTab] = useState<'history' | 'notes' | 'saved'>('history');
+  const [activeBottomTab, setActiveBottomTab] = useState<'chat' | 'questions' | 'history' | 'notes' | 'saved'>('chat');
   const [isLoading, setIsLoading] = useState(false);
   const [newNoteTitle, setNewNoteTitle] = useState('');
   const [showAddNote, setShowAddNote] = useState(false);
@@ -103,17 +104,12 @@ const AskSamTab: React.FC = () => {
   const [saveTitle, setSaveTitle] = useState('');
   const [savePrivate, setSavePrivate] = useState(true);
   const [messageToSave, setMessageToSave] = useState<ChatMessage | null>(null);
-  const [chatAreaWidth, setChatAreaWidth] = useState(65); // Default chat area width 70%
-  const [isDragging, setIsDragging] = useState(false);
-  const [recommendedQuestionsHeight, setRecommendedQuestionsHeight] = useState(350); // Default recommended questions area height
-  const [isVerticalDragging, setIsVerticalDragging] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const sidebarRef = useRef<HTMLDivElement>(null);
   const [recommendedQuestionsTab, setRecommendedQuestionsTab] = useState<'bank' | 'my'>('bank');
   const [questionSearch, setQuestionSearch] = useState('');
   const [showMethodologyMenu, setShowMethodologyMenu] = useState(false);
   const [selectedMethodology, setSelectedMethodology] = useState('MEDDIC');
+  const [showQuestionsExpanded, setShowQuestionsExpanded] = useState(false);
   const [myQuestions, setMyQuestions] = useState<CustomQuestion[]>([
     {
       id: '1',
@@ -245,6 +241,7 @@ const AskSamTab: React.FC = () => {
 
   const handleQuestionClick = (question: string) => {
     setInputValue(question);
+    setActiveBottomTab('chat');
   };
 
   const handleAddNote = () => {
@@ -312,547 +309,504 @@ const AskSamTab: React.FC = () => {
     setSavedResponses(prev => prev.filter(response => response.id !== responseId));
   };
 
-  // Handle drag start
-  const handleDragStart = () => {
-    setIsDragging(true);
-    document.body.style.cursor = 'col-resize';
-  };
-
-  // Handle dragging
-  const handleDrag = (e: React.MouseEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const containerWidth = containerRect.width;
-    const mouseX = e.clientX - containerRect.left;
-    
-    // Calculate new width percentage, limit between 20% and 80%
-    let newWidthPercent = (mouseX / containerWidth) * 100;
-    newWidthPercent = Math.max(20, Math.min(80, newWidthPercent));
-    
-    setChatAreaWidth(newWidthPercent);
-  };
-
-  // Handle drag end
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    document.body.style.cursor = 'default';
-  };
-
-  // Add mouse move and mouse up event listeners
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      // mouse move H
-      if (isDragging && containerRef.current) {
-        const containerRect = containerRef.current.getBoundingClientRect();
-        const containerWidth = containerRect.width;
-        const mouseX = e.clientX - containerRect.left;
-        
-        // Calculate new width percentage, limit between 20% and 80%
-        let newWidthPercent = (mouseX / containerWidth) * 100;
-        newWidthPercent = Math.max(20, Math.min(80, newWidthPercent));
-        
-        setChatAreaWidth(newWidthPercent);
-      }
-      // mouse move V
-      if (isVerticalDragging && sidebarRef.current) {
-        const sidebarRect = sidebarRef.current.getBoundingClientRect();
-        const mouseY = e.clientY - sidebarRect.top;
-        
-        // Calculate new higth percentage, limit between 100px and 400px
-        let newHeight = mouseY;
-        newHeight = Math.max(100, Math.min(400, newHeight));
-        
-        setRecommendedQuestionsHeight(newHeight);
-      }
-    };
-
-    const handleMouseUp = () => {
-      if (isDragging || isVerticalDragging) {
-        setIsDragging(false);
-        setIsVerticalDragging(false);
-        document.body.style.cursor = 'default';
-      }
-    };
-
-    if (isDragging || isVerticalDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, isVerticalDragging]);
-  
-  return (
-    <div className="h-full flex relative overflow-hidden" ref={containerRef} onMouseMove={handleDrag} onMouseUp={handleDragEnd}>
-      {/* Main Chat Area */}
-      <div className="flex flex-col w-full lg:w-auto" style={{ width: window.innerWidth >= 1024 ? `${chatAreaWidth}%` : '100%' }}>
-        {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4">
-          {chatHistory.map((message) => (
-            <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-full lg:max-w-3xl ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
-                <div className={`flex items-start space-x-3 ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                  {/* Avatar */}
-                   <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
-                    message.type === 'user' 
-                      ? 'bg-gray-400 text-white' 
-                      : ''
+  const renderChatContent = () => (
+    <div className="flex-1 flex flex-col">
+      {/* Chat Messages */}
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+        {chatHistory.map((message) => (
+          <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[85%] ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
+              <div className={`flex items-start space-x-2 ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                {/* Avatar */}
+                 <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                  message.type === 'user' 
+                    ? 'bg-gray-400 text-white text-xs' 
+                    : ''
+                }`}>
+                  {message.type === 'user' ? 'You' : (
+                    <img src={SamAvatar} alt="Sam" className="w-full h-full object-cover" />
+                  )}
+                </div>
+                
+                {/* Message Content */}
+                <div className={`flex flex-col ${message.type === 'user' ? 'items-end' : 'items-start'}`}>
+                  <div className={`rounded-lg px-3 py-2 max-w-full ${
+                    message.type === 'user'
+                      ? 'bg-[#E0E6FF] text-gray-900'
+                      : 'bg-white border border-gray-200 text-gray-900'
                   }`}>
-                    {message.type === 'user' ? 'You' : (
-                      <img src={SamAvatar} alt="Sam" className="w-full h-full object-cover text-xs lg:text-sm" />
-                    )}
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
                   </div>
                   
-                  {/* Message Content */}
-                  <div className={`flex flex-col ${message.type === 'user' ? 'items-end' : 'items-start'}`}>
-                    <div className={`rounded-lg px-3 lg:px-4 py-2 lg:py-3 max-w-full ${
-                      message.type === 'user'
-                        ? 'bg-[#E0E6FF] text-gray-900'
-                        : 'bg-white border border-gray-200 text-gray-900'
-                    }`}>
-                      <p className="text-sm lg:text-base leading-relaxed whitespace-pre-wrap">{message.content}</p>
-                    </div>
-                    
-                    {/* Message Actions */}
-                    <div className="flex items-center space-x-2 mt-1 lg:mt-2">
-                      <span className="text-xs text-gray-500">{message.timestamp}</span>
-                      {message.type === 'sam' && (
-                        <div className="flex items-center space-x-1 lg:space-x-2">
-                          <button className="p-1 text-gray-400 hover:text-green-600 transition-colors">
-                            <ThumbsUp className="w-3 h-3 lg:w-4 lg:h-4" />
-                          </button>
-                          <button className="p-1 text-gray-400 hover:text-red-600 transition-colors">
-                            <ThumbsDown className="w-3 h-3 lg:w-4 lg:h-4" />
-                          </button>
-                          <button className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
-                            <Copy className="w-3 h-3 lg:w-4 lg:h-4" />
-                          </button>
-                          <button 
-                            onClick={() => handleSaveResponse(message)}
-                            className="p-1 text-gray-400 hover:text-[#605BFF] transition-colors"
-                            title="Save response"
-                          >
-                            <Bookmark className="w-3 h-3 lg:w-4 lg:h-4" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                  {/* Message Actions */}
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-xs text-gray-500">{message.timestamp}</span>
+                    {message.type === 'sam' && (
+                      <div className="flex items-center space-x-1">
+                        <button className="p-1.5 text-gray-400 hover:text-green-600 transition-colors">
+                          <ThumbsUp className="w-4 h-4" />
+                        </button>
+                        <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors">
+                          <ThumbsDown className="w-4 h-4" />
+                        </button>
+                        <button className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors">
+                          <Copy className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => handleSaveResponse(message)}
+                          className="p-1.5 text-gray-400 hover:text-[#605BFF] transition-colors"
+                          title="Save response"
+                        >
+                          <Bookmark className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-          
-          {/* Loading indicator */}
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="flex items-start space-x-2 lg:space-x-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
-                  <img src={SamAvatar} alt="Sam" className="w-full h-full object-cover" />
-                </div>
-                <div className="bg-white border border-gray-200 rounded-lg px-4 py-3">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
+          </div>
+        ))}
+        
+        {/* Loading indicator */}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="flex items-start space-x-2">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <img src={SamAvatar} alt="Sam" className="w-full h-full object-cover" />
+              </div>
+              <div className="bg-white border border-gray-200 rounded-lg px-3 py-2">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
             </div>
-          )}
-          <div ref={chatEndRef} />
-        </div>
+          </div>
+        )}
+        <div ref={chatEndRef} />
+      </div>
 
-        {/* Input Area */}
-        <div className="border-t border-gray-200 p-3 lg:p-4 bg-white flex-shrink-0">
-          <div className="flex-1 relative">
-            <textarea
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-              placeholder="Ask Sam anything about your meeting, prospects, or sales strategy..."
-              className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent resize-none pr-12 text-sm lg:text-base"
-              rows={3}
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputValue.trim() || isLoading}
-              className="absolute right-2 lg:right-3 bottom-2 lg:bottom-3 p-2 disabled:opacity-50 disabled:cursor-not-allowed text-[#FF8E1C] hover:text-[#4B46CC] transition-colors"
+      {/* Quick Questions Preview */}
+      {!showQuestionsExpanded && activeBottomTab !== 'chat' && (
+        <div className="border-t border-gray-200 bg-gray-50 p-3">
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="text-sm font-medium text-gray-900">Quick Questions</h4>
+            <button 
+              onClick={() => setShowQuestionsExpanded(true)}
+              className="text-[#605BFF] text-sm font-medium"
             >
-              <Send className="w-5 h-5 lg:w-6 lg:h-6" />
+              View All
             </button>
           </div>
-        </div>
-      </div>
-      
-      {/* Draggable Divider */}
-      <div className={`${window.innerWidth >= 1024 ? 'block' : 'hidden'}`}>
-        <div 
-        className="w-1 bg-gray-50 hover:bg-blue-300 cursor-col-resize active:bg-blue-400 transition-all duration-200 relative group border-l border-r border-gray-100"
-        onMouseDown={handleDragStart}
-      >
-        <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 w-3 opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="h-full flex items-center justify-center">
-            <div className="w-0.5 h-8 bg-blue-500 rounded-full shadow-sm"></div>
-          </div>
-        </div>
-      </div>
-      </div>
-      
-      {/* Right Sidebar */}
-      <div className={`${window.innerWidth >= 1024 ? 'block' : 'hidden'} border-l border-gray-200 bg-gray-50 flex flex-col`} style={{ width: `${100 - chatAreaWidth}%` }} ref={sidebarRef}>
-        {/* Recommended Questions */}
-         <div style={{ height: `${recommendedQuestionsHeight}px` }} className="p-3 lg:p-4 border-b border-gray-200 bg-white overflow-hidden">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-gray-900">Recommended Questions</h3>
-            <div className="flex items-center space-x-2">
-              <div className="relative">
-                <button
-                  onClick={() => setShowMethodologyMenu(!showMethodologyMenu)}
-                  className="flex items-center space-x-1 px-2 py-1 text-xs bg-white hover:bg-gray-200 rounded-md transition-colors"
-                >
-                  <ChevronDown className="w-3 h-3" />
-                  <span>{selectedMethodology}</span>
-                </button>
-                
-                {showMethodologyMenu && (
-                  <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20 min-w-[220px] max-h-64 overflow-y-auto">
-                    {methodologies.map((methodology) => (
-                      <button
-                        key={methodology}
-                        onClick={() => {
-                          setSelectedMethodology(methodology);
-                          setShowMethodologyMenu(false);
-                        }}
-                        className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
-                          selectedMethodology === methodology ? 'bg-blue-50 text-[#605BFF]' : 'text-gray-700'
-                        }`}
-                      >
-                        {methodology}
-                      </button>
-                    ))}
-                  </div>
-                )}
-                {showMethodologyMenu && (
-                  <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20 min-w-[220px] max-h-64 overflow-y-auto">
-                    {methodologies.map((methodology) => (
-                      <button
-                        key={methodology}
-                        onClick={() => {
-                          setSelectedMethodology(methodology);
-                          setShowMethodologyMenu(false);
-                        }}
-                        className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
-                          selectedMethodology === methodology ? 'bg-blue-50 text-[#605BFF]' : 'text-gray-700'
-                        }`}
-                      >
-                        {methodology}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          
-          {/* Search Box */}
-          <div className="relative mb-2 lg:mb-3">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Enter keywords"
-              value={questionSearch}
-              onChange={(e) => setQuestionSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-xs lg:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
-            />
-          </div>
-          
-          {/* Tabs */}
-          <div className="flex border-b border-gray-200 mb-2 lg:mb-3">
-            <button
-              onClick={() => setRecommendedQuestionsTab('bank')}
-              className={`flex items-center space-x-1 lg:space-x-2 px-2 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-colors ${
-                recommendedQuestionsTab === 'bank'
-                  ? 'text-[#605BFF] border-b-2 border-[#605BFF]'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <Database className="w-3 h-3 lg:w-4 lg:h-4" />
-              <span>Question Bank</span>
-            </button>
-            <button
-              onClick={() => setRecommendedQuestionsTab('my')}
-              className={`flex items-center space-x-1 lg:space-x-2 px-2 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-colors ${
-                recommendedQuestionsTab === 'my'
-                  ? 'text-[#605BFF] border-b-2 border-[#605BFF]'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <UserIcon className="w-3 h-3 lg:w-4 lg:h-4" />
-              <span>My Questions</span>
-            </button>
-          </div>
-          
-          <div className="space-y-1 lg:space-y-2 overflow-y-auto" style={{ maxHeight: `${recommendedQuestionsHeight - 140}px` }}>
-            {filteredQuestions.map((question, index) => (
+          <div className="space-y-2">
+            {filteredQuestions.slice(0, 2).map((question, index) => (
               <button
                 key={index}
                 onClick={() => handleQuestionClick(question)}
-                className="w-full text-left p-2 lg:p-3 text-xs lg:text-sm bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors group"
+                className="w-full text-left p-2 text-sm bg-white hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors"
               >
-                <div className="flex items-start justify-between">
-                  <span className="flex-1">{question}</span>
-                  {recommendedQuestionsTab === 'my' && (
-                    <button className="opacity-0 group-hover:opacity-100 ml-1 lg:ml-2 p-1 hover:bg-gray-200 rounded transition-all">
-                      <MoreVertical className="w-3 h-3 text-gray-400" />
-                    </button>
-                  )}
-                </div>
+                {question}
               </button>
             ))}
-            
-            {filteredQuestions.length === 0 && (
-              <div className="text-center py-4 text-gray-500 text-xs lg:text-sm">
-                {questionSearch ? 'No questions found' : 'No questions available'}
-              </div>
-            )}
           </div>
         </div>
-        {/* Vertical Draggable Divider */}
-        <div 
-          className="h-1 bg-gray-50 hover:bg-blue-300 cursor-row-resize active:bg-blue-400 transition-all duration-200 relative group border-t border-b border-gray-100 hidden lg:block"
-          onMouseDown={(e) => {
-            setIsVerticalDragging(true);
-            document.body.style.cursor = 'row-resize';
-            e.preventDefault(); // Prevent text selection
-          }}
-        >
-          <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="w-full flex items-center justify-center">
-              <div className="h-0.5 w-8 bg-blue-500 rounded-full shadow-sm"></div>
-            </div>
-          </div>
-        </div>
-        {/* History and Notes Tabs */}
-        <div className="flex-1 flex flex-col">
-          {/* Tab Navigation */}
-          <div className="flex border-b border-gray-200 bg-white text-xs lg:text-sm">
-            <button
-              onClick={() => setActiveTab('history')}
-              className={`flex-1 px-1 lg:px-2 py-2 lg:py-3 font-medium transition-colors ${
-                activeTab === 'history'
-                  ? 'text-[#605BFF] border-b-2 border-[#605BFF] bg-white'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <div className="flex items-center justify-center space-x-1 lg:space-x-2">
-                <History className="w-3 h-3 lg:w-4 lg:h-4" />
-                <span>History</span>
-              </div>
-            </button>
-            <button
-              onClick={() => setActiveTab('notes')}
-              className={`flex-1 px-1 lg:px-2 py-2 lg:py-3 font-medium transition-colors ${
-                activeTab === 'notes'
-                  ? 'text-[#605BFF] border-b-2 border-[#605BFF] bg-white'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <div className="flex items-center justify-center space-x-1 lg:space-x-2">
-                <StickyNote className="w-3 h-3 lg:w-4 lg:h-4" />
-                <span>Notes</span>
-              </div>
-            </button>
-            <button
-              onClick={() => setActiveTab('saved')}
-              className={`flex-1 px-1 lg:px-2 py-2 lg:py-3 font-medium transition-colors ${
-                activeTab === 'saved'
-                  ? 'text-[#605BFF] border-b-2 border-[#605BFF] bg-white'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <div className="flex items-center justify-center space-x-1 lg:space-x-2">
-                <Bookmark className="w-3 h-3 lg:w-4 lg:h-4" />
-                <span>Saved</span>
-              </div>
-            </button>
-          </div>
+      )}
 
-          {/* Tab Content */}
-          <div className="flex-1 overflow-y-auto">
-            {activeTab === 'history' ? (
-              <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-sm lg:text-base font-medium text-gray-900">Recent Conversations</h4>
-                  <button className="text-gray-400 hover:text-gray-600">
-                    <Search className="w-4 h-4" />
-                  </button>
-                </div>
-                {chatHistory.filter(msg => msg.type === 'user').map((message, index) => (
-                  <div key={index} className="p-2 lg:p-3 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer">
-                    <p className="text-xs lg:text-sm text-gray-900 line-clamp-2">{message.content}</p>
-                    <p className="text-xs text-gray-500 mt-1">{message.timestamp}</p>
-                  </div>
-                ))}
-              </div>
-            ) : activeTab === 'notes' ? (
-              <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-sm lg:text-base font-medium text-gray-900">My Notes</h4>
-                  <button
-                    onClick={() => setShowAddNote(true)}
-                    className="text-[#605BFF] hover:text-[#4B46CC] transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Add Note Form */}
-                {showAddNote && (
-                  <div className="p-2 lg:p-3 bg-white rounded-lg border border-gray-200 space-y-2 lg:space-y-3">
-                    <input
-                      type="text"
-                      value={newNoteTitle}
-                      onChange={(e) => setNewNoteTitle(e.target.value)}
-                      placeholder="Note title..."
-                      className="w-full px-2 lg:px-3 py-2 text-xs lg:text-sm border border-gray-300 rounded focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
-                    />
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={handleAddNote}
-                        className="px-2 lg:px-3 py-1 bg-[#605BFF] text-white text-xs lg:text-sm rounded hover:bg-[#4B46CC] transition-colors"
-                      >
-                        Add
-                      </button>
-                      <button
-                        onClick={() => {
-                          setShowAddNote(false);
-                          setNewNoteTitle('');
-                        }}
-                        className="px-2 lg:px-3 py-1 text-gray-600 text-xs lg:text-sm rounded hover:text-gray-900 transition-colors"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Notes List */}
-                {notes.map((note) => (
-                  <div key={note.id} className="p-2 lg:p-3 bg-white rounded-lg border border-gray-200">
-                    <div className="flex items-start justify-between mb-2">
-                      <h5 className="font-medium text-gray-900 text-xs lg:text-sm">{note.title}</h5>
-                      <div className="flex items-center space-x-1">
-                        <button
-                          onClick={() => handleEditNote(note.id)}
-                          className="text-gray-400 hover:text-gray-600 transition-colors"
-                        >
-                          <Edit3 className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteNote(note.id)}
-                          className="text-gray-400 hover:text-red-600 transition-colors"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                    
-                    {note.isEditing ? (
-                      <div className="space-y-1 lg:space-y-2">
-                        <textarea
-                          defaultValue={note.content}
-                          placeholder="Add your note content..."
-                          className="w-full px-2 py-1 text-xs lg:text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#605BFF] focus:border-transparent resize-none"
-                          rows={3}
-                          onBlur={(e) => handleSaveNote(note.id, e.target.value)}
-                        />
-                        <div className="flex space-x-2">
-                          <button
-                            onClick={(e) => {
-                              const textarea = e.currentTarget.parentElement?.previousElementSibling as HTMLTextAreaElement;
-                              handleSaveNote(note.id, textarea?.value || '');
-                            }}
-                            className="px-2 py-1 bg-[#605BFF] text-white text-xs lg:text-sm rounded hover:bg-[#4B46CC] transition-colors"
-                          >
-                            Save
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <p className="text-xs lg:text-sm text-gray-700 mb-2">{note.content}</p>
-                        <p className="text-xs text-gray-500">{note.timestamp}</p>
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-sm lg:text-base font-medium text-gray-900">Saved Responses</h4>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs text-gray-500">{savedResponses.length} saved</span>
-                  </div>
-                </div>
-
-                {/* Saved Responses List */}
-                {savedResponses.map((response) => (
-                  <div key={response.id} className="p-2 lg:p-3 bg-white rounded-lg border border-gray-200">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-1">
-                          <h5 className="font-medium text-gray-900 text-xs lg:text-sm">{response.title}</h5>
-                          <div className="flex items-center">
-                            {response.isPrivate ? (
-                              <Lock className="w-3 h-3 text-gray-400" title="Private" />
-                            ) : (
-                              <Globe className="w-3 h-3 text-green-500" title="Public" />
-                            )}
-                          </div>
-                        </div>
-                        <p className="text-xs text-gray-500 mb-2">{response.timestamp}</p>
-                      </div>
-                      <button
-                        onClick={() => handleDeleteSavedResponse(response.id)}
-                        className="text-gray-400 hover:text-red-600 transition-colors"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </button>
-                    </div>
-                    <p className="text-xs lg:text-sm text-gray-700 line-clamp-3">{response.content}</p>
-                  </div>
-                ))}
-
-                {savedResponses.length === 0 && (
-                  <div className="text-center py-4 lg:py-8">
-                    <Bookmark className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                    <p className="text-xs lg:text-sm text-gray-500">No saved responses yet</p>
-                    <p className="text-xs text-gray-400 mt-1">Click the bookmark icon on Sam's responses to save them</p>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+      {/* Input Area */}
+      <div className="border-t border-gray-200 p-3 bg-white flex-shrink-0">
+        <div className="flex-1 relative">
+          <textarea
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
+            placeholder="Ask Sam anything about your meeting, prospects, or sales strategy..."
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent resize-none pr-12 text-sm"
+            rows={2}
+          />
+          <button
+            onClick={handleSendMessage}
+            disabled={!inputValue.trim() || isLoading}
+            className="absolute right-2 bottom-2 p-2 disabled:opacity-50 disabled:cursor-not-allowed text-[#FF8E1C] hover:text-[#4B46CC] transition-colors"
+          >
+            <Send className="w-5 h-5" />
+          </button>
         </div>
       </div>
+    </div>
+  );
+
+  const renderQuestionsContent = () => (
+    <div className="flex-1 flex flex-col">
+      {/* Header */}
+      <div className="p-3 border-b border-gray-200 bg-white">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold text-gray-900">Recommended Questions</h3>
+          <button
+            onClick={() => setShowQuestionsExpanded(false)}
+            className="text-gray-400 hover:text-gray-600"
+          >
+            <ChevronUp className="w-5 h-5" />
+          </button>
+        </div>
+        
+        {/* Methodology Selector */}
+        <div className="relative mb-3">
+          <button
+            onClick={() => setShowMethodologyMenu(!showMethodologyMenu)}
+            className="flex items-center justify-between w-full px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <span>{selectedMethodology}</span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
+          
+          {showMethodologyMenu && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20 max-h-64 overflow-y-auto">
+              {methodologies.map((methodology) => (
+                <button
+                  key={methodology}
+                  onClick={() => {
+                    setSelectedMethodology(methodology);
+                    setShowMethodologyMenu(false);
+                  }}
+                  className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                    selectedMethodology === methodology ? 'bg-blue-50 text-[#605BFF]' : 'text-gray-700'
+                  }`}
+                >
+                  {methodology}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        {/* Search Box */}
+        <div className="relative mb-3">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search questions..."
+            value={questionSearch}
+            onChange={(e) => setQuestionSearch(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
+          />
+        </div>
+        
+        {/* Tabs */}
+        <div className="flex border-b border-gray-200">
+          <button
+            onClick={() => setRecommendedQuestionsTab('bank')}
+            className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-colors ${
+              recommendedQuestionsTab === 'bank'
+                ? 'text-[#605BFF] border-b-2 border-[#605BFF]'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <Database className="w-4 h-4" />
+            <span>Question Bank</span>
+          </button>
+          <button
+            onClick={() => setRecommendedQuestionsTab('my')}
+            className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-colors ${
+              recommendedQuestionsTab === 'my'
+                ? 'text-[#605BFF] border-b-2 border-[#605BFF]'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <UserIcon className="w-4 h-4" />
+            <span>My Questions</span>
+          </button>
+        </div>
+      </div>
+      
+      {/* Questions List */}
+      <div className="flex-1 overflow-y-auto p-3 space-y-2">
+        {filteredQuestions.map((question, index) => (
+          <button
+            key={index}
+            onClick={() => handleQuestionClick(question)}
+            className="w-full text-left p-3 text-sm bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors group"
+          >
+            <div className="flex items-start justify-between">
+              <span className="flex-1">{question}</span>
+              {recommendedQuestionsTab === 'my' && (
+                <button className="opacity-0 group-hover:opacity-100 ml-2 p-1 hover:bg-gray-200 rounded transition-all">
+                  <MoreVertical className="w-4 h-4 text-gray-400" />
+                </button>
+              )}
+            </div>
+          </button>
+        ))}
+        
+        {filteredQuestions.length === 0 && (
+          <div className="text-center py-8 text-gray-500 text-sm">
+            {questionSearch ? 'No questions found' : 'No questions available'}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderHistoryContent = () => (
+    <div className="flex-1 flex flex-col">
+      <div className="p-3 border-b border-gray-200 bg-white">
+        <div className="flex items-center justify-between">
+          <h4 className="text-base font-medium text-gray-900">Recent Conversations</h4>
+          <button className="text-gray-400 hover:text-gray-600">
+            <Search className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+        {chatHistory.filter(msg => msg.type === 'user').map((message, index) => (
+          <div key={index} className="p-3 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors">
+            <p className="text-sm text-gray-900 line-clamp-2">{message.content}</p>
+            <p className="text-xs text-gray-500 mt-2">{message.timestamp}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderNotesContent = () => (
+    <div className="flex-1 flex flex-col">
+      <div className="p-3 border-b border-gray-200 bg-white">
+        <div className="flex items-center justify-between">
+          <h4 className="text-base font-medium text-gray-900">My Notes</h4>
+          <button
+            onClick={() => setShowAddNote(true)}
+            className="text-[#605BFF] hover:text-[#4B46CC] transition-colors"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+      
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+        {/* Add Note Form */}
+        {showAddNote && (
+          <div className="p-3 bg-white rounded-lg border border-gray-200 space-y-3">
+            <input
+              type="text"
+              value={newNoteTitle}
+              onChange={(e) => setNewNoteTitle(e.target.value)}
+              placeholder="Note title..."
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
+            />
+            <div className="flex space-x-2">
+              <button
+                onClick={handleAddNote}
+                className="px-3 py-1.5 bg-[#605BFF] text-white text-sm rounded hover:bg-[#4B46CC] transition-colors"
+              >
+                Add
+              </button>
+              <button
+                onClick={() => {
+                  setShowAddNote(false);
+                  setNewNoteTitle('');
+                }}
+                className="px-3 py-1.5 text-gray-600 text-sm rounded hover:text-gray-900 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Notes List */}
+        {notes.map((note) => (
+          <div key={note.id} className="p-3 bg-white rounded-lg border border-gray-200">
+            <div className="flex items-start justify-between mb-2">
+              <h5 className="font-medium text-gray-900 text-sm">{note.title}</h5>
+              <div className="flex items-center space-x-1">
+                <button
+                  onClick={() => handleEditNote(note.id)}
+                  className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+                >
+                  <Edit3 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleDeleteNote(note.id)}
+                  className="text-gray-400 hover:text-red-600 transition-colors p-1"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            
+            {note.isEditing ? (
+              <div className="space-y-2">
+                <textarea
+                  defaultValue={note.content}
+                  placeholder="Add your note content..."
+                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#605BFF] focus:border-transparent resize-none"
+                  rows={3}
+                  onBlur={(e) => handleSaveNote(note.id, e.target.value)}
+                />
+                <button
+                  onClick={(e) => {
+                    const textarea = e.currentTarget.parentElement?.previousElementSibling as HTMLTextAreaElement;
+                    handleSaveNote(note.id, textarea?.value || '');
+                  }}
+                  className="px-3 py-1.5 bg-[#605BFF] text-white text-sm rounded hover:bg-[#4B46CC] transition-colors"
+                >
+                  Save
+                </button>
+              </div>
+            ) : (
+              <>
+                <p className="text-sm text-gray-700 mb-2">{note.content}</p>
+                <p className="text-xs text-gray-500">{note.timestamp}</p>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderSavedContent = () => (
+    <div className="flex-1 flex flex-col">
+      <div className="p-3 border-b border-gray-200 bg-white">
+        <div className="flex items-center justify-between">
+          <h4 className="text-base font-medium text-gray-900">Saved Responses</h4>
+          <span className="text-sm text-gray-500">{savedResponses.length} saved</span>
+        </div>
+      </div>
+      
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+        {savedResponses.map((response) => (
+          <div key={response.id} className="p-3 bg-white rounded-lg border border-gray-200">
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex-1">
+                <div className="flex items-center space-x-2 mb-1">
+                  <h5 className="font-medium text-gray-900 text-sm">{response.title}</h5>
+                  <div className="flex items-center">
+                    {response.isPrivate ? (
+                      <Lock className="w-3 h-3 text-gray-400" title="Private" />
+                    ) : (
+                      <Globe className="w-3 h-3 text-green-500" title="Public" />
+                    )}
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mb-2">{response.timestamp}</p>
+              </div>
+              <button
+                onClick={() => handleDeleteSavedResponse(response.id)}
+                className="text-gray-400 hover:text-red-600 transition-colors p-1"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-sm text-gray-700 line-clamp-3">{response.content}</p>
+          </div>
+        ))}
+
+        {savedResponses.length === 0 && (
+          <div className="text-center py-8">
+            <Bookmark className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+            <p className="text-sm text-gray-500">No saved responses yet</p>
+            <p className="text-xs text-gray-400 mt-1">Click the bookmark icon on Sam's responses to save them</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch (activeBottomTab) {
+      case 'chat':
+        return renderChatContent();
+      case 'questions':
+        return renderQuestionsContent();
+      case 'history':
+        return renderHistoryContent();
+      case 'notes':
+        return renderNotesContent();
+      case 'saved':
+        return renderSavedContent();
+      default:
+        return renderChatContent();
+    }
+  };
+
+  return (
+    <div className="h-full flex flex-col overflow-hidden">
+      {/* Main Content */}
+      <div className="flex-1 overflow-hidden">
+        {showQuestionsExpanded ? renderQuestionsContent() : renderContent()}
+      </div>
+
+      {/* Bottom Navigation */}
+      {!showQuestionsExpanded && (
+        <div className="border-t border-gray-200 bg-white">
+          <div className="flex">
+            <button
+              onClick={() => setActiveBottomTab('chat')}
+              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+                activeBottomTab === 'chat'
+                  ? 'text-[#605BFF] bg-blue-50'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <MessageCircle className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setActiveBottomTab('questions')}
+              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+                activeBottomTab === 'questions'
+                  ? 'text-[#605BFF] bg-blue-50'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <Lightbulb className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setActiveBottomTab('history')}
+              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+                activeBottomTab === 'history'
+                  ? 'text-[#605BFF] bg-blue-50'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <History className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setActiveBottomTab('notes')}
+              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+                activeBottomTab === 'notes'
+                  ? 'text-[#605BFF] bg-blue-50'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <StickyNote className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setActiveBottomTab('saved')}
+              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+                activeBottomTab === 'saved'
+                  ? 'text-[#605BFF] bg-blue-50'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <Bookmark className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Save Response Modal */}
       {saveModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-full mx-4">
+          <div className="bg-white rounded-lg p-4 w-full max-w-md mx-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base lg:text-lg font-semibold text-gray-900">Save Response</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Save Response</h3>
               <button
                 onClick={() => setSaveModalOpen(false)}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -863,7 +817,7 @@ const AskSamTab: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Title
                 </label>
                 <input
@@ -876,7 +830,7 @@ const AskSamTab: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Privacy
                 </label>
                 <div className="space-y-2">
@@ -889,7 +843,7 @@ const AskSamTab: React.FC = () => {
                       className="mr-2 text-[#605BFF] focus:ring-[#605BFF]"
                     />
                     <Lock className="w-4 h-4 text-gray-500 mr-2" />
-                    <span className="text-xs lg:text-sm text-gray-700">Private (only you can see this)</span>
+                    <span className="text-sm text-gray-700">Private (only you can see this)</span>
                   </label>
                   <label className="flex items-center">
                     <input
@@ -900,14 +854,14 @@ const AskSamTab: React.FC = () => {
                       className="mr-2 text-[#605BFF] focus:ring-[#605BFF]"
                     />
                     <Globe className="w-4 h-4 text-green-500 mr-2" />
-                    <span className="text-xs lg:text-sm text-gray-700">Public (visible to team members)</span>
+                    <span className="text-sm text-gray-700">Public (visible to team members)</span>
                   </label>
                 </div>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-3">
-                <p className="text-xs lg:text-sm text-gray-600 mb-1">Response Preview:</p>
-                <p className="text-xs lg:text-sm text-gray-900 line-clamp-4">{messageToSave?.content}</p>
+                <p className="text-sm text-gray-600 mb-1">Response Preview:</p>
+                <p className="text-sm text-gray-900 line-clamp-4">{messageToSave?.content}</p>
               </div>
             </div>
 
