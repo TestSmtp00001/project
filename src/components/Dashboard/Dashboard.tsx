@@ -229,7 +229,7 @@ const Dashboard: React.FC = () => {
     return (
       <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
         <div className="text-sm text-gray-500">
-          Showing {startItem} to {endItem} of {totalItems} results
+          {totalItems} in total
         </div>
         <div className="flex items-center space-x-2">
           <button
@@ -269,157 +269,165 @@ const Dashboard: React.FC = () => {
   return (
     <div className="h-full bg-gray-50 w-full flex flex-col">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-3 flex-shrink-0">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-2">
-            <Calendar className="w-4 h-4 text-gray-500" />
-            <span className="text-sm text-gray-600">{currentDateTime}</span>
-          </div>
-        </div>
-
-        {/* Time Range Selector - Mobile Optimized */}
-        <div className="flex space-x-2 overflow-x-auto pb-1">
-          {timeRanges.map((range) => (
-            <button
-              key={range.value}
-              onClick={() => setSelectedTimeRange(range.value)}
-              className={`flex-shrink-0 px-3 py-2 rounded-full text-sm font-medium transition-colors ${
-                selectedTimeRange === range.value
-                  ? 'bg-[#605BFF] text-white'
-                  : 'bg-gray-100 text-gray-700'
-              }`}
+      <header className="sticky top-[52px] z-40 bg-white border-b border-gray-200 px-4 pt-0 pb-2 flex-shrink-0">
+        {/* Filter Dropdowns - Compact Design */}
+        <div className="space-y-2">
+          {/* Time Range Selector */}
+          <select
+            value={selectedTimeRange}
+            onChange={(e) => setSelectedTimeRange(e.target.value)}
+            className="w-full bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-lg px-3 py-2"
+          >
+            {timeRanges.map(range => (
+              <option key={range.value} value={range.value}>
+                {range.label} - {range.description}
+              </option>
+            ))}
+          </select>
+          
+          {/* Team and User Filters */}
+          <div className="grid grid-cols-2 gap-2">
+            <select
+              value={selectedTenant}
+              onChange={(e) => setSelectedTenant(e.target.value)}
+              className="w-full bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-lg px-3 py-2"
             >
-              {range.label}
-            </button>
-          ))}
-        </div>
+              <option value="">All Teams</option>
+              {tenants.map(tenant => (
+                <option key={tenant} value={tenant}>{tenant}</option>
+              ))}
+            </select>
 
-        {/* Filter Dropdowns - Compact Mobile Version */}
-        <div className="flex space-x-2 mt-3">
-          <select
-            value={selectedTenant}
-            onChange={(e) => setSelectedTenant(e.target.value)}
-            className="flex-1 bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-lg px-3 py-2"
-          >
-            <option value="">All Teams</option>
-            {tenants.map(tenant => (
-              <option key={tenant} value={tenant}>{tenant}</option>
-            ))}
-          </select>
-
-          <select
-            value={selectedUser}
-            onChange={(e) => setSelectedUser(e.target.value)}
-            className="flex-1 bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-lg px-3 py-2"
-          >
-            <option value="">All Users</option>
-            {users.map(user => (
-              <option key={user} value={user}>{user}</option>
-            ))}
-          </select>
+            <select
+              value={selectedUser}
+              onChange={(e) => setSelectedUser(e.target.value)}
+              className="w-full bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-lg px-3 py-2"
+            >
+              <option value="">All Users</option>
+              {users.map(user => (
+                <option key={user} value={user}>{user}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </header>
 
       {/* Body - Scrollable Content */}
       <main className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4">
-          {/* Metrics Grid - Mobile Optimized */}
-          <div className="grid grid-cols-2 gap-3">
+          {/* Metrics Grid - Single Column Layout */}
+          <div className="space-y-4">
             {/* Deals Won Card */}
             <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <TrendingUp className="w-5 h-5 text-green-500" />
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <TrendingUp className="w-5 h-5 text-green-500" />
+                  <span className="text-sm text-gray-500">Deals Won</span>
+                </div>
                 <div className="flex items-center space-x-1">
                   <TrendingUp className="w-3 h-3 text-green-600" />
                   <span className="text-xs font-semibold text-green-600">+12%</span>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">
-                {dealsWonData.reduce((sum, item) => sum + item.value, 0)}
-              </div>
-              <div className="text-xs text-gray-500 mb-2">Deals Won</div>
-              <div className="h-12">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={dealsWonData}>
-                    <Bar dataKey="value" fill="#34D399" radius={[2, 2, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+              <div className="flex items-end justify-between">
+                <div className="text-2xl font-bold text-gray-900">
+                  {dealsWonData.reduce((sum, item) => sum + item.value, 0)}
+                </div>
+                <div className="h-20 w-40">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={dealsWonData}>
+                        <Bar dataKey="value" fill="#34D399" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
               </div>
             </div>
 
             {/* Win Rate Card */}
             <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <Activity className="w-5 h-5 text-blue-500" />
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <Activity className="w-5 h-5 text-blue-500" />
+                  <span className="text-sm text-gray-500">Win Rate</span>
+                </div>
                 <div className="flex items-center space-x-1">
                   <TrendingUp className="w-3 h-3 text-green-600" />
                   <span className="text-xs font-semibold text-green-600">+8%</span>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">30%</div>
-              <div className="text-xs text-gray-500 mb-2">Win Rate</div>
-              <div className="h-12 flex items-center justify-center">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={meetingsStatusData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={15}
-                      outerRadius={25}
-                      paddingAngle={2}
-                      dataKey="value"
-                    >
-                      {meetingsStatusData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+              <div className="flex items-end justify-between">
+                <div className="text-2xl font-bold text-gray-900">30%</div>
+                <div className="h-20 w-40">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={meetingsStatusData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={20}
+                          outerRadius={40}
+                          paddingAngle={2}
+                          dataKey="value"
+                        >
+                          {meetingsStatusData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
               </div>
             </div>
 
             {/* Meetings Completed Card */}
             <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <CheckCircle className="w-5 h-5 text-blue-500" />
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="w-5 h-5 text-blue-500" />
+                  <span className="text-sm text-gray-500">Meetings</span>
+                </div>
                 <div className="flex items-center space-x-1">
                   <TrendingUp className="w-3 h-3 text-green-600" />
                   <span className="text-xs font-semibold text-green-600">+15%</span>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">
-                {appointmentsData.reduce((sum, item) => sum + item.value, 0)}
-              </div>
-              <div className="text-xs text-gray-500 mb-2">Meetings</div>
-              <div className="h-12">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={appointmentsData}>
-                    <Bar dataKey="value" fill="#60A5FA" radius={[2, 2, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+              <div className="flex items-end justify-between">
+                <div className="text-2xl font-bold text-gray-900">
+                  {appointmentsData.reduce((sum, item) => sum + item.value, 0)}
+                </div>
+                <div className="h-20 w-40">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={appointmentsData}>
+                        <Bar dataKey="value" fill="#60A5FA" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
               </div>
             </div>
 
             {/* Meetings Recorded Card */}
             <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <Mic className="w-5 h-5 text-yellow-500" />
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <Mic className="w-5 h-5 text-yellow-500" />
+                  <span className="text-sm text-gray-500">Recorded</span>
+                </div>
                 <div className="flex items-center space-x-1">
                   <TrendingUp className="w-3 h-3 text-green-600" />
                   <span className="text-xs font-semibold text-green-600">+5%</span>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">
-                {meetingsRecordedData.reduce((sum, item) => sum + item.value, 0)}
-              </div>
-              <div className="text-xs text-gray-500 mb-2">Recorded</div>
-              <div className="h-12">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={meetingsRecordedData}>
-                    <Bar dataKey="value" fill="#FBBF24" radius={[2, 2, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+              <div className="flex items-end justify-between">
+                <div className="text-2xl font-bold text-gray-900">
+                  {meetingsRecordedData.reduce((sum, item) => sum + item.value, 0)}
+                </div>
+                <div className="h-20 w-40">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={meetingsRecordedData}>
+                        <Bar dataKey="value" fill="#FBBF24" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
               </div>
             </div>
           </div>
@@ -454,53 +462,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Recent Meetings - Mobile Optimized */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between p-4 border-b border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900">Recent Meetings</h3>
-              <button className="p-2 text-gray-400 hover:text-gray-600">
-                <Filter className="w-4 h-4" />
-              </button>
-            </div>
-            
-            <div className="divide-y divide-gray-100">
-              {getMeetingsPaginatedData().slice(0, 5).map((meeting) => (
-                <div key={meeting.id} className="p-4 hover:bg-gray-50 active:bg-gray-100 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-[#605BFF] rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs font-medium">
-                            {meeting.name.split(' ').map(n => n[0]).join('')}
-                          </span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-medium text-gray-900 truncate">
-                            {meeting.name}
-                          </div>
-                          <div className="text-xs text-gray-500 truncate">
-                            {meeting.subject}
-                          </div>
-                          <div className="text-xs text-gray-400 mt-1">
-                            {meeting.date} • {meeting.duration}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <button className="ml-3 p-2 text-gray-400 hover:text-[#605BFF]">
-                      <Eye className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="p-4 border-t border-gray-100">
-              <button className="w-full text-center text-sm text-[#605BFF] font-medium">
-                View All Meetings
-              </button>
-            </div>
-          </div>
+
 
           {/* Win/Loss Insights - Mobile Optimized */}
           <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
@@ -537,188 +499,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-        {/* Second Row - Won/Loss Summary, Deals Lost, Empty1, Empty2 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Won/Loss Summary */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="p-4 pb-2">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-3">
-                  <BarChart3 className="w-6 h-6 text-purple-500" />
-                  <div>
-                    <p className="text-lg font-semibold text-gray-900">Win/Loss Insights</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="flex items-center space-x-1">
-                    <TrendingUp className="w-4 h-4 text-green-600" />
-                    <p className="text-sm font-semibold text-green-600 mb-0">+5%</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="px-4 pb-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Win Chart */}
-                 <div>
-                  <ResponsiveContainer width="100%" height={120}>
-                    <BarChart data={winReasons} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                      <Tooltip 
-                        formatter={(value, name) => [value, 'Won']}
-                        labelFormatter={(label) => `${label}`}
-                        contentStyle={{
-                          backgroundColor: 'white',
-                          border: '1px solid #e5e7eb',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                        }}
-                      />
-                      <XAxis 
-                        dataKey="name" 
-                        axisLine={false} 
-                        tickLine={false} 
-                        tick={{ fontSize: 11, fill: '#64748b' }}
-                        height={25}
-                      />
-                      <YAxis hide />
-                      <Bar 
-                        dataKey="value" 
-                        fill="#34D399" 
-                        radius={[2, 2, 0, 0]}
-                        maxBarSize={40}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                   <div className="flex items-center justify-center space-x-2 mt-2">
-                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#34D399' }}></div>
-                     <span className="text-xs text-gray-600">Won</span>
-                   </div>
-                </div>
-                
-                {/* Loss Chart */}
-                 <div>
-                  <ResponsiveContainer width="100%" height={120}>
-                    <BarChart data={lossReasons} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                      <Tooltip 
-                        formatter={(value, name) => [value, 'Lost']}
-                        labelFormatter={(label) => `${label}`}
-                        contentStyle={{
-                          backgroundColor: 'white',
-                          border: '1px solid #e5e7eb',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                        }}
-                      />
-                      <XAxis 
-                        dataKey="name" 
-                        axisLine={false} 
-                        tickLine={false} 
-                        tick={{ fontSize: 11, fill: '#64748b' }}
-                        height={25}
-                      />
-                      <YAxis hide />
-                      <Bar 
-                        dataKey="value" 
-                        fill="#F87171" 
-                        radius={[2, 2, 0, 0]}
-                        maxBarSize={40}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                   <div className="flex items-center justify-center space-x-2 mt-2">
-                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#F87171' }}></div>
-                     <span className="text-xs text-gray-600">Lost</span>
-                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Meeting Booked Card */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4 h-full">
-            {/* 标题和趋势 */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center space-x-3">
-                <CalendarCheck className="w-6 h-6 text-green-500" />
-                <p className="text-lg font-semibold text-gray-900">Meetings Booked</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <TrendingUp className="w-4 h-4 text-green-600" />
-                <span className="text-sm font-semibold text-green-600">+15%</span>
-              </div>
-            </div>
-            
-            {/* 描述 */}
-            <div className="mb-3 h-10 flex items-start">
-              <p className="text-sm text-gray-500">Number of meetings scheduled</p>
-            </div>
-            
-            {/* 数字 */}
-            <div className="mb-2">
-              <h4 className="text-3xl font-semibold text-gray-900">136</h4>
-            </div>
-          </div>
-          
-          {/* Meeting Cancelled Card */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4 h-full">
-            {/* 标题和趋势 */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center space-x-3">
-                <CalendarX className="w-6 h-6 text-red-500" />
-                <p className="text-lg font-semibold text-gray-900">Meetings Cancelled</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <TrendingUp className="w-4 h-4 text-red-600" />
-                <span className="text-sm font-semibold text-red-600">+3%</span>
-              </div>
-            </div>
-            
-            {/* 描述 */}
-            <div className="mb-3 h-10 flex items-start">
-              <p className="text-sm text-gray-500">Number of scheduled meetings cancelled</p>
-            </div>
-            
-            {/* 数字 */}
-            <div className="mb-2">
-              <h4 className="text-3xl font-semibold text-gray-900">18</h4>
-            </div>
-            
-            {/* 占比 */}
-            <div>
-              <p className="text-base text-gray-500">13% of meetings booked</p>
-            </div>
-          </div>
-          
-          {/* Meeting No-Show Card */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4 h-full">
-            {/* 标题和趋势 */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center space-x-3">
-                <CalendarDays className="w-6 h-6 text-orange-500" />
-                <p className="text-lg font-semibold text-gray-900">Meetings No-Show</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <TrendingDown className="w-4 h-4 text-orange-600" />
-                <span className="text-sm font-semibold text-orange-600">-2%</span>
-              </div>
-            </div>
-            
-            {/* 描述 */}
-            <div className="mb-3 h-10 flex items-start">
-              <p className="text-sm text-gray-500">Meetings where prospect didn't show up</p>
-            </div>
-            
-            {/* 数字 */}
-            <div className="mb-2">
-              <h4 className="text-3xl font-semibold text-gray-900">8</h4>
-            </div>
-            
-            {/* 占比 */}
-            <div>
-              <p className="text-base text-gray-500">6% of meetings booked</p>
-            </div>
-          </div>
-        </div>
+
 
         {/* Third Row - Meeting No-Show */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -740,11 +521,9 @@ const Dashboard: React.FC = () => {
               <table className="w-full min-w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Subject</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase hidden md:table-cell">Duration</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Action</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Name & Subject</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Date & Duration</th>
+                    <th className="text-center py-3 px-2 text-xs font-medium text-gray-500 uppercase w-16">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -752,16 +531,14 @@ const Dashboard: React.FC = () => {
                     <tr key={meeting.id} className="border-b border-gray-100 hover:bg-gray-50">
                       <td className="py-3 px-4">
                         <div className="text-sm text-gray-900 font-medium">{meeting.name}</div>
-                        <div className="text-xs text-gray-500 sm:hidden">{meeting.subject}</div>
+                        <div className="text-xs text-gray-500">{meeting.subject}</div>
                       </td>
-                      <td className="py-3 px-4 text-sm text-gray-900 hidden sm:table-cell">{meeting.subject}</td>
                       <td className="py-3 px-4">
-                        <div className="text-sm text-gray-600">{meeting.date}</div>
-                        <div className="text-xs text-gray-500 md:hidden">{meeting.duration}</div>
+                        <div className="text-sm text-gray-900">{meeting.date}</div>
+                        <div className="text-xs text-gray-500">{meeting.duration}</div>
                       </td>
-                      <td className="py-3 px-4 text-sm text-gray-600 hidden md:table-cell">{meeting.duration}</td>
-                      <td className="py-3 px-4">
-                        <button className="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-600 bg-transparent rounded hover:bg-blue-50 transition-colors">
+                      <td className="py-3 px-2 text-center">
+                        <button className="inline-flex items-center justify-center p-1 text-blue-600 bg-transparent rounded hover:bg-blue-50 transition-colors">
                           <Eye className="w-4 h-4" />
                         </button>
                       </td>
@@ -799,11 +576,9 @@ const Dashboard: React.FC = () => {
               <table className="w-full min-w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Subject</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase hidden md:table-cell">Duration</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Action</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Name & Subject</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Date & Duration</th>
+                    <th className="text-center py-3 px-2 text-xs font-medium text-gray-500 uppercase w-16">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -811,16 +586,14 @@ const Dashboard: React.FC = () => {
                     <tr key={coaching.id} className="border-b border-gray-100 hover:bg-gray-50">
                       <td className="py-3 px-4">
                         <div className="text-sm text-gray-900 font-medium">{coaching.name}</div>
-                        <div className="text-xs text-gray-500 sm:hidden">{coaching.subject}</div>
+                        <div className="text-xs text-gray-500">{coaching.subject}</div>
                       </td>
-                      <td className="py-3 px-4 text-sm text-gray-900 hidden sm:table-cell">{coaching.subject}</td>
                       <td className="py-3 px-4">
-                        <div className="text-sm text-gray-600">{coaching.date}</div>
-                        <div className="text-xs text-gray-500 md:hidden">{coaching.duration}</div>
+                        <div className="text-sm text-gray-900">{coaching.date}</div>
+                        <div className="text-xs text-gray-500">{coaching.duration}</div>
                       </td>
-                      <td className="py-3 px-4 text-sm text-gray-600 hidden md:table-cell">{coaching.duration}</td>
-                      <td className="py-3 px-4">
-                        <button className="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-600 bg-transparent rounded hover:bg-blue-50 transition-colors">
+                      <td className="py-3 px-2 text-center">
+                        <button className="inline-flex items-center justify-center p-1 text-blue-600 bg-transparent rounded hover:bg-blue-50 transition-colors">
                           <Eye className="w-4 h-4" />
                         </button>
                       </td>
