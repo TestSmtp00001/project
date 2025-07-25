@@ -8,7 +8,7 @@ const Dashboard: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [meetingsCurrentPage, setMeetingsCurrentPage] = useState(1);
   const [coachingCurrentPage, setCoachingCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const itemsPerPage = 5;
 
   // Fixed date display
   const currentDateTime = 'Sunday, March 31, 2024';
@@ -267,26 +267,25 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 w-full">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-6">
-              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <div className="flex items-center space-x-2 text-gray-600">
+      <header className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8 space-y-4 lg:space-y-0">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-6 space-y-2 lg:space-y-0">
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Dashboard</h1>
+              <div className="flex items-center space-x-2 text-gray-600 text-sm lg:text-base">
                 <Calendar className="w-4 h-4" />
-                <span className="text-sm" style={{fontSize: '13px'}}>{currentDateTime}</span>
+                <span className="text-xs lg:text-sm">{currentDateTime}</span>
               </div>
             </div>
             
             {/* Time Range Dropdown */}
-            <div className="relative">
+            <div className="relative w-full lg:w-auto">
               <select
                 value={selectedTimeRange}
                 onChange={(e) => setSelectedTimeRange(e.target.value)}
-                className="bg-transparent text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md px-2 py-1"
-                style={{fontSize: '13px'}}
+                className="w-full lg:w-auto bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md px-3 py-2"
               >
                 {timeRanges.map((range) => (
                   <option key={range.value} value={range.value}>
@@ -295,31 +294,15 @@ const Dashboard: React.FC = () => {
                 ))}
               </select>
             </div>
+          </div>
 
-            {/* Alternative: Button Group Style (commented out) */}
-            {/* <div className="flex items-center bg-gray-100 rounded-lg p-1">
-              {timeRanges.map((range) => (
-                <button
-                  key={range.value}
-                  onClick={() => setSelectedTimeRange(range.value)}
-                  className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                    selectedTimeRange === range.value
-                      ? 'bg-[#605BFF] text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  {range.label}
-                </button>
-              ))}
-            </div> */}
-
-            {/* Dropdowns */}
-            <div className="flex items-center space-x-4">
+          {/* Dropdowns */}
+          <div className="flex flex-col lg:flex-row lg:items-center space-y-2 lg:space-y-0 lg:space-x-4">
+            <div className="grid grid-cols-2 lg:flex lg:items-center gap-2 lg:gap-4">
               <select
                 value={selectedTenant}
                 onChange={(e) => setSelectedTenant(e.target.value)}
-                className="bg-transparent text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md pl-2 pr-8 py-1"
-                style={{fontSize: '13px'}}
+                className="bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md px-3 py-2"
               >
                 <option value="">Select Team</option>
                 {tenants.map(tenant => (
@@ -330,8 +313,7 @@ const Dashboard: React.FC = () => {
               <select
                 value={selectedUser}
                 onChange={(e) => setSelectedUser(e.target.value)}
-                className="bg-transparent text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md px-2 py-1"
-                style={{fontSize: '13px'}}
+                className="bg-white border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#605BFF] rounded-md px-3 py-2"
               >
                 <option value="">Select User</option>
                 {users.map(user => (
@@ -344,11 +326,11 @@ const Dashboard: React.FC = () => {
       </header>
 
       {/* Body */}
-      <main className="p-6 space-y-2">
+      <main className="p-4 lg:p-6 space-y-4 lg:space-y-6">
         {/* First Row - Deals Won, Meeting Status, Appointments Completed, Meetings Recorded */}
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Deals Won Card */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col h-full">
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
             <div className="p-4 pb-2 flex-grow">
               {/* 标题和趋势 */}
               <div className="flex items-center justify-between mb-3">
@@ -377,7 +359,7 @@ const Dashboard: React.FC = () => {
                 <p className="text-base text-gray-500">Top deal: Service Renewal</p>
               </div>
             </div>
-            <div className="px-4 pt-2 pb-1">
+            <div className="px-4 pt-2 pb-4">
               <ResponsiveContainer width="100%" height={140}>
               <BarChart data={dealsWonData}>
                 <Tooltip 
@@ -409,7 +391,7 @@ const Dashboard: React.FC = () => {
           </div>
           
           {/* Meetings Status Pie Chart */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col h-full">
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
             <div className="p-4 pb-2">
               {/* 标题和趋势 */}
               <div className="flex items-center justify-between mb-3">
@@ -427,7 +409,7 @@ const Dashboard: React.FC = () => {
             {/* 左中右三列布局 - 相对定位容器 */}
             <div className="flex-grow flex px-4 pb-4 relative">
               {/* 左侧容器 - 30%数字 - 绝对定位 */}
-              <div className="absolute left-4 top-6 z-30 w-16">
+              <div className="absolute left-4 top-4 z-30 w-16">
                 <h4 className="text-3xl font-semibold text-gray-900">30%</h4>
               </div>
               
@@ -438,7 +420,7 @@ const Dashboard: React.FC = () => {
               
               {/* 中间容器 - 环状图 - 占满整个宽度 */}
               <div className="w-full flex flex-col justify-center items-center relative z-20">
-              <ResponsiveContainer width="100%" height={200}>
+              <ResponsiveContainer width="100%" height={180}>
               <PieChart>
                 <Tooltip 
                   formatter={(value, name) => [`${value}%`, name]}
@@ -467,7 +449,7 @@ const Dashboard: React.FC = () => {
                 <div className="flex justify-center space-x-1 mt-2 flex-wrap">
                   {meetingsStatusData.map((item) => (
                     <div key={item.name} className="flex items-center space-x-1">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }}></div>
+                      <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }}></div>
                       <span className="text-xs text-gray-600 whitespace-nowrap">{item.name} {item.value}</span>
                     </div>
                   ))}
@@ -481,25 +463,27 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Second Row - Won/Loss Summary, Deals Lost, Empty1, Empty2 */}
-        <div className="grid grid-cols-4 gap-2 mt-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Won/Loss Summary */}
           <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="flex items-center justify-between p-4 pb-2">
-              <div className="flex items-center space-x-3">
-                <BarChart3 className="w-6 h-6 text-purple-500" />
-                <div>
-                  <p className="text-lg font-semibold text-gray-900">Win/Loss Insights</p>
+            <div className="p-4 pb-2">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-3">
+                  <BarChart3 className="w-6 h-6 text-purple-500" />
+                  <div>
+                    <p className="text-lg font-semibold text-gray-900">Win/Loss Insights</p>
+                  </div>
                 </div>
-              </div>
-              <div className="text-right">
-                <div className="flex items-center space-x-1">
-                  <TrendingUp className="w-4 h-4 text-green-600" />
-                  <p className="text-sm font-semibold text-green-600 mb-0">+5%</p>
+                <div className="text-right">
+                  <div className="flex items-center space-x-1">
+                    <TrendingUp className="w-4 h-4 text-green-600" />
+                    <p className="text-sm font-semibold text-green-600 mb-0">+5%</p>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="px-4 pb-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Win Chart */}
                  <div>
                   <ResponsiveContainer width="100%" height={120}>
@@ -576,7 +560,7 @@ const Dashboard: React.FC = () => {
           </div>
           
           {/* Meeting Booked Card */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 h-full">
             {/* 标题和趋势 */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-3">
@@ -601,7 +585,7 @@ const Dashboard: React.FC = () => {
           </div>
           
           {/* Meeting Cancelled Card */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 h-full">
             {/* 标题和趋势 */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-3">
@@ -631,7 +615,7 @@ const Dashboard: React.FC = () => {
           </div>
           
           {/* Meeting No-Show Card */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 h-full">
             {/* 标题和趋势 */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-3">
@@ -662,9 +646,9 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Third Row - Meeting No-Show */}
-        <div className="grid grid-cols-2 gap-3 mt-3">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
           {/* Meetings Table */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full">
             <div className="flex items-center justify-between p-4 pb-2">
               <div className="flex items-center space-x-3">
                 <Calendar className="w-6 h-6 text-[#605BFF]" />
@@ -677,25 +661,31 @@ const Dashboard: React.FC = () => {
               </button>
             </div>
             
-            <div className="overflow-x-auto px-4 pb-4">
-              <table className="w-full">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Subject</th>
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Duration</th>
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Action</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Name</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Subject</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Date</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase hidden md:table-cell">Duration</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {getMeetingsPaginatedData().map((meeting) => (
                     <tr key={meeting.id} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-2 px-2 text-sm text-gray-900">{meeting.name}</td>
-                      <td className="py-2 px-2 text-sm text-gray-900">{meeting.subject}</td>
-                      <td className="py-2 px-2 text-sm text-gray-600">{meeting.date}</td>
-                      <td className="py-2 px-2 text-sm text-gray-600">{meeting.duration}</td>
-                      <td className="py-2 px-2 text-sm text-gray-600">
+                      <td className="py-3 px-4">
+                        <div className="text-sm text-gray-900 font-medium">{meeting.name}</div>
+                        <div className="text-xs text-gray-500 sm:hidden">{meeting.subject}</div>
+                      </td>
+                      <td className="py-3 px-4 text-sm text-gray-900 hidden sm:table-cell">{meeting.subject}</td>
+                      <td className="py-3 px-4">
+                        <div className="text-sm text-gray-600">{meeting.date}</div>
+                        <div className="text-xs text-gray-500 md:hidden">{meeting.duration}</div>
+                      </td>
+                      <td className="py-3 px-4 text-sm text-gray-600 hidden md:table-cell">{meeting.duration}</td>
+                      <td className="py-3 px-4">
                         <button className="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-600 bg-transparent rounded hover:bg-blue-50 transition-colors">
                           <Eye className="w-4 h-4" />
                         </button>
@@ -704,6 +694,7 @@ const Dashboard: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+              <div className="px-4 pb-4">
               <PaginationComponent
                 currentPage={meetingsCurrentPage}
                 totalPages={meetingsTotalPages}
@@ -712,10 +703,11 @@ const Dashboard: React.FC = () => {
                 itemsPerPage={itemsPerPage}
               />
             </div>
+            </div>
           </div>
 
           {/* Coaching Table */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full">
             <div className="flex items-center justify-between p-4 pb-2">
               <div className="flex items-center space-x-3">
                 <UserCheck className="w-6 h-6 text-[#605BFF]" />
@@ -728,25 +720,31 @@ const Dashboard: React.FC = () => {
               </button>
             </div>
             
-            <div className="overflow-x-auto px-4 pb-4">
-              <table className="w-full">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Subject</th>
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Duration</th>
-                    <th className="text-left py-2 px-2 text-xs font-medium text-gray-500 uppercase">Action</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Name</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Subject</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Date</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase hidden md:table-cell">Duration</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {getCoachingPaginatedData().map((coaching) => (
                     <tr key={coaching.id} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-2 px-2 text-sm text-gray-900">{coaching.name}</td>
-                      <td className="py-2 px-2 text-sm text-gray-900">{coaching.subject}</td>
-                      <td className="py-2 px-2 text-sm text-gray-600">{coaching.date}</td>
-                      <td className="py-2 px-2 text-sm text-gray-600">{coaching.duration}</td>
-                      <td className="py-2 px-2 text-sm text-gray-600">
+                      <td className="py-3 px-4">
+                        <div className="text-sm text-gray-900 font-medium">{coaching.name}</div>
+                        <div className="text-xs text-gray-500 sm:hidden">{coaching.subject}</div>
+                      </td>
+                      <td className="py-3 px-4 text-sm text-gray-900 hidden sm:table-cell">{coaching.subject}</td>
+                      <td className="py-3 px-4">
+                        <div className="text-sm text-gray-600">{coaching.date}</div>
+                        <div className="text-xs text-gray-500 md:hidden">{coaching.duration}</div>
+                      </td>
+                      <td className="py-3 px-4 text-sm text-gray-600 hidden md:table-cell">{coaching.duration}</td>
+                      <td className="py-3 px-4">
                         <button className="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-600 bg-transparent rounded hover:bg-blue-50 transition-colors">
                           <Eye className="w-4 h-4" />
                         </button>
@@ -755,6 +753,7 @@ const Dashboard: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+              <div className="px-4 pb-4">
               <PaginationComponent
                 currentPage={coachingCurrentPage}
                 totalPages={coachingTotalPages}
@@ -762,6 +761,7 @@ const Dashboard: React.FC = () => {
                 totalItems={coachingData.length}
                 itemsPerPage={itemsPerPage}
               />
+            </div>
             </div>
           </div>
         </div>

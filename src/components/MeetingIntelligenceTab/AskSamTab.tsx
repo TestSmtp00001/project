@@ -387,56 +387,56 @@ const AskSamTab: React.FC = () => {
   }, [isDragging, isVerticalDragging]);
   
   return (
-    <div className="h-full flex relative" ref={containerRef} onMouseMove={handleDrag} onMouseUp={handleDragEnd}>
+    <div className="h-full flex relative overflow-hidden" ref={containerRef} onMouseMove={handleDrag} onMouseUp={handleDragEnd}>
       {/* Main Chat Area */}
-      <div className="flex flex-col" style={{ width: `${chatAreaWidth}%` }}>
+      <div className="flex flex-col w-full lg:w-auto" style={{ width: window.innerWidth >= 1024 ? `${chatAreaWidth}%` : '100%' }}>
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4">
           {chatHistory.map((message) => (
             <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-3xl ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
+              <div className={`max-w-full lg:max-w-3xl ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
                 <div className={`flex items-start space-x-3 ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                   {/* Avatar */}
-                   <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                   <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
                     message.type === 'user' 
                       ? 'bg-gray-400 text-white' 
                       : ''
                   }`}>
                     {message.type === 'user' ? 'You' : (
-                      <img src={SamAvatar} alt="Sam" className="w-full h-full object-cover" />
+                      <img src={SamAvatar} alt="Sam" className="w-full h-full object-cover text-xs lg:text-sm" />
                     )}
                   </div>
                   
                   {/* Message Content */}
                   <div className={`flex flex-col ${message.type === 'user' ? 'items-end' : 'items-start'}`}>
-                    <div className={`rounded-lg px-4 py-3 max-w-full ${
+                    <div className={`rounded-lg px-3 lg:px-4 py-2 lg:py-3 max-w-full ${
                       message.type === 'user'
                         ? 'bg-[#E0E6FF] text-gray-900'
                         : 'bg-white border border-gray-200 text-gray-900'
                     }`}>
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                      <p className="text-sm lg:text-base leading-relaxed whitespace-pre-wrap">{message.content}</p>
                     </div>
                     
                     {/* Message Actions */}
-                    <div className="flex items-center space-x-2 mt-2">
+                    <div className="flex items-center space-x-2 mt-1 lg:mt-2">
                       <span className="text-xs text-gray-500">{message.timestamp}</span>
                       {message.type === 'sam' && (
-                        <div className="flex items-center space-x-1">
+                        <div className="flex items-center space-x-1 lg:space-x-2">
                           <button className="p-1 text-gray-400 hover:text-green-600 transition-colors">
-                            <ThumbsUp className="w-3 h-3" />
+                            <ThumbsUp className="w-3 h-3 lg:w-4 lg:h-4" />
                           </button>
                           <button className="p-1 text-gray-400 hover:text-red-600 transition-colors">
-                            <ThumbsDown className="w-3 h-3" />
+                            <ThumbsDown className="w-3 h-3 lg:w-4 lg:h-4" />
                           </button>
                           <button className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
-                            <Copy className="w-3 h-3" />
+                            <Copy className="w-3 h-3 lg:w-4 lg:h-4" />
                           </button>
                           <button 
                             onClick={() => handleSaveResponse(message)}
                             className="p-1 text-gray-400 hover:text-[#605BFF] transition-colors"
                             title="Save response"
                           >
-                            <Bookmark className="w-3 h-3" />
+                            <Bookmark className="w-3 h-3 lg:w-4 lg:h-4" />
                           </button>
                         </div>
                       )}
@@ -450,7 +450,7 @@ const AskSamTab: React.FC = () => {
           {/* Loading indicator */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="flex items-start space-x-3">
+              <div className="flex items-start space-x-2 lg:space-x-3">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
                   <img src={SamAvatar} alt="Sam" className="w-full h-full object-cover" />
                 </div>
@@ -468,7 +468,7 @@ const AskSamTab: React.FC = () => {
         </div>
 
         {/* Input Area */}
-        <div className="border-t border-gray-200 p-4 bg-white">
+        <div className="border-t border-gray-200 p-3 lg:p-4 bg-white flex-shrink-0">
           <div className="flex-1 relative">
             <textarea
               value={inputValue}
@@ -480,32 +480,23 @@ const AskSamTab: React.FC = () => {
                 }
               }}
               placeholder="Ask Sam anything about your meeting, prospects, or sales strategy..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent resize-none pr-12"
+              className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent resize-none pr-12 text-sm lg:text-base"
               rows={3}
             />
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className="absolute right-3 bottom-3 p-2 disabled:opacity-50 disabled:cursor-not-allowed text-[#FF8E1C] hover:text-[#4B46CC] transition-colors"
+              className="absolute right-2 lg:right-3 bottom-2 lg:bottom-3 p-2 disabled:opacity-50 disabled:cursor-not-allowed text-[#FF8E1C] hover:text-[#4B46CC] transition-colors"
             >
-              <Send className="w-6 h-6" />
+              <Send className="w-5 h-5 lg:w-6 lg:h-6" />
             </button>
-            {/*<button
-              onClick={(e) => {
-                e.stopPropagation();
-                // Handle mic functionality here
-                console.log('Mic clicked');
-              }}
-              className="absolute right-12 bottom-3 p-2 text-[#FF8E1C]"
-            >
-              <Mic className="w-6 h-6" />
-            </button>*/}
           </div>
         </div>
       </div>
       
       {/* Draggable Divider */}
-      <div 
+      <div className={`${window.innerWidth >= 1024 ? 'block' : 'hidden'}`}>
+        <div 
         className="w-1 bg-gray-50 hover:bg-blue-300 cursor-col-resize active:bg-blue-400 transition-all duration-200 relative group border-l border-r border-gray-100"
         onMouseDown={handleDragStart}
       >
@@ -515,11 +506,12 @@ const AskSamTab: React.FC = () => {
           </div>
         </div>
       </div>
+      </div>
       
       {/* Right Sidebar */}
-      <div className="border-l border-gray-200 bg-gray-50 flex flex-col" style={{ width: `${100 - chatAreaWidth}%` }} ref={sidebarRef}>
+      <div className={`${window.innerWidth >= 1024 ? 'block' : 'hidden'} border-l border-gray-200 bg-gray-50 flex flex-col`} style={{ width: `${100 - chatAreaWidth}%` }} ref={sidebarRef}>
         {/* Recommended Questions */}
-         <div style={{ height: `${recommendedQuestionsHeight}px` }} className="p-4 border-b border-gray-200 bg-white overflow-hidden">
+         <div style={{ height: `${recommendedQuestionsHeight}px` }} className="p-3 lg:p-4 border-b border-gray-200 bg-white overflow-hidden">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold text-gray-900">Recommended Questions</h3>
             <div className="flex items-center space-x-2">
@@ -573,54 +565,54 @@ const AskSamTab: React.FC = () => {
           </div>
           
           {/* Search Box */}
-          <div className="relative mb-3">
+          <div className="relative mb-2 lg:mb-3">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
               placeholder="Enter keywords"
               value={questionSearch}
               onChange={(e) => setQuestionSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
+              className="w-full pl-9 pr-4 py-2 text-xs lg:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
             />
           </div>
           
           {/* Tabs */}
-          <div className="flex border-b border-gray-200 mb-3">
+          <div className="flex border-b border-gray-200 mb-2 lg:mb-3">
             <button
               onClick={() => setRecommendedQuestionsTab('bank')}
-              className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-colors ${
+              className={`flex items-center space-x-1 lg:space-x-2 px-2 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-colors ${
                 recommendedQuestionsTab === 'bank'
                   ? 'text-[#605BFF] border-b-2 border-[#605BFF]'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Database className="w-4 h-4" />
+              <Database className="w-3 h-3 lg:w-4 lg:h-4" />
               <span>Question Bank</span>
             </button>
             <button
               onClick={() => setRecommendedQuestionsTab('my')}
-              className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-colors ${
+              className={`flex items-center space-x-1 lg:space-x-2 px-2 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-colors ${
                 recommendedQuestionsTab === 'my'
                   ? 'text-[#605BFF] border-b-2 border-[#605BFF]'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <UserIcon className="w-4 h-4" />
+              <UserIcon className="w-3 h-3 lg:w-4 lg:h-4" />
               <span>My Questions</span>
             </button>
           </div>
           
-          <div className="space-y-2 overflow-y-auto" style={{ maxHeight: `${recommendedQuestionsHeight - 140}px` }}>
+          <div className="space-y-1 lg:space-y-2 overflow-y-auto" style={{ maxHeight: `${recommendedQuestionsHeight - 140}px` }}>
             {filteredQuestions.map((question, index) => (
               <button
                 key={index}
                 onClick={() => handleQuestionClick(question)}
-                className="w-full text-left p-3 text-sm bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors group"
+                className="w-full text-left p-2 lg:p-3 text-xs lg:text-sm bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors group"
               >
                 <div className="flex items-start justify-between">
                   <span className="flex-1">{question}</span>
                   {recommendedQuestionsTab === 'my' && (
-                    <button className="opacity-0 group-hover:opacity-100 ml-2 p-1 hover:bg-gray-200 rounded transition-all">
+                    <button className="opacity-0 group-hover:opacity-100 ml-1 lg:ml-2 p-1 hover:bg-gray-200 rounded transition-all">
                       <MoreVertical className="w-3 h-3 text-gray-400" />
                     </button>
                   )}
@@ -629,7 +621,7 @@ const AskSamTab: React.FC = () => {
             ))}
             
             {filteredQuestions.length === 0 && (
-              <div className="text-center py-4 text-gray-500 text-sm">
+              <div className="text-center py-4 text-gray-500 text-xs lg:text-sm">
                 {questionSearch ? 'No questions found' : 'No questions available'}
               </div>
             )}
@@ -637,7 +629,7 @@ const AskSamTab: React.FC = () => {
         </div>
         {/* Vertical Draggable Divider */}
         <div 
-          className="h-1 bg-gray-50 hover:bg-blue-300 cursor-row-resize active:bg-blue-400 transition-all duration-200 relative group border-t border-b border-gray-100"
+          className="h-1 bg-gray-50 hover:bg-blue-300 cursor-row-resize active:bg-blue-400 transition-all duration-200 relative group border-t border-b border-gray-100 hidden lg:block"
           onMouseDown={(e) => {
             setIsVerticalDragging(true);
             document.body.style.cursor = 'row-resize';
@@ -653,43 +645,43 @@ const AskSamTab: React.FC = () => {
         {/* History and Notes Tabs */}
         <div className="flex-1 flex flex-col">
           {/* Tab Navigation */}
-          <div className="flex border-b border-gray-200 bg-white">
+          <div className="flex border-b border-gray-200 bg-white text-xs lg:text-sm">
             <button
               onClick={() => setActiveTab('history')}
-              className={`flex-1 px-2 py-3 text-sm font-medium transition-colors ${
+              className={`flex-1 px-1 lg:px-2 py-2 lg:py-3 font-medium transition-colors ${
                 activeTab === 'history'
                   ? 'text-[#605BFF] border-b-2 border-[#605BFF] bg-white'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <div className="flex items-center justify-center space-x-2">
-                <History className="w-4 h-4" />
+              <div className="flex items-center justify-center space-x-1 lg:space-x-2">
+                <History className="w-3 h-3 lg:w-4 lg:h-4" />
                 <span>History</span>
               </div>
             </button>
             <button
               onClick={() => setActiveTab('notes')}
-              className={`flex-1 px-2 py-3 text-sm font-medium transition-colors ${
+              className={`flex-1 px-1 lg:px-2 py-2 lg:py-3 font-medium transition-colors ${
                 activeTab === 'notes'
                   ? 'text-[#605BFF] border-b-2 border-[#605BFF] bg-white'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <div className="flex items-center justify-center space-x-2">
-                <StickyNote className="w-4 h-4" />
+              <div className="flex items-center justify-center space-x-1 lg:space-x-2">
+                <StickyNote className="w-3 h-3 lg:w-4 lg:h-4" />
                 <span>Notes</span>
               </div>
             </button>
             <button
               onClick={() => setActiveTab('saved')}
-              className={`flex-1 px-2 py-3 text-sm font-medium transition-colors ${
+              className={`flex-1 px-1 lg:px-2 py-2 lg:py-3 font-medium transition-colors ${
                 activeTab === 'saved'
                   ? 'text-[#605BFF] border-b-2 border-[#605BFF] bg-white'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <div className="flex items-center justify-center space-x-2">
-                <Bookmark className="w-4 h-4" />
+              <div className="flex items-center justify-center space-x-1 lg:space-x-2">
+                <Bookmark className="w-3 h-3 lg:w-4 lg:h-4" />
                 <span>Saved</span>
               </div>
             </button>
@@ -698,24 +690,24 @@ const AskSamTab: React.FC = () => {
           {/* Tab Content */}
           <div className="flex-1 overflow-y-auto">
             {activeTab === 'history' ? (
-              <div className="p-4 space-y-3">
+              <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-medium text-gray-900">Recent Conversations</h4>
+                  <h4 className="text-sm lg:text-base font-medium text-gray-900">Recent Conversations</h4>
                   <button className="text-gray-400 hover:text-gray-600">
                     <Search className="w-4 h-4" />
                   </button>
                 </div>
                 {chatHistory.filter(msg => msg.type === 'user').map((message, index) => (
-                  <div key={index} className="p-3 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer">
-                    <p className="text-sm text-gray-900 line-clamp-2">{message.content}</p>
+                  <div key={index} className="p-2 lg:p-3 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer">
+                    <p className="text-xs lg:text-sm text-gray-900 line-clamp-2">{message.content}</p>
                     <p className="text-xs text-gray-500 mt-1">{message.timestamp}</p>
                   </div>
                 ))}
               </div>
             ) : activeTab === 'notes' ? (
-              <div className="p-4 space-y-3">
+              <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-medium text-gray-900">My Notes</h4>
+                  <h4 className="text-sm lg:text-base font-medium text-gray-900">My Notes</h4>
                   <button
                     onClick={() => setShowAddNote(true)}
                     className="text-[#605BFF] hover:text-[#4B46CC] transition-colors"
@@ -726,18 +718,18 @@ const AskSamTab: React.FC = () => {
 
                 {/* Add Note Form */}
                 {showAddNote && (
-                  <div className="p-3 bg-white rounded-lg border border-gray-200 space-y-3">
+                  <div className="p-2 lg:p-3 bg-white rounded-lg border border-gray-200 space-y-2 lg:space-y-3">
                     <input
                       type="text"
                       value={newNoteTitle}
                       onChange={(e) => setNewNoteTitle(e.target.value)}
                       placeholder="Note title..."
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
+                      className="w-full px-2 lg:px-3 py-2 text-xs lg:text-sm border border-gray-300 rounded focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
                     />
                     <div className="flex space-x-2">
                       <button
                         onClick={handleAddNote}
-                        className="px-3 py-1 bg-[#605BFF] text-white text-sm rounded hover:bg-[#4B46CC] transition-colors"
+                        className="px-2 lg:px-3 py-1 bg-[#605BFF] text-white text-xs lg:text-sm rounded hover:bg-[#4B46CC] transition-colors"
                       >
                         Add
                       </button>
@@ -746,7 +738,7 @@ const AskSamTab: React.FC = () => {
                           setShowAddNote(false);
                           setNewNoteTitle('');
                         }}
-                        className="px-3 py-1 text-gray-600 text-sm rounded hover:text-gray-900 transition-colors"
+                        className="px-2 lg:px-3 py-1 text-gray-600 text-xs lg:text-sm rounded hover:text-gray-900 transition-colors"
                       >
                         Cancel
                       </button>
@@ -756,9 +748,9 @@ const AskSamTab: React.FC = () => {
 
                 {/* Notes List */}
                 {notes.map((note) => (
-                  <div key={note.id} className="p-3 bg-white rounded-lg border border-gray-200">
+                  <div key={note.id} className="p-2 lg:p-3 bg-white rounded-lg border border-gray-200">
                     <div className="flex items-start justify-between mb-2">
-                      <h5 className="font-medium text-gray-900 text-sm">{note.title}</h5>
+                      <h5 className="font-medium text-gray-900 text-xs lg:text-sm">{note.title}</h5>
                       <div className="flex items-center space-x-1">
                         <button
                           onClick={() => handleEditNote(note.id)}
@@ -776,11 +768,11 @@ const AskSamTab: React.FC = () => {
                     </div>
                     
                     {note.isEditing ? (
-                      <div className="space-y-2">
+                      <div className="space-y-1 lg:space-y-2">
                         <textarea
                           defaultValue={note.content}
                           placeholder="Add your note content..."
-                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#605BFF] focus:border-transparent resize-none"
+                          className="w-full px-2 py-1 text-xs lg:text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#605BFF] focus:border-transparent resize-none"
                           rows={3}
                           onBlur={(e) => handleSaveNote(note.id, e.target.value)}
                         />
@@ -790,7 +782,7 @@ const AskSamTab: React.FC = () => {
                               const textarea = e.currentTarget.parentElement?.previousElementSibling as HTMLTextAreaElement;
                               handleSaveNote(note.id, textarea?.value || '');
                             }}
-                            className="px-2 py-1 bg-[#605BFF] text-white text-xs rounded hover:bg-[#4B46CC] transition-colors"
+                            className="px-2 py-1 bg-[#605BFF] text-white text-xs lg:text-sm rounded hover:bg-[#4B46CC] transition-colors"
                           >
                             Save
                           </button>
@@ -798,7 +790,7 @@ const AskSamTab: React.FC = () => {
                       </div>
                     ) : (
                       <>
-                        <p className="text-sm text-gray-700 mb-2">{note.content}</p>
+                        <p className="text-xs lg:text-sm text-gray-700 mb-2">{note.content}</p>
                         <p className="text-xs text-gray-500">{note.timestamp}</p>
                       </>
                     )}
@@ -806,9 +798,9 @@ const AskSamTab: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="p-4 space-y-3">
+              <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-medium text-gray-900">Saved Responses</h4>
+                  <h4 className="text-sm lg:text-base font-medium text-gray-900">Saved Responses</h4>
                   <div className="flex items-center space-x-2">
                     <span className="text-xs text-gray-500">{savedResponses.length} saved</span>
                   </div>
@@ -816,11 +808,11 @@ const AskSamTab: React.FC = () => {
 
                 {/* Saved Responses List */}
                 {savedResponses.map((response) => (
-                  <div key={response.id} className="p-3 bg-white rounded-lg border border-gray-200">
+                  <div key={response.id} className="p-2 lg:p-3 bg-white rounded-lg border border-gray-200">
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                          <h5 className="font-medium text-gray-900 text-sm">{response.title}</h5>
+                          <h5 className="font-medium text-gray-900 text-xs lg:text-sm">{response.title}</h5>
                           <div className="flex items-center">
                             {response.isPrivate ? (
                               <Lock className="w-3 h-3 text-gray-400" title="Private" />
@@ -838,14 +830,14 @@ const AskSamTab: React.FC = () => {
                         <Trash2 className="w-3 h-3" />
                       </button>
                     </div>
-                    <p className="text-sm text-gray-700 line-clamp-3">{response.content}</p>
+                    <p className="text-xs lg:text-sm text-gray-700 line-clamp-3">{response.content}</p>
                   </div>
                 ))}
 
                 {savedResponses.length === 0 && (
-                  <div className="text-center py-8">
+                  <div className="text-center py-4 lg:py-8">
                     <Bookmark className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                    <p className="text-sm text-gray-500">No saved responses yet</p>
+                    <p className="text-xs lg:text-sm text-gray-500">No saved responses yet</p>
                     <p className="text-xs text-gray-400 mt-1">Click the bookmark icon on Sam's responses to save them</p>
                   </div>
                 )}
@@ -857,10 +849,10 @@ const AskSamTab: React.FC = () => {
 
       {/* Save Response Modal */}
       {saveModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-96 max-w-full mx-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Save Response</h3>
+              <h3 className="text-base lg:text-lg font-semibold text-gray-900">Save Response</h3>
               <button
                 onClick={() => setSaveModalOpen(false)}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -871,7 +863,7 @@ const AskSamTab: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
                   Title
                 </label>
                 <input
@@ -879,12 +871,12 @@ const AskSamTab: React.FC = () => {
                   value={saveTitle}
                   onChange={(e) => setSaveTitle(e.target.value)}
                   placeholder="Enter a title for this response..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
                   Privacy
                 </label>
                 <div className="space-y-2">
@@ -897,7 +889,7 @@ const AskSamTab: React.FC = () => {
                       className="mr-2 text-[#605BFF] focus:ring-[#605BFF]"
                     />
                     <Lock className="w-4 h-4 text-gray-500 mr-2" />
-                    <span className="text-sm text-gray-700">Private (only you can see this)</span>
+                    <span className="text-xs lg:text-sm text-gray-700">Private (only you can see this)</span>
                   </label>
                   <label className="flex items-center">
                     <input
@@ -908,14 +900,14 @@ const AskSamTab: React.FC = () => {
                       className="mr-2 text-[#605BFF] focus:ring-[#605BFF]"
                     />
                     <Globe className="w-4 h-4 text-green-500 mr-2" />
-                    <span className="text-sm text-gray-700">Public (visible to team members)</span>
+                    <span className="text-xs lg:text-sm text-gray-700">Public (visible to team members)</span>
                   </label>
                 </div>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-3">
-                <p className="text-sm text-gray-600 mb-1">Response Preview:</p>
-                <p className="text-sm text-gray-900 line-clamp-4">{messageToSave?.content}</p>
+                <p className="text-xs lg:text-sm text-gray-600 mb-1">Response Preview:</p>
+                <p className="text-xs lg:text-sm text-gray-900 line-clamp-4">{messageToSave?.content}</p>
               </div>
             </div>
 
@@ -923,14 +915,14 @@ const AskSamTab: React.FC = () => {
               <button
                 onClick={confirmSaveResponse}
                 disabled={!saveTitle.trim()}
-                className="flex-1 px-4 py-2 bg-[#605BFF] text-white rounded-lg hover:bg-[#4B46CC] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="flex-1 px-4 py-2 bg-[#605BFF] text-white text-sm rounded-lg hover:bg-[#4B46CC] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Response</span>
               </button>
               <button
                 onClick={() => setSaveModalOpen(false)}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
