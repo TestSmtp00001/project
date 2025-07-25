@@ -738,14 +738,9 @@ const AskSamTab: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      {/* Main Content */}
-      <div className="flex-1 overflow-hidden">
-        {showQuestionsExpanded ? renderQuestionsContent() : renderContent()}
-      </div>
-
-      {/* Bottom Navigation */}
+      {/* Top Navigation */}
       {!showQuestionsExpanded && (
-        <div className="border-t border-gray-200 bg-white">
+        <div className="border-b border-gray-200 bg-white">
           <div className="flex">
             <button
               onClick={() => setActiveBottomTab('chat')}
@@ -800,6 +795,11 @@ const AskSamTab: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Main Content */}
+      <div className="flex-1 overflow-hidden">
+        {showQuestionsExpanded ? renderQuestionsContent() : renderContent()}
+      </div>
 
       {/* Save Response Modal */}
       {saveModalOpen && (
