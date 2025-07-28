@@ -86,7 +86,7 @@ const MeetingIntelligence: React.FC = () => {
           <div className="flex items-center">
             <span className="text-xs font-medium text-gray-900 flex items-center">
               <Edit className="w-4 h-4 text-[#605BFF] mr-2" />
-              Jul 18, 10:45 - Driving Rapid Revenue Growth
+              Driving Rapid Revenue Growth
             </span>
           </div>
           <div className="flex items-center space-x-1">
