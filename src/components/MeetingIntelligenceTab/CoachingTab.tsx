@@ -114,7 +114,7 @@ const CoachingTab: React.FC = () => {
           >
             {getTabIcon('qualification')}
           </button>
-          <button
+          {/*<button
             onClick={() => setActiveTab('upskill')}
             className={`flex flex-col items-center py-3 px-4 rounded-lg transition-colors ${
               activeTab === 'upskill'
@@ -123,7 +123,7 @@ const CoachingTab: React.FC = () => {
             }`}
           >
             {getTabIcon('upskill')}
-          </button>
+          </button>*/}
         </div>
       </div>
 
