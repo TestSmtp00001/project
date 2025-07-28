@@ -115,7 +115,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'opening',
       title: 'Opening',
-      icon: <MessageSquare className="w-5 h-5" />,
+      icon: null,
       subParts: [
         {
           id: 'rapport-building',
@@ -162,7 +162,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'discovery',
       title: 'Discovery',
-      icon: <Search className="w-5 h-5" />,
+      icon: null,
       subParts: [
         {
           id: 'open-ended-questions',
@@ -209,7 +209,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'demo',
       title: 'Demo',
-      icon: <Play className="w-5 h-5" />,
+      icon: null,
       subParts: [
         {
           id: 'relevance',
@@ -268,7 +268,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'solution-framing',
       title: 'Solution Framing',
-      icon: <Lightbulb className="w-5 h-5" />,
+      icon: null,
       subParts: [
         {
           id: 'simplicity',
@@ -314,7 +314,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'objection-handling',
       title: 'Objection Handling',
-      icon: <Shield className="w-5 h-5" />,
+      icon: null,
       subParts: [
         {
           id: 'listening-acknowledging',
@@ -360,7 +360,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'closing',
       title: 'Closing & Next Steps',
-      icon: <CheckCircle className="w-5 h-5" />,
+      icon: null,
       subParts: [
         {
           id: 'confidence-timing',
