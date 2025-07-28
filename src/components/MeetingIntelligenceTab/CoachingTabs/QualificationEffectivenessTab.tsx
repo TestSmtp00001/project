@@ -33,22 +33,28 @@ import {
   UserCheck,
   Trophy,
   AlertCircle,
-  FileText
+  FileText,
+  ChevronDown
 } from 'lucide-react';
+
+interface SubPart {
+  id: string;
+  title: string;
+  review: string;
+  whatWorkedWell: string[];
+  whatToImprove: string[];
+}
 
 interface QualificationSection {
   id: string;
   title: string;
   icon: React.ReactNode;
-  score: number;
-  maxScore: number;
-  whatWasUncovered: string[];
-  gap: string[];
-  recommendedQuestions: string[];
+  subParts: SubPart[];
 }
 
 const QualificationEffectivenessTab: React.FC = () => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [expandedSubParts, setExpandedSubParts] = useState<Set<string>>(new Set());
   const [expandedRecommendations, setExpandedRecommendations] = useState<boolean>(false);
   const [expandedConsequences, setExpandedConsequences] = useState<boolean>(false);
 
@@ -64,6 +70,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'preparation',
       title: 'Preparation',
+      icon: <Target className="w-5 h-5" />,
       subParts: [
         {
           id: 'pre-call-research',
@@ -108,6 +115,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'opening',
       title: 'Opening',
+      icon: <MessageSquare className="w-5 h-5" />,
       subParts: [
         {
           id: 'rapport-building',
@@ -154,6 +162,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'discovery',
       title: 'Discovery',
+      icon: <Search className="w-5 h-5" />,
       subParts: [
         {
           id: 'open-ended-questions',
@@ -200,6 +209,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'demo',
       title: 'Demo',
+      icon: <Play className="w-5 h-5" />,
       subParts: [
         {
           id: 'relevance',
@@ -258,6 +268,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'solution-framing',
       title: 'Solution Framing',
+      icon: <Lightbulb className="w-5 h-5" />,
       subParts: [
         {
           id: 'simplicity',
@@ -303,6 +314,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'objection-handling',
       title: 'Objection Handling',
+      icon: <Shield className="w-5 h-5" />,
       subParts: [
         {
           id: 'listening-acknowledging',
@@ -348,6 +360,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'closing',
       title: 'Closing & Next Steps',
+      icon: <CheckCircle className="w-5 h-5" />,
       subParts: [
         {
           id: 'confidence-timing',
@@ -392,19 +405,18 @@ const QualificationEffectivenessTab: React.FC = () => {
     }
   ];
 
-  const getScoreColor = (score: number, maxScore: number) => {
-    const percentage = (score / maxScore) * 100;
-    if (percentage >= 80) return 'text-green-600';
-    if (percentage >= 60) return 'text-yellow-600';
-    return 'text-red-600';
-  };
-
-  const overallScore = qualificationSections.reduce((sum, section) => sum + section.score, 0);
-  const maxOverallScore = qualificationSections.reduce((sum, section) => sum + section.maxScore, 0);
-  const overallPercentage = Math.round((overallScore / maxOverallScore) * 100);
-
   const toggleSection = (sectionId: string) => {
     setExpandedSection(expandedSection === sectionId ? null : sectionId);
+  };
+
+  const toggleSubPart = (subPartId: string) => {
+    const newExpandedSubParts = new Set(expandedSubParts);
+    if (newExpandedSubParts.has(subPartId)) {
+      newExpandedSubParts.delete(subPartId);
+    } else {
+      newExpandedSubParts.add(subPartId);
+    }
+    setExpandedSubParts(newExpandedSubParts);
   };
 
   return (
@@ -412,7 +424,6 @@ const QualificationEffectivenessTab: React.FC = () => {
       {/* Qualification Sections */}
       <div className="space-y-4">
         {qualificationSections.map((section) => {
-          const percentage = Math.round((section.score / section.maxScore) * 100);
           const isExpanded = expandedSection === section.id;
           
           return (
