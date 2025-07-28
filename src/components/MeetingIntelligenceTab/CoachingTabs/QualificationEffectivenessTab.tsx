@@ -440,54 +440,58 @@ const QualificationEffectivenessTab: React.FC = () => {
               {isExpanded && (
                 <div className="px-4 pb-4">
                   <div className="border-t border-gray-100 pt-4">
-                    <div className="space-y-6">
-                      {/* What Was Uncovered */}
-                      <div>
-                        <h4 className="text-sm font-semibold text-green-700 mb-3 flex items-center">
-                          <CheckCircle className="w-4 h-4 mr-2" />
-                          What Was Uncovered
-                        </h4>
-                        <div className="space-y-2 ml-6">
-                          {section.whatWasUncovered.map((item, index) => (
-                            <div key={index} className="flex items-start space-x-2">
-                              <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                              <span className="text-sm text-gray-700">{item}</span>
+                    <div className="space-y-4">
+                      {section.subParts.map((subPart) => {
+                        const isSubPartExpanded = expandedSubParts.has(subPart.id);
+                        
+                        return (
+                          <div key={subPart.id} className="border border-gray-200 rounded-lg">
+                            <div 
+                              className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                              onClick={() => toggleSubPart(subPart.id)}
+                            >
+                              <h4 className="font-medium text-gray-900">{subPart.title}</h4>
+                              <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${
+                                  isSubPartExpanded ? 'rotate-180' : ''
+                              }`} />
                             </div>
-                          ))}
-                        </div>
-                      </div>
+                            
+                            {isSubPartExpanded && (
+                              <div className="px-3 pb-3">
+                                <div className="border-t border-gray-100 pt-3">
+                                  <div className="grid grid-cols-3 gap-4">
+                                    {/* Review */}
+                                    <div className="border border-blue-300 p-3 rounded-lg">
+                                      <h5 className="text-sm font-semibold text-blue-700 mb-2">Review</h5>
+                                      <p className="text-sm text-gray-700">{subPart.review}</p>
+                                    </div>
 
-                      {/* Gap */}
-                      <div>
-                        <h4 className="text-sm font-semibold text-red-700 mb-3 flex items-center">
-                          <AlertTriangle className="w-4 h-4 mr-2" />
-                          Gap
-                        </h4>
-                        <div className="space-y-2 ml-6">
-                          {section.gap.map((item, index) => (
-                            <div key={index} className="flex items-start space-x-2">
-                              <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                              <span className="text-sm text-gray-700">{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                                    {/* What Worked Well */}
+                                    <div className="border border-green-300 p-3 rounded-lg">
+                                      <h5 className="text-sm font-semibold text-green-700 mb-2">What Worked Well</h5>
+                                      <div className="space-y-1">
+                                        {subPart.whatWorkedWell.map((item, index) => (
+                                          <p key={index} className="text-sm text-gray-700">{item}</p>
+                                        ))}
+                                      </div>
+                                    </div>
 
-                      {/* Recommended Questions */}
-                      <div>
-                        <h4 className="text-sm font-semibold text-blue-700 mb-3 flex items-center">
-                          <HelpCircle className="w-4 h-4 mr-2" />
-                          Recommended Questions
-                        </h4>
-                        <div className="space-y-2 ml-6">
-                          {section.recommendedQuestions.map((question, index) => (
-                            <div key={index} className="flex items-start space-x-2">
-                              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                              <span className="text-sm text-gray-700">{question}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                                    {/* What To Improve */}
+                                    <div className="border border-orange-300 p-3 rounded-lg">
+                                      <h5 className="text-sm font-semibold text-orange-700 mb-2">What To Improve</h5>
+                                      <div className="space-y-1">
+                                        {subPart.whatToImprove.map((item, index) => (
+                                          <p key={index} className="text-sm text-gray-700">{item}</p>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -495,135 +499,6 @@ const QualificationEffectivenessTab: React.FC = () => {
             </div>
           );
         })}
-      </div>
-
-      {/* Summary of Recommendations */}
-      <div className="bg-white rounded-lg border border-gray-200">
-        <div 
-          className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-          onClick={() => setExpandedRecommendations(!expandedRecommendations)}
-        >
-          <div className="flex items-center space-x-4">
-            <div className="text-[#FF8E1C]">
-              {/* Space */}
-            </div>
-            <div>
-              <div className="flex items-center space-x-3">
-                <h3 className="text-lg font-semibold text-gray-900">Summary of Recommendations</h3>
-              </div>
-            </div>
-          </div>
-          
-          <ChevronRight className={`w-5 h-5 text-gray-400 transition-transform ${
-              expandedRecommendations ? 'rotate-90' : ''
-          }`} />
-        </div>
-        
-        {expandedRecommendations && (
-          <div className="px-4 pb-4">
-            <div className="border-t border-gray-100 pt-4">
-              <div className="space-y-3">
-                {recommendations.map((recommendation, index) => (
-                  <div key={index} className="flex items-start space-x-3">  
-                    <div className="w-2 h-2 bg-[#605BFF] rounded-full mt-2 flex-shrink-0"></div>
-                    <div className="flex-1">
-                      <p className="text-gray-900 leading-relaxed">{recommendation}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Consequences of Inaction */}
-      <div className="bg-white rounded-lg border border-gray-200">
-        <div 
-          className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-          onClick={() => setExpandedConsequences(!expandedConsequences)}
-        >
-          <div className="flex items-center space-x-4">
-            <div className="text-[#FF8E1C]">
-              {/* Space */}
-            </div>
-            <div>
-              <div className="flex items-center space-x-3">
-                <h3 className="text-lg font-semibold text-gray-900">Consequences of Inaction</h3>
-              </div>
-            </div>
-          </div>
-          
-          <ChevronRight className={`w-5 h-5 text-gray-400 transition-transform ${
-              expandedConsequences ? 'rotate-90' : ''
-          }`} />
-        </div>
-        
-        {expandedConsequences && (
-          <div className="px-4 pb-4">
-            <div className="border-t border-gray-100 pt-4">
-              <div className="space-y-4">
-                <div className="p-4 rounded-lg">
-                  <p className="text-gray-700 mb-4">
-                    The consequences of not moving forward with this solution were not explicitly outlined during the meeting, but based on the discussion, several critical risks emerge. The salesperson missed an opportunity to create urgency by not directly asking about the impact of maintaining the status quo with 23% efficiency losses and Q4 target pressures.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-900 flex items-center space-x-2">
-                        <DollarSign className="w-5 h-5 text-red-600 flex-shrink-0" />
-                        <span>Financial & Operational Impact</span>
-                      </h4>
-                      <div className="space-y-2 text-sm text-gray-700">
-                        <div className="flex items-start space-x-2 ml-7">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Continued 23% efficiency losses costing significant productivity</span>
-                        </div>
-                        <div className="flex items-start space-x-2 ml-7">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Missing Q4 efficiency targets and board expectations</span>
-                        </div>
-                        <div className="flex items-start space-x-2 ml-7">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Increased operational costs due to inefficient processes</span>
-                        </div>
-                        <div className="flex items-start space-x-2 ml-7">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Delayed ROI realization pushing benefits into next fiscal year</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-900 flex items-center space-x-2">
-                        <Shield className="w-5 h-5 text-red-600 flex-shrink-0" />
-                        <span>Strategic & Competitive Risks</span>
-                      </h4>
-                      <div className="space-y-2 text-sm text-gray-700">
-                        <div className="flex items-start space-x-2 ml-7">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Competitive disadvantage if other vendors are selected</span>
-                        </div>
-                        <div className="flex items-start space-x-2 ml-7">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Lost opportunities for volume pricing and favorable terms</span>
-                        </div>
-                        <div className="flex items-start space-x-2 ml-7">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Potential for competitor to establish foothold in organization</span>
-                        </div>
-                        <div className="flex items-start space-x-2 ml-7">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Team morale impact from continued operational challenges</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
