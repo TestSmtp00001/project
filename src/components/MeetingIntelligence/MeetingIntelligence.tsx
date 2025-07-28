@@ -90,7 +90,7 @@ const MeetingIntelligence: React.FC = () => {
             </span>
           </div>
           <div className="flex items-center space-x-1">
-            <button className="p-1 bg-[#605BFF] text-white rounded" title="Add Transcript">
+            <button className="p-1 bg-[#605BFF] text-white" title="Add Transcript">
               <Plus className="w-4 h-4" />
             </button>
             <button className="p-1 border border-[#605BFF] text-[#605BFF] rounded" title="Link">
