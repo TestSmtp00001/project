@@ -21,173 +21,93 @@ const SummaryTab: React.FC = () => {
     setExpandedSections(newExpanded);
   };
 
-  const sections: SectionData[] = [
-    {
-      id: 'attendees',
-      title: 'Attendees',
-      icon: null,
-      items: [
-        'David Miller - Sales Representative (Our Company)',
-        'Jennifer Walsh - VP of Operations (Prospect)',
-        'Robert Chen - CFO (Prospect)',
-        'Lisa Martinez - Procurement Director (Mentioned, not present)'
-      ]
-    },
+const sections: SectionData[] = [
     {
       id: 'overview',
       title: 'Overview',
       icon: null,
       items: [
-        'Quarterly business review meeting to discuss partnership expansion',
-        'Review of successful pilot program results showing 23% efficiency improvement',
-        'Discussion of full East Coast rollout with volume pricing',
-        'Technical integration requirements and timeline planning',
-        'Next steps for proposal review and decision-making process'
+        "Jennifer from Employment Hero had a call with David to discuss Employment Hero's employer of record services, particularly for David's company's potential expansion into the US. David is currently using contractors in Ukraine and Australia. The discussion covered the setup of Employment Hero, costs associated with hiring through them (including health insurance), onboarding processes, and support provided during and after employment. David offered to send David a follow-up email with details on costs and other information."
       ]
     },
     {
-      id: 'keypoints',
-      title: 'Key Points',
+      id: 'opening',
+      title: 'Opening',
       icon: null,
       items: [
-        'Pilot program exceeded expectations with 23% efficiency improvement',
-        '15% volume discount offered for expanded deployment',
-        '8-week implementation timeline proposed',
-        'Pre-built CRM connectors available for major platforms',
-        'Zero-downtime migration using parallel processing approach',
-        '99.9% uptime SLA and 98% customer retention rate highlighted'
+        "Jennifer initiated the conversation by asking David about his work arrangement, inquiring about working remotely versus in the office.",
+        "Jennifer acknowledged and validated David's points about office distractions, creating a common ground.",
+        "Jennifer briefly introduced Employment Hero's remote-first approach and global presence.",
+        "Jennifer confirmed David's prior knowledge about Employment Hero's funding and expressed appreciation for David's time.",
+        "Jennifer transitioned into the purpose of the call, referencing a previous conversation with Mark about David's company's potential expansion."
+      ],
+      observations: [
+        "Jennifer established rapport effectively by discussing work arrangements and validating David's perspective on office distractions.",
+        "The transition to business discussion was smooth and natural, referencing previous conversations to maintain continuity.",
+        "Jennifer demonstrated preparation by acknowledging David's existing knowledge about the company's funding status."
       ]
     },
     {
-      id: 'opportunities',
-      title: 'Sales Opportunities',
+      id: 'discovery',
+      title: 'Discovery',
       icon: null,
       items: [
-        'Full East Coast operations expansion (significant revenue opportunity)',
-        'Volume pricing creates competitive advantage over other vendors',
-        'Strong ROI case based on pilot results',
-        'Potential for additional regional office implementations',
-        'Long-term partnership opportunity with Fortune 500 company',
-        'Reference customer potential for future sales'
+        'David mentioned they have two part-time contractors in Ukraine and two in Australia and are planning to expand to the US with full-time employees.',
+        'David clarified that the US hires would be sales-oriented (SDRs and AEs), while tech roles are based in Sydney and Ukraine.',
+        'David stated that they are passively looking for US talent and will actively hire once they secure a few clients, but are open to exceptional candidates.',
+        'David confirmed familiarity with the employer of record model at a high level.'
+      ],
+      observations: [
+        "David clearly communicated his current team structure and future hiring plans.",
+        "David outlined the roles he's looking to fill in the US, providing Jennifer with specific information to tailor her pitch.",
+        "David shared his timeline and criteria for hiring, allowing Jennifer to understand the urgency and decision-making process."
       ]
     },
     {
-      id: 'issues',
-      title: 'Issues, Implication & Influence',
+      id: 'demonstration',
+      title: 'Demonstration',
       icon: null,
       items: [
-        'IT team concerns about CRM integration and data migration',
-        'Procurement team involvement required for contract terms',
-        'Board focus on cash flow impact this quarter',
-        'Competing with two other vendors in evaluation process',
-        'Zero-downtime requirement for customer-facing operations',
-        'Need for comprehensive risk assessment and customer references'
+        'Jennifer explained that Employment Hero acts as the legal employer, ensuring compliance with local laws and handling payroll.',
+        'Jennifer clarified the entity structure, noting that while Employment Hero has internal entities in some countries, they partner in the US for better health and benefit options.',
+        'Jennifer detailed the pricing structure, with the US being in Tier 2 at $600 USD per employee per month, plus statutory costs and benefits.',
+        'Jennifer offered to provide a cost estimate for a hypothetical employee with a $100k AUD salary to illustrate the total cost.'
+      ],
+      observations: [
+        "Jennifer provided clear explanations of the service structure and compliance benefits.",
+        "The pricing information was presented transparently with specific tier details and additional costs.",
+        "Jennifer proactively offered concrete examples to help David understand the total investment required."
       ]
     },
     {
-      id: 'money',
-      title: 'Money & Metrics',
+      id: 'objection',
+      title: 'Objection Handling',
       icon: null,
       items: [
-        '23% efficiency improvement achieved in pilot program',
-        '15% volume discount for expanded deployment',
-        'ROI projections to be included in detailed proposal',
-        'Phased payment structure aligned with cash flow preferences',
-        'Cost per unit reduction through volume pricing',
-        'Executive committee presentation required for budget approval'
+        'David mentioned they have two part-time contractors in Ukraine and two in Australia and are planning to expand to the US with full-time employees.',
+        'David clarified that the US hires would be sales-oriented (SDRs and AEs), while tech roles are based in Sydney and Ukraine.',
+        'David stated that they are passively looking for US talent and will actively hire once they secure a few clients, but are open to exceptional candidates.',
+        'David confirmed familiarity with the employer of record model at a high level.'
+      ],
+      observations: [
+        "David raised practical questions about service availability in different regions.",
+        "Jennifer handled the Ukraine service limitation professionally, explaining the business rationale.",
+        "The discussion remained focused on viable solutions rather than dwelling on limitations."
       ]
     },
     {
-      id: 'processes',
-      title: 'Processes, Parameters & Priorities for Decision',
+      id: 'closing',
+      title: 'Closing',
       icon: null,
       items: [
-        'Executive committee presentation scheduled for next Friday',
-        'Procurement team review of contract terms and SLAs',
-        'IT department technical integration assessment',
-        'Comparison matrix with two competing vendors',
-        'Customer reference calls from similar implementations',
-        'Site visit to existing customer location in Chicago'
-      ]
-    },
-    {
-      id: 'access',
-      title: 'Access To Decision Makers',
-      icon: null,
-      items: [
-        'Direct access to CFO (Robert Chen) - budget decision maker',
-        'Strong relationship with VP of Operations (Jennifer Walsh)',
-        'Procurement Director (Lisa Martinez) involvement confirmed',
-        'IT Director participation scheduled for technical review',
-        'Executive committee presentation opportunity secured',
-        'Board-level visibility through CFO reporting'
-      ]
-    },
-    {
-      id: 'competition',
-      title: 'Competition, Champion & Coach',
-      icon: null,
-      items: [
-        'Two other vendors currently being evaluated',
-        'Jennifer Walsh (VP Operations) appears to be champion based on pilot success',
-        'Robert Chen (CFO) focused on financial metrics and ROI',
-        'Need to differentiate on reliability (99.9% uptime) and retention (98%)',
-        'Customer references and case studies critical for competitive advantage',
-        'Technical superiority through zero-downtime migration capability'
-      ]
-    },
-    {
-      id: 'timing',
-      title: 'Timing & Timeframe',
-      icon: null,
-      items: [
-        'Detailed proposal due by end of day Thursday',
-        'Follow-up meeting scheduled for next Tuesday at 2 PM EST',
-        'Executive committee presentation next Friday',
-        'Q4 planning alignment with 8-week implementation timeline',
-        'Site visit to Chicago customer location to be arranged',
-        'Decision timeline driven by quarterly planning cycle'
-      ]
-    },
-    {
-      id: 'consequences',
-      title: 'Consequences Of Inaction',
-      icon: null,
-      items: [
-        'Missing Q4 efficiency targets without solution implementation',
-        'Continued operational inefficiencies costing 23% productivity loss',
-        'Competitive disadvantage if other vendors are selected',
-        'Delayed ROI realization pushing benefits into next fiscal year',
-        'Potential for competitor to establish foothold in organization',
-        'Lost opportunity for volume pricing and favorable terms'
-      ]
-    },
-    {
-      id: 'actions',
-      title: 'Recommended Action Points',
-      icon: null,
-      items: [
-        'Prepare comprehensive proposal with volume pricing by Thursday EOD',
-        'Include three customer case studies and reference contacts',
-        'Schedule technical call between our team and their IT department',
-        'Arrange site visit to Chicago customer location',
-        'Prepare competitive differentiation materials highlighting 99.9% uptime',
-        'Coordinate with legal team for enterprise agreement customization',
-        'Confirm Tuesday 2 PM follow-up meeting with all stakeholders'
-      ]
-    },
-    {
-      id: 'questions',
-      title: 'Questions',
-      icon: null,
-      items: [
-        'What specific CRM platform are they currently using?',
-        'What are the exact contract terms and SLA requirements from procurement?',
-        'Who are the two competing vendors and what are their key differentiators?',
-        'What is the total budget allocated for this initiative?',
-        'Are there any compliance or regulatory requirements we need to address?',
-        'What are the specific success metrics they will use to evaluate the solution?',
-        'Is there flexibility in the implementation timeline if needed?'
+        'Jennifer offered to be a resource for David as he begins interviewing and ramping up his hiring process, offering to clarify any questions about employee requests or market standards.',
+        'Jennifer confirmed that Employment Hero does not currently offer services in Ukraine due to the political climate.',
+        'Jennifer offered to send a follow-up email outlining the information discussed and an estimated cost for US-based employees.'
+      ],
+      observations: [
+        "Jennifer positioned herself as an ongoing resource, extending the relationship beyond the immediate sales opportunity.",
+        "Clear next steps were established with the follow-up email commitment.",
+        "The call ended on a positive note with mutual appreciation and defined action items."
       ]
     }
   ];
