@@ -70,7 +70,7 @@ const QualificationEffectivenessTab: React.FC = () => {
     {
       id: 'preparation',
       title: 'Preparation',
-      icon: <Target className="w-5 h-5" />,
+      icon: null,
       subParts: [
         {
           id: 'pre-call-research',
