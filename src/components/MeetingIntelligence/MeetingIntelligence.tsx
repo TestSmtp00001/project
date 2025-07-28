@@ -99,9 +99,9 @@ const MeetingIntelligence: React.FC = () => {
             <button className="p-1 border border-[#605BFF] text-[#605BFF] rounded" title="File">
               <FileText className="w-4 h-4" />
             </button>
-            <button className="p-1 text-[#605BFF] hover:bg-gray-100 rounded">
+            {/*<button className="p-1 text-[#605BFF] hover:bg-gray-100 rounded">
               <Share2 className="w-4 h-4" />
-            </button>
+            </button>*/}
             <button className="p-1 text-[#605BFF] hover:bg-gray-100 rounded">
               <MoreVertical className="w-4 h-4" />
             </button>
