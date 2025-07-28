@@ -175,6 +175,20 @@ const sections: SectionData[] = [
                         </li>
                       ))}
                     </ul>
+                    {/* Observation Section */}
+                      {section.observations && section.observations.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="text-sm font-medium text-[#605BFF] mb-2">Observation:</h4>
+                          <ul className="space-y-2 ml-4">
+                            {section.observations.map((observation, index) => (
+                              <li key={index} className="flex items-start space-x-3">
+                                <div className="w-1.5 h-1.5 bg-gray-900 rounded-full mt-2 flex-shrink-0"></div>
+                                <span className="text-gray-700 leading-relaxed">{observation}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                   </div>
                 </div>
               )}
