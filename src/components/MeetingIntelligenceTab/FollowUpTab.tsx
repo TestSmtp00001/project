@@ -252,9 +252,9 @@ David Miller`
           </div>
 
           {/* Email Content */}
-          <div className="flex-1 p-3" style={{minHeight: '163px'}}>
+          <div className="flex-1 p-3" style={{minHeight: '400px'}}>
             {showPreview ? (
-              <div className="h-full overflow-y-auto" style={{minHeight: '130px'}}>
+              <div className="h-full overflow-y-auto" style={{minHeight: '360px'}}>
                 <div className="prose max-w-none">
                   <div className="whitespace-pre-wrap text-gray-900 leading-relaxed text-xs">
                     {emailContent}
@@ -267,7 +267,7 @@ David Miller`
                 onChange={(e) => setEmailContent(e.target.value)}
                 className="w-full h-full resize-none border-none focus:ring-0 focus:outline-none text-gray-900 leading-relaxed text-xs"
                 placeholder="Your follow-up email content will appear here..."
-                style={{minHeight: '130px'}}
+                style={{minHeight: '360px'}}
               />
             )}
           </div>
