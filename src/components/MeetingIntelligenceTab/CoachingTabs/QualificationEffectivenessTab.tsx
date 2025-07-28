@@ -470,7 +470,7 @@ const QualificationEffectivenessTab: React.FC = () => {
                             {isSubPartExpanded && (
                               <div className="px-3 pb-3">
                                 <div className="border-t border-gray-100 pt-3">
-                                  <div className="grid grid-cols-3 gap-4">
+                                  <div className="space-y-4">
                                     {/* Review */}
                                     <div className="border border-blue-300 p-3 rounded-lg">
                                       <h5 className="text-sm font-semibold text-blue-700 mb-2">Review</h5>
