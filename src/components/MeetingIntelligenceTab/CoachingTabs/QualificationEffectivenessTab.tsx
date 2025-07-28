@@ -62,155 +62,332 @@ const QualificationEffectivenessTab: React.FC = () => {
 
   const qualificationSections: QualificationSection[] = [
     {
-      id: 'issues',
-      title: 'Issues, Implication & Influence',
-      icon: null,
-      score: 8,
-      maxScore: 10,
-      whatWasUncovered: [
-        'Operational inefficiencies costing 23% productivity identified',
-        'IT concerns about CRM integration and data migration understood',
-        'Zero-downtime requirement for customer operations recognized',
-        'Board focus on cash flow impact this quarter mentioned',
-        'Competing with two other vendors in evaluation process'
-      ],
-      gap: [
-        'Need for comprehensive risk assessment not fully explored',
-        'Specific pain points of current inefficiencies not quantified',
-        'Impact on customer satisfaction not discussed',
-        'Regulatory compliance requirements not addressed'
-      ],
-      recommendedQuestions: [
-        'What specific operational processes are causing the 23% efficiency loss?',
-        'How is this inefficiency impacting your customer satisfaction scores?',
-        'What compliance or regulatory requirements must we consider?',
-        'What would happen if these inefficiencies continue for another quarter?'
+      id: 'preparation',
+      title: 'Preparation',
+      subParts: [
+        {
+          id: 'pre-call-research',
+          title: 'Pre-Call Research Quality',
+          review: 'Analysis of whether the rep arrived with accurate customer details, site context, and tailored pricing.',
+          whatWorkedWell: [
+            'David knew that Jennifer was looking to expand his offshore teams and was aware of their recent funding.',
+            'David confirmed that Jennifer had spoken with his colleague Mark previously.'
+          ],
+          whatToImprove: [
+            'David could have researched the specific number of employees Jennifer\'s company had.'
+          ]
+        },
+        {
+          id: 'visual-aids',
+          title: 'Visual Aids Readiness',
+          review: 'Assessment of preparation and use of visual materials during the presentation.',
+          whatWorkedWell: [
+            'David had relevant materials ready for the discussion.',
+            'Presentation materials were well-organized and accessible.'
+          ],
+          whatToImprove: [
+            'Could have prepared more specific visual examples for Jennifer\'s industry.',
+            'Interactive elements could enhance engagement.'
+          ]
+        },
+        {
+          id: 'zero-surprises',
+          title: 'Zero Surprises',
+          review: 'Evaluation of how well the rep anticipated and prepared for potential questions or objections.',
+          whatWorkedWell: [
+            'David was prepared for questions about pricing structure.',
+            'Had clear answers about service availability in different regions.'
+          ],
+          whatToImprove: [
+            'Could have anticipated questions about implementation timeline.',
+            'More preparation for competitive comparison questions.'
+          ]
+        }
       ]
     },
     {
-      id: 'money',
-      title: 'Money & Metrics',
-      icon: null,
-      score: 6,
-      maxScore: 10,
-      whatWasUncovered: [
-        '23% efficiency improvement quantified from pilot program',
-        '15% volume discount for expanded deployment confirmed',
-        'ROI projections to be included in proposal mentioned',
-        'Phased payment structure discussed as option'
-      ],
-      gap: [
-        'Specific budget amount not confirmed',
-        'Executive committee budget approval process unclear',
-        'Cost of current inefficiencies not quantified',
-        'Comparison with competitor pricing not established'
-      ],
-      recommendedQuestions: [
-        'What is the allocated budget range for this initiative?',
-        'How much is the current inefficiency costing you annually?',
-        'What ROI threshold does the executive committee require?',
-        'How do our competitors\' pricing proposals compare?'
+      id: 'opening',
+      title: 'Opening',
+      subParts: [
+        {
+          id: 'rapport-building',
+          title: 'Rapport Building',
+          review: 'Analysis of how effectively the rep established connection and trust with the prospect.',
+          whatWorkedWell: [
+            'David established rapport effectively by discussing work arrangements.',
+            'Validated Jennifer\'s perspective on office distractions, creating common ground.',
+            'Maintained a friendly and professional tone throughout.'
+          ],
+          whatToImprove: [
+            'Could have spent more time on personal connection before business discussion.',
+            'More active listening techniques could strengthen rapport.'
+          ]
+        },
+        {
+          id: 'adaptability',
+          title: 'Adaptability',
+          review: 'Assessment of the rep\'s ability to adjust approach based on prospect responses.',
+          whatWorkedWell: [
+            'Adjusted pitch based on Jennifer\'s updates regarding expansion plans.',
+            'Smoothly transitioned from casual conversation to business discussion.'
+          ],
+          whatToImprove: [
+            'Could have adapted questioning style based on Jennifer\'s communication preferences.',
+            'More flexibility in presentation structure based on prospect interest.'
+          ]
+        },
+        {
+          id: 'body-language',
+          title: 'Body Language',
+          review: 'Evaluation of non-verbal communication and presence during the opening.',
+          whatWorkedWell: [
+            'Maintained professional posture and engagement.',
+            'Demonstrated active listening through body language.'
+          ],
+          whatToImprove: [
+            'Could use more open gestures to encourage dialogue.',
+            'Mirror prospect\'s energy level more effectively.'
+          ]
+        }
       ]
     },
     {
-      id: 'processes',
-      title: 'Processes, Parameters & Priorities for Decision',
-      icon: null,
-      score: 7,
-      maxScore: 10,
-      whatWasUncovered: [
-        'Executive committee presentation scheduled for next Friday',
-        'Procurement team review process identified',
-        'IT department technical assessment planned',
-        'Customer reference calls planned'
-      ],
-      gap: [
-        'Specific evaluation criteria not fully defined',
-        'Decision-making timeline beyond presentation unclear',
-        'Vendor scoring methodology not understood',
-        'Final decision authority not confirmed'
-      ],
-      recommendedQuestions: [
-        'What specific criteria will the executive committee use to evaluate vendors?',
-        'How will vendors be scored and ranked in the evaluation?',
-        'What is the timeline from presentation to final decision?',
-        'Who has the final authority to approve the vendor selection?'
+      id: 'discovery',
+      title: 'Discovery',
+      subParts: [
+        {
+          id: 'open-ended-questions',
+          title: 'Open-Ended Questions',
+          review: 'Analysis of the quality and effectiveness of open-ended questions used.',
+          whatWorkedWell: [
+            'Asked about current team structure and expansion plans.',
+            'Inquired about hiring timeline and criteria.',
+            'Explored familiarity with employer of record model.'
+          ],
+          whatToImprove: [
+            'Could have asked more probing questions about pain points.',
+            'More questions about decision-making process and criteria.'
+          ]
+        },
+        {
+          id: 'depth-of-probing',
+          title: 'Depth of Probing',
+          review: 'Assessment of how deeply the rep explored prospect needs and challenges.',
+          whatWorkedWell: [
+            'Gathered specific information about role types and locations.',
+            'Understood the passive vs. active hiring approach.'
+          ],
+          whatToImprove: [
+            'Could have probed deeper into current challenges with contractors.',
+            'More exploration of budget constraints and approval process.'
+          ]
+        },
+        {
+          id: 'listening-behaviours',
+          title: 'Listening Behaviours',
+          review: 'Evaluation of active listening skills and response to prospect input.',
+          whatWorkedWell: [
+            'Allowed Jennifer to express concerns without interruption.',
+            'Built on Jennifer\'s responses with relevant follow-up questions.'
+          ],
+          whatToImprove: [
+            'Could have used more summarizing to confirm understanding.',
+            'More paraphrasing to demonstrate active listening.'
+          ]
+        }
       ]
     },
     {
-      id: 'access',
-      title: 'Access To Decision Makers',
-      icon: null,
-      score: 8,
-      maxScore: 10,
-      whatWasUncovered: [
-        'Direct access to CFO (Robert Chen) - budget decision maker',
-        'Strong relationship with VP Operations (Jennifer Walsh)',
-        'Procurement Director (Lisa Martinez) involvement confirmed',
-        'IT Director participation scheduled',
-        'Executive committee presentation opportunity secured'
-      ],
-      gap: [
-        'Board-level visibility limited to CFO reporting',
-        'Other executive committee members not identified',
-        'Influencers outside the core team not mapped',
-        'Decision-making hierarchy not fully understood'
-      ],
-      recommendedQuestions: [
-        'Who else sits on the executive committee that will evaluate this?',
-        'Are there other stakeholders who could influence this decision?',
-        'How does the board typically get involved in decisions of this size?',
-        'What is the reporting structure from committee to final approval?'
+      id: 'demo',
+      title: 'Demo',
+      subParts: [
+        {
+          id: 'relevance',
+          title: 'Relevance',
+          review: 'Assessment of how well the demonstration addressed prospect-specific needs.',
+          whatWorkedWell: [
+            'Focused on employer of record benefits relevant to Jennifer\'s expansion.',
+            'Addressed compliance and legal employer aspects.'
+          ],
+          whatToImprove: [
+            'Could have tailored examples more specifically to Jennifer\'s industry.',
+            'More focus on sales role hiring challenges.'
+          ]
+        },
+        {
+          id: 'clarity',
+          title: 'Clarity',
+          review: 'Evaluation of how clearly the solution was explained and demonstrated.',
+          whatWorkedWell: [
+            'Clearly explained the entity structure and partnership model.',
+            'Provided transparent pricing information with specific tiers.'
+          ],
+          whatToImprove: [
+            'Could have simplified technical explanations.',
+            'More visual aids to illustrate complex concepts.'
+          ]
+        },
+        {
+          id: 'engagement',
+          title: 'Engagement',
+          review: 'Analysis of prospect engagement and interaction during the demonstration.',
+          whatWorkedWell: [
+            'Jennifer asked relevant questions throughout the demo.',
+            'Maintained interactive dialogue rather than one-way presentation.'
+          ],
+          whatToImprove: [
+            'Could have encouraged more hands-on interaction.',
+            'More frequent check-ins for understanding and questions.'
+          ]
+        },
+        {
+          id: 'proof-points',
+          title: 'Proof Points',
+          review: 'Assessment of evidence and credibility provided during the demonstration.',
+          whatWorkedWell: [
+            'Mentioned specific pricing tiers and cost structure.',
+            'Referenced partnership model for better benefits.'
+          ],
+          whatToImprove: [
+            'Could have provided customer success stories.',
+            'More specific ROI examples and case studies.'
+          ]
+        }
       ]
     },
     {
-      id: 'competition',
-      title: 'Competition, Champion & Coach',
-      icon: null,
-      score: 5,
-      maxScore: 10,
-      whatWasUncovered: [
-        'Two other vendors identified in evaluation process',
-        'Jennifer Walsh (VP Operations) identified as champion',
-        'Robert Chen (CFO) focused on financial metrics',
-        'Competitive differentiators mentioned (99.9% uptime, 98% retention)'
-      ],
-      gap: [
-        'Specific competitor names and strengths unknown',
-        'Coach relationship not established within organization',
-        'Competitor pricing and proposals not understood',
-        'Internal politics and preferences not mapped'
-      ],
-      recommendedQuestions: [
-        'Which specific vendors are you evaluating against us?',
-        'What are their key strengths and how are they positioning?',
-        'Who internally might provide insights on the evaluation process?',
-        'What has been your experience with similar vendor selections?'
+      id: 'solution-framing',
+      title: 'Solution Framing',
+      subParts: [
+        {
+          id: 'simplicity',
+          title: 'Simplicity',
+          review: 'Evaluation of how simply and clearly the solution was presented.',
+          whatWorkedWell: [
+            'Explained complex compliance issues in understandable terms.',
+            'Broke down pricing structure clearly.'
+          ],
+          whatToImprove: [
+            'Could have used more analogies to simplify concepts.',
+            'Reduce technical jargon in explanations.'
+          ]
+        },
+        {
+          id: 'options-presented',
+          title: 'Options Presented',
+          review: 'Analysis of solution options and flexibility demonstrated.',
+          whatWorkedWell: [
+            'Offered to provide cost estimates for different scenarios.',
+            'Showed flexibility in service approach.'
+          ],
+          whatToImprove: [
+            'Could have presented multiple service tier options.',
+            'More customization possibilities based on company size.'
+          ]
+        },
+        {
+          id: 'visual-support',
+          title: 'Visual Support',
+          review: 'Assessment of visual aids and materials used to support the solution presentation.',
+          whatWorkedWell: [
+            'Had structured approach to presenting information.',
+            'Clear verbal explanation of service structure.'
+          ],
+          whatToImprove: [
+            'Could have used visual diagrams to illustrate entity structure.',
+            'More visual comparison of pricing tiers and benefits.'
+          ]
+        }
       ]
     },
     {
-      id: 'timing',
-      title: 'Timing & Timeframe',
-      icon: null,
-      score: 9,
-      maxScore: 10,
-      whatWasUncovered: [
-        'Detailed proposal due by end of day Thursday',
-        'Follow-up meeting scheduled for next Tuesday at 2 PM EST',
-        'Executive committee presentation next Friday',
-        'Q4 planning alignment with 8-week implementation timeline',
-        'Site visit to Chicago customer location planned'
-      ],
-      gap: [
-        'Backup timeline if primary schedule slips not discussed',
-        'Seasonal or business cycle impacts not considered',
-        'Implementation resource availability not confirmed'
-      ],
-      recommendedQuestions: [
-        'What happens if the decision timeline needs to be extended?',
-        'Are there any seasonal factors that could impact implementation?',
-        'Do you have the internal resources available for the proposed timeline?',
-        'What would cause you to delay or accelerate this decision?'
+      id: 'objection-handling',
+      title: 'Objection Handling',
+      subParts: [
+        {
+          id: 'listening-acknowledging',
+          title: 'Listening & Acknowledging',
+          review: 'Analysis of how well the rep listened to and acknowledged objections.',
+          whatWorkedWell: [
+            'Listened carefully to Jennifer\'s questions about service availability.',
+            'Acknowledged limitations regarding Ukraine services professionally.'
+          ],
+          whatToImprove: [
+            'Could have probed deeper into underlying concerns.',
+            'More empathetic acknowledgment of prospect challenges.'
+          ]
+        },
+        {
+          id: 'clarification',
+          title: 'Clarification',
+          review: 'Assessment of how effectively the rep clarified objections and concerns.',
+          whatWorkedWell: [
+            'Asked clarifying questions about specific needs.',
+            'Confirmed understanding of Jennifer\'s expansion plans.'
+          ],
+          whatToImprove: [
+            'Could have asked more follow-up questions to fully understand concerns.',
+            'More detailed exploration of objection root causes.'
+          ]
+        },
+        {
+          id: 'confident-response',
+          title: 'Confident Response',
+          review: 'Evaluation of confidence and effectiveness in responding to objections.',
+          whatWorkedWell: [
+            'Provided clear explanation of business rationale for service limitations.',
+            'Maintained professional tone when discussing limitations.'
+          ],
+          whatToImprove: [
+            'Could have been more proactive in addressing potential concerns.',
+            'More confident positioning of alternative solutions.'
+          ]
+        }
+      ]
+    },
+    {
+      id: 'closing',
+      title: 'Closing & Next Steps',
+      subParts: [
+        {
+          id: 'confidence-timing',
+          title: 'Confidence & Timing',
+          review: 'Analysis of confidence level and timing in moving toward close.',
+          whatWorkedWell: [
+            'Positioned himself as ongoing resource for future needs.',
+            'Maintained positive tone throughout the conclusion.'
+          ],
+          whatToImprove: [
+            'Could have been more assertive in securing immediate next steps.',
+            'Better timing in asking for commitment to follow-up actions.'
+          ]
+        },
+        {
+          id: 'clarity-agreement',
+          title: 'Clarity of Agreement',
+          review: 'Assessment of how clearly agreements and commitments were established.',
+          whatWorkedWell: [
+            'Clear commitment to send follow-up email with information.',
+            'Established mutual appreciation and positive relationship.'
+          ],
+          whatToImprove: [
+            'Could have secured more specific timeline for follow-up.',
+            'More concrete agreements on next conversation timing.'
+          ]
+        },
+        {
+          id: 'leave-behind',
+          title: 'Leave-Behind',
+          review: 'Evaluation of materials or information left with the prospect.',
+          whatWorkedWell: [
+            'Committed to providing detailed cost breakdown via email.',
+            'Offered to include relevant case studies and examples.'
+          ],
+          whatToImprove: [
+            'Could have provided immediate reference materials.',
+            'More comprehensive information packet for prospect review.'
+          ]
+        }
       ]
     }
   ];
