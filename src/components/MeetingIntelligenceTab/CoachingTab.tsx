@@ -23,13 +23,13 @@ const CoachingTab: React.FC = () => {
   const getTabIcon = (tab: string) => {
     switch (tab) {
       case 'overview':
-        return <BarChart3 className="w-6 h-6" />;
+        return <BarChart3 className="w-5 h-5" />;
       case 'qualification':
-        return <Target className="w-6 h-6" />;
+        return <Target className="w-5 h-5" />;
       case 'upskill':
-        return <BookOpen className="w-6 h-6" />;
+        return <BookOpen className="w-5 h-5" />;
       default:
-        return <BarChart3 className="w-6 h-6" />;
+        return <BarChart3 className="w-5 h-5" />;
     }
   };
 
@@ -41,60 +41,60 @@ const CoachingTab: React.FC = () => {
           {/* First Row */}
           <div className="grid grid-cols-2 gap-3">
             {/* Overall Score Card */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4 relative">
+            <div className="bg-white border border-gray-200 rounded-lg p-3 relative">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-2xl font-bold text-[#605BFF]">73%</div>
                   <div className="text-sm text-[#605BFF]">Overall Score</div>
                 </div>
-                <Target className="w-8 h-8 text-[#605BFF]" />
+                <Target className="w-6 h-6 text-[#605BFF]" />
               </div>
             </div>
 
             {/* Action Items Card */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-200 rounded-lg p-3">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-2xl font-bold text-[#FF8E1C]">12</div>
                   <div className="text-sm text-gray-600">Action Items</div>
                 </div>
-                <Lightbulb className="w-8 h-8 text-[#FF8E1C]" />
+                <Lightbulb className="w-6 h-6 text-[#FF8E1C]" />
               </div>
             </div>
           </div>
 
           {/* Second Row */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2">
             {/* Strengths Card */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-200 rounded-lg p-3">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-2xl font-bold text-green-600">3</div>
                   <div className="text-sm text-gray-600">Strengths</div>
                 </div>
-                <Award className="w-8 h-8 text-green-600" />
+                <Award className="w-6 h-6 text-green-600" />
               </div>
             </div>
 
             {/* Improve Card */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-200 rounded-lg p-3">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-2xl font-bold text-yellow-600">2</div>
                   <div className="text-sm text-gray-600">Improve</div>
                 </div>
-                <TrendingUp className="w-8 h-8 text-yellow-600" />
+                <TrendingUp className="w-6 h-6 text-yellow-600" />
               </div>
             </div>
 
             {/* Critical Card */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-200 rounded-lg p-3">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-2xl font-bold text-red-600">1</div>
                   <div className="text-sm text-gray-600">Critical</div>
                 </div>
-                <AlertTriangle className="w-8 h-8 text-red-600" />
+                <AlertTriangle className="w-6 h-6 text-red-600" />
               </div>
             </div>
           </div>
@@ -102,24 +102,24 @@ const CoachingTab: React.FC = () => {
       </div>
 
       {/* Top Navigation */}
-      <div className="bg-white border-b border-gray-200 px-4 py-2">
-        <div className="flex justify-around">
+      <div className="bg-white border-b border-gray-200">
+        <div className="flex">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`flex flex-col items-center py-3 px-4 rounded-lg transition-colors ${
+            className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
               activeTab === 'overview'
-                ? 'bg-[#605BFF] text-white'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                ? 'text-[#605BFF] bg-blue-50'
+                : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             {getTabIcon('overview')}
           </button>
           <button
             onClick={() => setActiveTab('qualification')}
-            className={`flex flex-col items-center py-3 px-4 rounded-lg transition-colors ${
+            className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
               activeTab === 'qualification'
-                ? 'bg-[#605BFF] text-white'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                ? 'text-[#605BFF] bg-blue-50'
+                : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             {getTabIcon('qualification')}
