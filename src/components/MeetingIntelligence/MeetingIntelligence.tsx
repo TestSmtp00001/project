@@ -115,19 +115,17 @@ const MeetingIntelligence: React.FC = () => {
         
         {/* Bottom Row: Audio Player */}
         <div className="flex items-center space-x-2">
-          <button className="w-6 h-6 bg-[#605BFF] rounded-full flex items-center justify-center text-white">
-            <Play className="w-2.5 h-2.5 ml-0.5" fill="currentColor" />
+          <button className="w-4 h-4 bg-[#605BFF] rounded-full flex items-center justify-center text-white">
+            <Play className="w-2 h-2 ml-0.5" fill="currentColor" />
           </button>
           
           <div className="flex-1">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-gray-600 font-mono">1:22</span>
-              <span className="text-xs text-gray-600 font-mono">6:04</span>
-            </div>
             <div className="w-full bg-gray-300 rounded-full h-1.5">
               <div className="bg-[#605BFF] h-1.5 rounded-full" style={{ width: '22%' }}></div>
             </div>
           </div>
+          
+          <span className="text-xs text-gray-600 font-mono">1:22/6:04</span>
           
           <button className="flex items-center justify-center h-6 w-6 text-gray-600">
             <Volume2 className="w-4 h-4" />
