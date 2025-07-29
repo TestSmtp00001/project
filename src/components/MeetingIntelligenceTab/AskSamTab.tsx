@@ -312,7 +312,7 @@ const AskSamTab: React.FC = () => {
   const renderChatContent = () => (
     <div className="flex-1 flex flex-col">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[260px]">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[300px]">
         {chatHistory.map((message) => (
           <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[85%] ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
@@ -448,12 +448,6 @@ const AskSamTab: React.FC = () => {
       <div className="p-3 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold text-sm text-gray-900">Recommended Questions</h3>
-          <button
-            onClick={() => setShowQuestionsExpanded(false)}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <ChevronUp className="w-5 h-5" />
-          </button>
         </div>
         
         {/* Methodology Selector */}
