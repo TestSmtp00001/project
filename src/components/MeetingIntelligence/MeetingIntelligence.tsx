@@ -81,31 +81,36 @@ const MeetingIntelligence: React.FC = () => {
     <div className="h-full bg-white flex flex-col">
       {/* Compact Header */}
       <div className="bg-white border-b border-gray-200 px-4 py-1.5 flex-shrink-0">
-        {/* Top Row: Meeting Info + Actions */}
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center">
-            <span className="text-xs font-medium text-gray-900 flex items-center">
-              <Edit className="w-4 h-4 text-[#605BFF] mr-2" />
-              Driving Rapid Revenue Growth
-            </span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <button className="p-1 bg-[#605BFF] text-white rounded" title="Add Transcript">
+        {/* First Row: Action Buttons */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-5">
+            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Add Transcript">
               <Plus className="w-4 h-4" />
             </button>
-            <button className="p-1 border border-[#605BFF] text-[#605BFF] rounded" title="Link">
+            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Link">
               <Link className="w-4 h-4" />
             </button>
-            <button className="p-1 border border-[#605BFF] text-[#605BFF] rounded" title="File">
+            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="File">
               <FileText className="w-4 h-4" />
             </button>
-            {/*<button className="p-1 text-[#605BFF] hover:bg-gray-100 rounded">
+            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Share">
               <Share2 className="w-4 h-4" />
-            </button>*/}
-            <button className="p-1 text-[#605BFF] hover:bg-gray-100 rounded">
-              <MoreVertical className="w-4 h-4" />
+            </button>
+            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Copy">
+              <Copy className="w-4 h-4" />
+            </button>
+            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Email">
+              <Mail className="w-4 h-4" />
             </button>
           </div>
+        </div>
+        
+        {/* Second Row: Meeting Title */}
+        <div className="flex items-center mb-4">
+          <span className="text-xs font-medium text-gray-900">
+            Driving Rapid Revenue Growth
+          </span>
+          <Edit className="w-4 h-4 text-[#FF8E1C] ml-2.5" />
         </div>
         
         {/* Bottom Row: Audio Player */}
