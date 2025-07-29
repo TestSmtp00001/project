@@ -181,11 +181,11 @@ const TranscriptTab: React.FC = () => {
           </select>
           
           <div className="flex space-x-1">
-            <button className="p-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">
+            {/*<button className="p-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">
               <Share2 className="w-2.5 h-2.5" />
-            </button>
-            <button className="p-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">
-              <Download className="w-2.5 h-2.5" />
+            </button>*/}
+            <button className="p-2 text-gray-600 hover:text-gray-900 rounded-lg">
+              <Download className="w-4 h-4" />
             </button>
           </div>
         </div>
