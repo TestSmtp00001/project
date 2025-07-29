@@ -36,11 +36,11 @@ function App() {
         <div className="flex items-center space-x-2">
           <h1 className="text-lg font-semibold text-gray-900">{getPageTitle()}</h1>
           {activeView === 'meeting-intelligence' && (
-             <>
-               <Info className="w-5 h-5 text-gray-400" />
-               <AlertTriangle className="w-5 h-5 text-orange-400" />
-             </>
-           )}
+              <>
+                <Info className="w-4 h-4 text-gray-400" />
+                <AlertTriangle className="w-4 h-4 text-orange-400" />
+              </>
+            )}
         </div>
       </div>
 
