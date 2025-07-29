@@ -312,7 +312,7 @@ const AskSamTab: React.FC = () => {
   const renderChatContent = () => (
     <div className="flex-1 flex flex-col">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-[300px]">
         {chatHistory.map((message) => (
           <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[85%] ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
