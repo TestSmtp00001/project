@@ -102,17 +102,17 @@ const OverviewTab: React.FC = () => {
                     <User className="w-6 h-6 text-black" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{speaker.speakerName}</h3>
+                    <h3 className="text-sm font-semibold text-gray-900">{speaker.speakerName}</h3>
                     {(speaker.areasOfStrength.length > 0 || speaker.areasOfImprovement.length > 0) && (
                       <div className="flex items-center space-x-4 mt-1">
                         {speaker.areasOfStrength.length > 0 && (
-                          <span className="text-sm text-green-600 flex items-center">
+                          <span className="text-xs text-green-600 flex items-center">
                             <CheckCircle className="w-4 h-4 mr-1" />
                             {speaker.areasOfStrength.length} Strengths
                           </span>
                         )}
                         {speaker.areasOfImprovement.length > 0 && (
-                          <span className="text-sm text-yellow-600 flex items-center">
+                          <span className="text-xs text-yellow-600 flex items-center">
                             <AlertTriangle className="w-4 h-4 mr-1" />
                             {speaker.areasOfImprovement.length} Improvements
                           </span>
@@ -127,11 +127,11 @@ const OverviewTab: React.FC = () => {
               <div className="px-6 pb-6 border-t border-gray-100">
                 {/* Overall Assessment */}
                 <div className="mb-6 pt-4">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                  <h4 className="text-xs font-semibold text-gray-900 mb-3 flex items-center">
                     <Eye className="w-4 h-4 mr-2 text-[#605BFF]" />
                     Overall Assessment
                   </h4>
-                  <p className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg">
+                  <p className="text-xs text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg">
                     {speaker.overallAssessment}
                   </p>
                 </div>
@@ -140,15 +140,15 @@ const OverviewTab: React.FC = () => {
                   {/* Areas of Strength */}
                   {(selectedFilter === 'all' || selectedFilter === 'strengths') && filteredContent.strengths.length > 0 && (
                     <div>
-                      <h4 className="text-sm font-semibold text-green-700 mb-4 flex items-center">
+                      <h4 className="text-xs font-semibold text-green-700 mb-4 flex items-center">
                         <Award className="w-4 h-4 mr-2" />
                         Areas of Strength ({filteredContent.strengths.length})
                       </h4>
                       <div className="space-y-3">
                         {filteredContent.strengths.map((strength, index) => (
                           <div key={index} className="border border-green-200 rounded-lg p-4 bg-transparent">
-                            <h5 className="font-medium text-black mb-2">{strength.title}</h5>
-                            <p className="text-sm text-black">{strength.description}</p>
+                            <h5 className="text-xs font-medium text-black mb-2">{strength.title}</h5>
+                            <p className="text-xs text-black">{strength.description}</p>
                           </div>
                         ))}
                       </div>
@@ -158,15 +158,15 @@ const OverviewTab: React.FC = () => {
                   {/* Areas of Improvement */}
                   {(selectedFilter === 'all' || selectedFilter === 'improvements') && filteredContent.improvements.length > 0 && (
                     <div>
-                      <h4 className="text-sm font-semibold text-yellow-700 mb-4 flex items-center">
+                      <h4 className="text-xs font-semibold text-yellow-700 mb-4 flex items-center">
                         <Lightbulb className="w-4 h-4 mr-2" />
                         Areas of Improvement ({filteredContent.improvements.length})
                       </h4>
                       <div className="space-y-3">
                         {filteredContent.improvements.map((improvement, index) => (
                           <div key={index} className="border border-yellow-200 rounded-lg p-4 bg-transparent">
-                            <h5 className="font-medium text-black mb-2">{improvement.title}</h5>
-                            <p className="text-sm text-black">{improvement.description}</p>
+                            <h5 className="text-xs font-medium text-black mb-2">{improvement.title}</h5>
+                            <p className="text-xs text-black">{improvement.description}</p>
                           </div>
                         ))}
                       </div>
