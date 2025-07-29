@@ -474,7 +474,7 @@ const QualificationEffectivenessTab: React.FC = () => {
                                     {/* Review */}
                                     <div className="border border-blue-300 p-3 rounded-lg">
                                       <h5 className="text-sm font-semibold text-blue-700 mb-2">Review</h5>
-                                      <p className="text-sm text-gray-700">{subPart.review}</p>
+                                      <p className="text-xs text-gray-700">{subPart.review}</p>
                                     </div>
 
                                     {/* What Worked Well */}
