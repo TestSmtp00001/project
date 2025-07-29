@@ -482,7 +482,7 @@ const QualificationEffectivenessTab: React.FC = () => {
                                       <h5 className="text-sm font-semibold text-green-700 mb-2">What Worked Well</h5>
                                       <div className="space-y-1">
                                         {subPart.whatWorkedWell.map((item, index) => (
-                                          <p key={index} className="text-sm text-gray-700">{item}</p>
+                                          <p key={index} className="text-xs text-gray-700">{item}</p>
                                         ))}
                                       </div>
                                     </div>
@@ -492,7 +492,7 @@ const QualificationEffectivenessTab: React.FC = () => {
                                       <h5 className="text-sm font-semibold text-orange-700 mb-2">What To Improve</h5>
                                       <div className="space-y-1">
                                         {subPart.whatToImprove.map((item, index) => (
-                                          <p key={index} className="text-sm text-gray-700">{item}</p>
+                                          <p key={index} className="text-xs text-gray-700">{item}</p>
                                         ))}
                                       </div>
                                     </div>
