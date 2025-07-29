@@ -461,7 +461,7 @@ const QualificationEffectivenessTab: React.FC = () => {
                               className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-50 transition-colors"
                               onClick={() => toggleSubPart(subPart.id)}
                             >
-                              <h4 className="font-medium text-gray-900">{subPart.title}</h4>
+                              <h4 className="text-sm font-medium text-gray-900">{subPart.title}</h4>
                               <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${
                                   isSubPartExpanded ? 'rotate-180' : ''
                               }`} />
