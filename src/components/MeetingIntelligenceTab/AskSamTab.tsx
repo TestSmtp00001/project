@@ -335,7 +335,7 @@ const AskSamTab: React.FC = () => {
                       ? 'bg-[#E0E6FF] text-gray-900'
                       : 'bg-white border border-gray-200 text-gray-900'
                   }`}>
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                    <p className="text-xs leading-relaxed whitespace-pre-wrap">{message.content}</p>
                   </div>
                   
                   {/* Message Actions */}
@@ -405,7 +405,7 @@ const AskSamTab: React.FC = () => {
               <button
                 key={index}
                 onClick={() => handleQuestionClick(question)}
-                className="w-full text-left p-2 text-sm bg-white hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors"
+                className="w-full text-left p-2 text-xs bg-white hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors"
               >
                 {question}
               </button>
@@ -427,7 +427,7 @@ const AskSamTab: React.FC = () => {
               }
             }}
             placeholder="Ask Sam anything about your meeting, prospects, or sales strategy..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent resize-none pr-12 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent resize-none pr-12 text-xs"
             rows={2}
           />
           <button
@@ -447,7 +447,7 @@ const AskSamTab: React.FC = () => {
       {/* Header */}
       <div className="p-3 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold text-gray-900">Recommended Questions</h3>
+          <h3 className="font-semibold text-sm text-gray-900">Recommended Questions</h3>
           <button
             onClick={() => setShowQuestionsExpanded(false)}
             className="text-gray-400 hover:text-gray-600"
@@ -475,7 +475,7 @@ const AskSamTab: React.FC = () => {
                     setSelectedMethodology(methodology);
                     setShowMethodologyMenu(false);
                   }}
-                  className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                  className={`w-full px-3 py-2 text-left text-xs hover:bg-gray-50 transition-colors ${
                     selectedMethodology === methodology ? 'bg-blue-50 text-[#605BFF]' : 'text-gray-700'
                   }`}
                 >
@@ -494,7 +494,7 @@ const AskSamTab: React.FC = () => {
             placeholder="Search questions..."
             value={questionSearch}
             onChange={(e) => setQuestionSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
+            className="w-full pl-9 pr-4 py-2 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
           />
         </div>
         
@@ -531,7 +531,7 @@ const AskSamTab: React.FC = () => {
           <button
             key={index}
             onClick={() => handleQuestionClick(question)}
-            className="w-full text-left p-3 text-sm bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors group"
+            className="w-full text-left p-3 text-xs bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-[#605BFF] rounded-lg transition-colors group"
           >
             <div className="flex items-start justify-between">
               <span className="flex-1">{question}</span>
@@ -545,7 +545,7 @@ const AskSamTab: React.FC = () => {
         ))}
         
         {filteredQuestions.length === 0 && (
-          <div className="text-center py-8 text-gray-500 text-sm">
+          <div className="text-center py-8 text-gray-500 text-xs">
             {questionSearch ? 'No questions found' : 'No questions available'}
           </div>
         )}
@@ -557,7 +557,7 @@ const AskSamTab: React.FC = () => {
     <div className="flex-1 flex flex-col">
       <div className="p-3 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
-          <h4 className="text-base font-medium text-gray-900">Recent Conversations</h4>
+          <h4 className="text-sm font-medium text-gray-900">Recent Conversations</h4>
           <button className="text-gray-400 hover:text-gray-600">
             <Search className="w-5 h-5" />
           </button>
@@ -566,7 +566,7 @@ const AskSamTab: React.FC = () => {
       <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {chatHistory.filter(msg => msg.type === 'user').map((message, index) => (
           <div key={index} className="p-3 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors">
-            <p className="text-sm text-gray-900 line-clamp-2">{message.content}</p>
+            <p className="text-xs text-gray-900 line-clamp-2">{message.content}</p>
             <p className="text-xs text-gray-500 mt-2">{message.timestamp}</p>
           </div>
         ))}
@@ -578,7 +578,7 @@ const AskSamTab: React.FC = () => {
     <div className="flex-1 flex flex-col">
       <div className="p-3 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
-          <h4 className="text-base font-medium text-gray-900">My Notes</h4>
+          <h4 className="text-sm font-medium text-gray-900">My Notes</h4>
           <button
             onClick={() => setShowAddNote(true)}
             className="text-[#605BFF] hover:text-[#4B46CC] transition-colors"
@@ -597,12 +597,12 @@ const AskSamTab: React.FC = () => {
               value={newNoteTitle}
               onChange={(e) => setNewNoteTitle(e.target.value)}
               placeholder="Note title..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
+              className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
             />
             <div className="flex space-x-2">
               <button
                 onClick={handleAddNote}
-                className="px-3 py-1.5 bg-[#605BFF] text-white text-sm rounded hover:bg-[#4B46CC] transition-colors"
+                className="px-3 py-1.5 bg-[#605BFF] text-white text-xs rounded hover:bg-[#4B46CC] transition-colors"
               >
                 Add
               </button>
@@ -611,7 +611,7 @@ const AskSamTab: React.FC = () => {
                   setShowAddNote(false);
                   setNewNoteTitle('');
                 }}
-                className="px-3 py-1.5 text-gray-600 text-sm rounded hover:text-gray-900 transition-colors"
+                className="px-3 py-1.5 text-gray-600 text-xs rounded hover:text-gray-900 transition-colors"
               >
                 Cancel
               </button>
@@ -623,7 +623,7 @@ const AskSamTab: React.FC = () => {
         {notes.map((note) => (
           <div key={note.id} className="p-3 bg-white rounded-lg border border-gray-200">
             <div className="flex items-start justify-between mb-2">
-              <h5 className="font-medium text-gray-900 text-sm">{note.title}</h5>
+              <h5 className="font-medium text-gray-900 text-xs">{note.title}</h5>
               <div className="flex items-center space-x-1">
                 <button
                   onClick={() => handleEditNote(note.id)}
@@ -645,7 +645,7 @@ const AskSamTab: React.FC = () => {
                 <textarea
                   defaultValue={note.content}
                   placeholder="Add your note content..."
-                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#605BFF] focus:border-transparent resize-none"
+                  className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-[#605BFF] focus:border-transparent resize-none"
                   rows={3}
                   onBlur={(e) => handleSaveNote(note.id, e.target.value)}
                 />
@@ -654,14 +654,14 @@ const AskSamTab: React.FC = () => {
                     const textarea = e.currentTarget.parentElement?.previousElementSibling as HTMLTextAreaElement;
                     handleSaveNote(note.id, textarea?.value || '');
                   }}
-                  className="px-3 py-1.5 bg-[#605BFF] text-white text-sm rounded hover:bg-[#4B46CC] transition-colors"
+                  className="px-3 py-1.5 bg-[#605BFF] text-white text-xs rounded hover:bg-[#4B46CC] transition-colors"
                 >
                   Save
                 </button>
               </div>
             ) : (
               <>
-                <p className="text-sm text-gray-700 mb-2">{note.content}</p>
+                <p className="text-xs text-gray-700 mb-2">{note.content}</p>
                 <p className="text-xs text-gray-500">{note.timestamp}</p>
               </>
             )}
@@ -675,8 +675,8 @@ const AskSamTab: React.FC = () => {
     <div className="flex-1 flex flex-col">
       <div className="p-3 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
-          <h4 className="text-base font-medium text-gray-900">Saved Responses</h4>
-          <span className="text-sm text-gray-500">{savedResponses.length} saved</span>
+          <h4 className="text-sm font-medium text-gray-900">Saved Responses</h4>
+          <span className="text-xs text-gray-500">{savedResponses.length} saved</span>
         </div>
       </div>
       
@@ -686,7 +686,7 @@ const AskSamTab: React.FC = () => {
             <div className="flex items-start justify-between mb-2">
               <div className="flex-1">
                 <div className="flex items-center space-x-2 mb-1">
-                  <h5 className="font-medium text-gray-900 text-sm">{response.title}</h5>
+                  <h5 className="font-medium text-gray-900 text-xs">{response.title}</h5>
                   <div className="flex items-center">
                     {response.isPrivate ? (
                       <Lock className="w-3 h-3 text-gray-400" title="Private" />
@@ -704,14 +704,14 @@ const AskSamTab: React.FC = () => {
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-sm text-gray-700 line-clamp-3">{response.content}</p>
+            <p className="text-xs text-gray-700 line-clamp-3">{response.content}</p>
           </div>
         ))}
 
         {savedResponses.length === 0 && (
           <div className="text-center py-8">
             <Bookmark className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <p className="text-sm text-gray-500">No saved responses yet</p>
+            <p className="text-xs text-gray-500">No saved responses yet</p>
             <p className="text-xs text-gray-400 mt-1">Click the bookmark icon on Sam's responses to save them</p>
           </div>
         )}
@@ -744,53 +744,53 @@ const AskSamTab: React.FC = () => {
           <div className="flex">
             <button
               onClick={() => setActiveBottomTab('chat')}
-              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+              className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
                 activeBottomTab === 'chat'
                   ? 'text-[#605BFF] bg-blue-50'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <MessageCircle className="w-6 h-6" />
+              <MessageCircle className="w-5 h-5" />
             </button>
             <button
               onClick={() => setActiveBottomTab('questions')}
-              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+              className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
                 activeBottomTab === 'questions'
                   ? 'text-[#605BFF] bg-blue-50'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Lightbulb className="w-6 h-6" />
+              <Lightbulb className="w-5 h-5" />
             </button>
             <button
               onClick={() => setActiveBottomTab('history')}
-              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+              className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
                 activeBottomTab === 'history'
                   ? 'text-[#605BFF] bg-blue-50'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <History className="w-6 h-6" />
+              <History className="w-5 h-5" />
             </button>
             <button
               onClick={() => setActiveBottomTab('notes')}
-              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+              className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
                 activeBottomTab === 'notes'
                   ? 'text-[#605BFF] bg-blue-50'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <StickyNote className="w-6 h-6" />
+              <StickyNote className="w-5 h-5" />
             </button>
             <button
               onClick={() => setActiveBottomTab('saved')}
-              className={`flex-1 flex flex-col items-center py-3 px-1 transition-colors ${
+              className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
                 activeBottomTab === 'saved'
                   ? 'text-[#605BFF] bg-blue-50'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Bookmark className="w-6 h-6" />
+              <Bookmark className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -825,7 +825,7 @@ const AskSamTab: React.FC = () => {
                   value={saveTitle}
                   onChange={(e) => setSaveTitle(e.target.value)}
                   placeholder="Enter a title for this response..."
-                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
+                  className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#605BFF] focus:border-transparent"
                 />
               </div>
 
@@ -843,7 +843,7 @@ const AskSamTab: React.FC = () => {
                       className="mr-2 text-[#605BFF] focus:ring-[#605BFF]"
                     />
                     <Lock className="w-4 h-4 text-gray-500 mr-2" />
-                    <span className="text-sm text-gray-700">Private (only you can see this)</span>
+                    <span className="text-xs text-gray-700">Private (only you can see this)</span>
                   </label>
                   <label className="flex items-center">
                     <input
@@ -854,7 +854,7 @@ const AskSamTab: React.FC = () => {
                       className="mr-2 text-[#605BFF] focus:ring-[#605BFF]"
                     />
                     <Globe className="w-4 h-4 text-green-500 mr-2" />
-                    <span className="text-sm text-gray-700">Public (visible to team members)</span>
+                    <span className="text-xs text-gray-700">Public (visible to team members)</span>
                   </label>
                 </div>
               </div>
