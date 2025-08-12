@@ -83,7 +83,7 @@ const MeetingIntelligence: React.FC = () => {
       <div className="bg-white border-b border-gray-200 px-4 py-1.5 flex-shrink-0">
         {/* First Row: Action Buttons */}
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-5">
+          <div className="flex items-center justify-between w-full max-w-md">
             <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Add Transcript">
               <Plus className="w-4 h-4" />
             </button>
@@ -93,6 +93,10 @@ const MeetingIntelligence: React.FC = () => {
             <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="File">
               <FileText className="w-4 h-4" />
             </button>
+            
+            {/* 分隔线 */}
+            <div className="h-4 w-px bg-gray-300 mx-2"></div>
+            
             <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Share">
               <Share2 className="w-4 h-4" />
             </button>
