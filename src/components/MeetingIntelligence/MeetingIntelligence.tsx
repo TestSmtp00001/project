@@ -85,26 +85,26 @@ const MeetingIntelligence: React.FC = () => {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center justify-between w-full max-w-md">
             <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Add Transcript">
-              <Plus className="w-4 h-4" />
+              <Plus className="w-5 h-5" />
             </button>
-            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Link">
-              <Link className="w-4 h-4" />
+            <button className="text-gray-500 hover:bg-gray-100 rounded p-1" title="Link">
+              <Link className="w-5 h-5" />
             </button>
-            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="File">
-              <FileText className="w-4 h-4" />
+            <button className="text-gray-500 hover:bg-gray-100 rounded p-1" title="File">
+              <FileText className="w-5 h-5" />
             </button>
             
             {/* 分隔线 */}
             <div className="h-4 w-px bg-gray-300 mx-2"></div>
             
-            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Share">
-              <Share2 className="w-4 h-4" />
+            <button className="text-gray-500 hover:bg-gray-100 rounded p-1" title="Share">
+              <Share2 className="w-5 h-5" />
             </button>
-            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Copy">
-              <Copy className="w-4 h-4" />
+            <button className="text-gray-500 hover:bg-gray-100 rounded p-1" title="Copy">
+              <Copy className="w-5 h-5" />
             </button>
-            <button className="text-[#605BFF] hover:bg-gray-100 rounded p-1" title="Email">
-              <Mail className="w-4 h-4" />
+            <button className="text-gray-500 hover:bg-gray-100 rounded p-1" title="Email">
+              <Mail className="w-5 h-5" />
             </button>
           </div>
         </div>
